@@ -67,7 +67,7 @@ public class Dungeon {
 	public void goThroughtDungeon(Player hero) {
 		for (int i = 0; i < rooms; i++) {
 			if (getRoom(i).getHasMonster()) {
-				System.out.println("\nYou encountered a monster!\n");
+				System.out.println("\nYou encountered a monster!!!");
 				new Fight(hero, new Player("Monster", determineHealth()));
 				System.out.println("Health of the Hero: " + hero.displayHitpoints());
 			}
