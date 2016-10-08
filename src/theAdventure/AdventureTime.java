@@ -13,6 +13,7 @@ public class AdventureTime {
 		// first dungeon
 		Dungeon firstDungeon = new Dungeon(4);
 		firstDungeon.displayDungeon();
+		firstDungeon.playerEntersDungeon();
 		firstDungeon.goThroughtDungeon(hero);
 
 		if (nextDungeon() == 0) {

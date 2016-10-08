@@ -21,8 +21,6 @@ public class Dungeon {
 				newRoom = new Room(hasMonster);
 				hasMonster = false;
 
-				map[i][2] = newRoom;
-
 			} else {
 				newRoom = new Room(hasMonster);
 				hasMonster = true;
@@ -51,7 +49,7 @@ public class Dungeon {
 	}
 
 	public void displayDungeon() {
-		System.out.println("Map of the Dungeon");
+		System.out.println("\nMap of the Dungeon");
 		for (int j = 0; j < rooms; j++) {
 			System.out.print(j);
 			for (int i = 0; i < rooms; i++) {
@@ -68,10 +66,14 @@ public class Dungeon {
 
 	public void goThroughtDungeon(Player hero) {
 		for (int i = 0; i < rooms; i++) {
+
 			if (getRoom(i).getHasMonster()) {
 				System.out.println("\nYou encountered a monster!!!");
 				new Fight(hero, new Player("Monster", determineHealth()));
 				System.out.println("Health of the Hero: " + hero.displayHitpoints());
+			}
+			if (i + 1 < rooms) {
+				playerChangeRoom(getRoom(i), getRoom(i + 1));
 			}
 		}
 	}
@@ -91,6 +93,17 @@ public class Dungeon {
 		} else {
 			return map[roomNumber][1];
 		}
+	}
+
+	public void playerEntersDungeon() {
+		map[0][1].setHasPlayer(true);
+		displayDungeon();
+	}
+
+	public void playerChangeRoom(Room exit, Room enter) {
+		exit.setHasPlayer(false);
+		enter.setHasPlayer(true);
+		displayDungeon();
 	}
 
 }

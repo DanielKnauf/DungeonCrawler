@@ -2,6 +2,7 @@ package theWorld;
 
 public class Room {
 
+	private boolean hasPlayer = false;
 	private boolean hasMonster;
 	private Direction direction;
 
@@ -23,9 +24,17 @@ public class Room {
 	}
 
 	public String displayRoom() {
+		if (hasPlayer) {
+			return " [  X  ] ";
+		}
+
 		if (hasMonster) {
 			return " [ \\o/ ] ";
 		}
 		return " [     ] ";
+	}
+
+	public void setHasPlayer(boolean hasPlayer) {
+		this.hasPlayer = hasPlayer;
 	}
 }
