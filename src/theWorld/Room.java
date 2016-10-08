@@ -24,8 +24,8 @@ public class Room {
 
 	public String displayRoom() {
 		if (hasMonster) {
-			return "[ \\o/ ]";
+			return " [ \\o/ ] ";
 		}
-		return "[     ]";
+		return " [     ] ";
 	}
 }

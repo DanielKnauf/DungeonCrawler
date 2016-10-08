@@ -53,9 +53,11 @@ public class Dungeon {
 	public void displayDungeon() {
 		System.out.println("Map of the Dungeon");
 		for (int j = 0; j < rooms; j++) {
+			System.out.print(j);
 			for (int i = 0; i < rooms; i++) {
+
 				if (map[j][i] == null) {
-					System.out.print(" _ ");
+					System.out.print(" _______ ");
 				} else {
 					System.out.print(map[j][i].displayRoom());
 				}
