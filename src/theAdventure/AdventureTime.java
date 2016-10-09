@@ -11,14 +11,14 @@ public class AdventureTime {
 		Player hero = new Player("Hero", 5);
 
 		// first dungeon
-		Dungeon firstDungeon = new Dungeon(4);
+		Dungeon firstDungeon = new Dungeon(4, 3);
 		firstDungeon.displayDungeon();
 		firstDungeon.playerEntersDungeon();
 		firstDungeon.goThroughtDungeon(hero);
 
 		if (nextDungeon() == 0) {
 			System.out.println("NextDungeon");
-			Dungeon secondDungeon = new Dungeon(2);
+			Dungeon secondDungeon = new Dungeon(2, 1);
 			secondDungeon.goThroughtDungeon(hero);
 		}
 
