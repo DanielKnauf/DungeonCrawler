@@ -7,6 +7,9 @@ public class Dungeon {
 	private Room[][] map;
 
 	public Dungeon(int size, int rooms) {
+		if (rooms > size) {
+			rooms = size;
+		}
 		this.size = size;
 		this.rooms = rooms;
 		initDungeonMap();
@@ -29,6 +32,9 @@ public class Dungeon {
 			}
 			newRoom.addPossibleDirection(Direction.DOWN);
 
+			if (i + 1 == rooms) {
+				newRoom.isExit();
+			}
 			map[i][1] = newRoom;
 		}
 
@@ -126,6 +132,11 @@ public class Dungeon {
 		}
 	}
 
+	/**
+	 * Set variables for entered room.
+	 * 
+	 * @param enter
+	 */
 	private void changeRoom(Room enter) {
 		playerRoom.setHasPlayer(false);
 		enter.setHasPlayer(true);

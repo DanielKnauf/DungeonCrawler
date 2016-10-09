@@ -17,7 +17,7 @@ public class AdventureTime {
 		hero = new Player("Hero", 5);
 
 		// first dungeon
-		Dungeon firstDungeon = new Dungeon(5, 3);
+		Dungeon firstDungeon = new Dungeon(5, 8);
 		goThroughtDungeon(firstDungeon);
 
 		if (nextDungeon() == 0) {
@@ -54,10 +54,16 @@ public class AdventureTime {
 				dungeon.displayDungeon();
 			}
 
+			if (dungeon.getPlayerRoom().checkForExit()) {
+				System.out.println("######\nEnd of Dungeon");
+				break;
+			}
+
 		}
 	}
 
 	private static Direction choooseNextMove(Room playerRoom) {
+		// Display options
 		System.out.println("######");
 		ArrayList<Direction> possibleDirections = playerRoom.getDirections();
 		System.out.println("Choose the next room you want to explore.");
@@ -67,6 +73,7 @@ public class AdventureTime {
 			counter++;
 		}
 
+		// Get answer from player
 		int answer = -1;
 		while (answer < 0 || answer >= possibleDirections.size()) {
 			System.out.println("Your move: ");
@@ -75,7 +82,6 @@ public class AdventureTime {
 				System.out.println("FAIL. Choose again.");
 			}
 		}
-		System.out.println(possibleDirections.get(answer));
 		return possibleDirections.get(answer);
 	}
 

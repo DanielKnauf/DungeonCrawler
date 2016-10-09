@@ -9,6 +9,7 @@ public class Room {
 	private int x;
 	private int y;
 	private ArrayList<Direction> possibleDirections = new ArrayList<Direction>();
+	private boolean isExit = false;
 
 	public Room(boolean hasMonster, int x, int y) {
 		this.setHasMonster(hasMonster);
@@ -22,6 +23,14 @@ public class Room {
 
 	public int getY() {
 		return y;
+	}
+
+	public void isExit() {
+		this.isExit = true;
+	}
+
+	public boolean checkForExit() {
+		return isExit;
 	}
 
 	public boolean getHasMonster() {
@@ -48,10 +57,15 @@ public class Room {
 		if (hasMonster) {
 			return " [ \\o/ ] ";
 		}
+
+		if (isExit) {
+			return " [  E  ] ";
+		}
 		return " [     ] ";
 	}
 
 	public void setHasPlayer(boolean hasPlayer) {
 		this.hasPlayer = hasPlayer;
 	}
+
 }
