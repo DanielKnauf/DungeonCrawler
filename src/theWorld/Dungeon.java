@@ -1,13 +1,9 @@
 package theWorld;
 
-import java.util.Random;
-
-import rpslsFighting.Fight;
-import theAdventure.Player;
-
 public class Dungeon {
 	private int size;
 	private int rooms;
+	private Room playerRoom;
 	private Room[][] map;
 
 	public Dungeon(int size, int rooms) {
@@ -20,17 +16,30 @@ public class Dungeon {
 			Room newRoom;
 
 			if (hasMonster) {
-				newRoom = new Room(hasMonster);
+				newRoom = new Room(hasMonster, i, 1);
+				newRoom.addPossibleDirection(Direction.RIGHT);
+
 				hasMonster = false;
+				map[i][2] = new Room(hasMonster, i, 2);
+				map[i][2].addPossibleDirection(Direction.LEFT);
 
 			} else {
-				newRoom = new Room(hasMonster);
+				newRoom = new Room(hasMonster, i, 1);
 				hasMonster = true;
 			}
+			newRoom.addPossibleDirection(Direction.DOWN);
 
 			map[i][1] = newRoom;
 		}
 
+	}
+
+	public int getSize() {
+		return this.size;
+	}
+
+	public Room getPlayerRoom() {
+		return playerRoom;
 	}
 
 	private void initDungeonMap() {
@@ -58,28 +67,6 @@ public class Dungeon {
 		}
 	}
 
-	public void goThroughtDungeon(Player hero) {
-		for (int i = 0; i < size; i++) {
-
-			if (getRoom(i).getHasMonster()) {
-				System.out.println("\nYou encountered a monster!!!");
-				new Fight(hero, new Player("Monster", determineHealth()));
-				System.out.println("Health of the Hero: " + hero.displayHitpoints());
-			}
-			if (i + 1 < size) {
-				playerChangeRoom(getRoom(i), getRoom(i + 1));
-			}
-		}
-	}
-
-	private int determineHealth() {
-		int health = 1;
-		Random randomizer = new Random();
-		int healthBonus = randomizer.nextInt(size);
-		health += healthBonus;
-		return health;
-	}
-
 	public Room getRoom(int roomNumber) {
 		if (roomNumber >= size) {
 			System.out.println("RoomNumber is too high");
@@ -91,13 +78,69 @@ public class Dungeon {
 
 	public void playerEntersDungeon() {
 		map[0][1].setHasPlayer(true);
+		this.playerRoom = map[0][1];
 		displayDungeon();
 	}
 
-	public void playerChangeRoom(Room exit, Room enter) {
-		exit.setHasPlayer(false);
+	public boolean playerChangeRoom(Direction direction) {
+
+		switch (direction) {
+
+		case LEFT:
+			if (hasRoom(playerRoom.getX(), playerRoom.getY() - 1)) {
+				Room enter = map[playerRoom.getX()][playerRoom.getY() - 1];
+				changeRoom(enter);
+				return true;
+			} else {
+				return false;
+			}
+		case RIGHT:
+			if (hasRoom(playerRoom.getX(), playerRoom.getY() + 1)) {
+				Room enter = map[playerRoom.getX()][playerRoom.getY() + 1];
+				changeRoom(enter);
+				return true;
+			} else {
+				return false;
+			}
+
+		case UP:
+			if (hasRoom(playerRoom.getX() + 1, playerRoom.getY())) {
+				Room enter = map[playerRoom.getX() + 1][playerRoom.getY()];
+				changeRoom(enter);
+				return true;
+			} else {
+				return false;
+			}
+
+		case DOWN:
+			if (hasRoom(playerRoom.getX() + 1, playerRoom.getY())) {
+				Room enter = map[playerRoom.getX() + 1][playerRoom.getY()];
+				changeRoom(enter);
+				return true;
+			} else {
+				return false;
+			}
+		default:
+			return false;
+
+		}
+	}
+
+	private void changeRoom(Room enter) {
+		playerRoom.setHasPlayer(false);
 		enter.setHasPlayer(true);
-		displayDungeon();
+		this.playerRoom = enter;
+	}
+
+	/**
+	 * Is true, when space contains a room.
+	 * 
+	 * @param j
+	 * @param i
+	 * @return
+	 */
+	private boolean hasRoom(int j, int i) {
+		return map[j][i] != null;
 	}
 
 }
