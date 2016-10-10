@@ -2,7 +2,6 @@ package theWorld;
 
 public class Dungeon {
 	private int size;
-	private int rooms;
 	private Room playerRoom;
 	private Room[][] map;
 
@@ -11,7 +10,6 @@ public class Dungeon {
 			rooms = size;
 		}
 		this.size = size;
-		this.rooms = rooms;
 		initDungeonMap();
 		boolean hasMonster = false;
 		for (int i = 0; i < rooms; i++) {

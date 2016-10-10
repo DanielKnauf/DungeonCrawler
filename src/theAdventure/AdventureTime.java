@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 import rpslsFighting.Fight;
+import theComponents.Player;
 import theWorld.Direction;
 import theWorld.Dungeon;
 import theWorld.Room;

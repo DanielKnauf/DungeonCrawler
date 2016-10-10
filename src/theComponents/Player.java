@@ -1,4 +1,4 @@
-package theAdventure;
+package theComponents;
 
 import rpslsFighting.Move;
 

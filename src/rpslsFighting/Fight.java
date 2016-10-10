@@ -3,7 +3,7 @@ package rpslsFighting;
 import java.util.Random;
 import java.util.Scanner;
 
-import theAdventure.Player;
+import theComponents.Player;
 
 public class Fight {
 
