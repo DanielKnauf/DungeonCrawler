@@ -3,16 +3,16 @@ package rpslsFighting;
 import java.util.Random;
 import java.util.Scanner;
 
-import theComponents.Player;
+import theComponents.GameFigure;
 
 public class Fight {
 
 	private boolean heroWins = false;
-	private Player monster;
-	private Player hero;
+	private GameFigure monster;
+	private GameFigure hero;
 	private Scanner inputScanner;
 
-	public Fight(Player hero, Player monster) {
+	public Fight(GameFigure hero, GameFigure monster) {
 		this.hero = hero;
 		this.monster = monster;
 		fighting();

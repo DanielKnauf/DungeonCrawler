@@ -5,17 +5,18 @@ import java.util.Random;
 import java.util.Scanner;
 
 import rpslsFighting.Fight;
-import theComponents.Player;
+import theComponents.Hero;
+import theComponents.Monster;
 import theWorld.Direction;
 import theWorld.Dungeon;
 import theWorld.Room;
 
 public class AdventureTime {
 	private static Scanner inputScanner = new Scanner(System.in);
-	private static Player hero;
+	private static Hero hero;
 
 	public static void main(String[] args) {
-		hero = new Player("Hero", 5);
+		hero = new Hero("John", 5);
 
 		// first dungeon
 		Dungeon firstDungeon = new Dungeon(5, 8);
@@ -49,7 +50,7 @@ public class AdventureTime {
 			dungeon.displayDungeon();
 			if (dungeon.getPlayerRoom().getHasMonster()) {
 				System.out.println("\nYou encountered a monster!!!");
-				new Fight(hero, new Player("Monster", determineMonsterHealth(dungeon)));
+				new Fight(hero, new Monster("Monster", determineMonsterHealth(dungeon)));
 				dungeon.getPlayerRoom().setHasMonster(false);
 				System.out.println("Health of the Hero: " + hero.displayHitpoints());
 				dungeon.displayDungeon();

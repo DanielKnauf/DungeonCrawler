@@ -2,13 +2,13 @@ package theComponents;
 
 import rpslsFighting.Move;
 
-public class Player {
+public class GameFigure {
 
 	private Move move;
 	private int hitPoints;
 	private String name;
 
-	public Player(String name, int hitpoints) {
+	public GameFigure(String name, int hitpoints) {
 		this.name = name;
 		this.hitPoints = hitpoints;
 	}
