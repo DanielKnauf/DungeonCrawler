@@ -9,22 +9,26 @@ import theComponents.Hero;
 import theComponents.Monster;
 import theWorld.Direction;
 import theWorld.Dungeon;
+import theWorld.DungeonBuilder;
 import theWorld.Room;
 
 public class AdventureTime {
 	private static Scanner inputScanner = new Scanner(System.in);
+	private static DungeonBuilder dungeonBuilder = new DungeonBuilder();
 	private static Hero hero;
 
 	public static void main(String[] args) {
+
 		hero = new Hero("John", 5);
 
 		// first dungeon
-		Dungeon firstDungeon = new Dungeon(5, 8);
+		Dungeon firstDungeon = dungeonBuilder.generateDungeon(5, 8);
 		goThroughtDungeon(firstDungeon);
 
 		if (nextDungeon() == 0) {
 			System.out.println("NextDungeon");
-			Dungeon secondDungeon = new Dungeon(2, 1);
+			Dungeon secondDungeon = dungeonBuilder.generateDungeon(2, 1);
+			goThroughtDungeon(secondDungeon);
 		}
 
 		System.out.println("After the fight our hero goes home.");
@@ -91,7 +95,7 @@ public class AdventureTime {
 		int health = 1;
 		Random randomizer = new Random();
 		int healthBonus = randomizer.nextInt(dungeon.getSize());
-		health += healthBonus;
+		health += healthBonus / 2;
 		return health;
 	}
 

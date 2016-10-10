@@ -5,37 +5,9 @@ public class Dungeon {
 	private Room playerRoom;
 	private Room[][] map;
 
-	public Dungeon(int size, int rooms) {
-		if (rooms > size) {
-			rooms = size;
-		}
+	public Dungeon(int size, int rooms, Room[][] dungeonMap) {
 		this.size = size;
-		initDungeonMap();
-		boolean hasMonster = false;
-		for (int i = 0; i < rooms; i++) {
-
-			Room newRoom;
-
-			if (hasMonster) {
-				newRoom = new Room(hasMonster, i, 1);
-				newRoom.addPossibleDirection(Direction.RIGHT);
-
-				hasMonster = false;
-				map[i][2] = new Room(hasMonster, i, 2);
-				map[i][2].addPossibleDirection(Direction.LEFT);
-
-			} else {
-				newRoom = new Room(hasMonster, i, 1);
-				hasMonster = true;
-			}
-			newRoom.addPossibleDirection(Direction.DOWN);
-
-			if (i + 1 == rooms) {
-				newRoom.isExit();
-			}
-			map[i][1] = newRoom;
-		}
-
+		this.map = dungeonMap;
 	}
 
 	public int getSize() {
@@ -44,15 +16,6 @@ public class Dungeon {
 
 	public Room getPlayerRoom() {
 		return playerRoom;
-	}
-
-	private void initDungeonMap() {
-		map = new Room[size][size];
-		for (int j = 0; j < size; j++) {
-			for (int i = 0; i < size; i++) {
-				map[j][i] = null;
-			}
-		}
 	}
 
 	public void displayDungeon() {
