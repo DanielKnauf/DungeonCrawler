@@ -3,11 +3,13 @@ package theWorld;
 public class Dungeon {
 	private int size;
 	private Room playerRoom;
+	private Room startRoom;
 	private Room[][] map;
 
-	public Dungeon(int size, int rooms, Room[][] dungeonMap) {
+	public Dungeon(int size, int rooms, Room[][] dungeonMap, Room startRoom) {
 		this.size = size;
 		this.map = dungeonMap;
+		this.startRoom = startRoom;
 	}
 
 	public int getSize() {
@@ -25,7 +27,7 @@ public class Dungeon {
 			for (int i = 0; i < size; i++) {
 
 				if (map[j][i] == null) {
-					System.out.print(" _______ ");
+					System.out.print(" ####### ");
 				} else {
 					System.out.print(map[j][i].displayRoom());
 				}
@@ -34,18 +36,9 @@ public class Dungeon {
 		}
 	}
 
-	public Room getRoom(int roomNumber) {
-		if (roomNumber >= size) {
-			System.out.println("RoomNumber is too high");
-			return null;
-		} else {
-			return map[roomNumber][1];
-		}
-	}
-
 	public void playerEntersDungeon() {
-		map[0][1].setHasPlayer(true);
-		this.playerRoom = map[0][1];
+		startRoom.setHasPlayer(true);
+		this.playerRoom = startRoom;
 		displayDungeon();
 	}
 
@@ -55,25 +48,22 @@ public class Dungeon {
 
 		case LEFT:
 			if (hasRoom(playerRoom.getX(), playerRoom.getY() - 1)) {
-				Room enter = map[playerRoom.getX()][playerRoom.getY() - 1];
-				changeRoom(enter);
+				changeRoom(map[playerRoom.getX()][playerRoom.getY() - 1]);
 				return true;
 			} else {
 				return false;
 			}
 		case RIGHT:
 			if (hasRoom(playerRoom.getX(), playerRoom.getY() + 1)) {
-				Room enter = map[playerRoom.getX()][playerRoom.getY() + 1];
-				changeRoom(enter);
+				changeRoom(map[playerRoom.getX()][playerRoom.getY() + 1]);
 				return true;
 			} else {
 				return false;
 			}
 
 		case UP:
-			if (hasRoom(playerRoom.getX() + 1, playerRoom.getY())) {
-				Room enter = map[playerRoom.getX() + 1][playerRoom.getY()];
-				changeRoom(enter);
+			if (hasRoom(playerRoom.getX() - 1, playerRoom.getY())) {
+				changeRoom(map[playerRoom.getX() - 1][playerRoom.getY()]);
 				return true;
 			} else {
 				return false;
@@ -81,8 +71,7 @@ public class Dungeon {
 
 		case DOWN:
 			if (hasRoom(playerRoom.getX() + 1, playerRoom.getY())) {
-				Room enter = map[playerRoom.getX() + 1][playerRoom.getY()];
-				changeRoom(enter);
+				changeRoom(map[playerRoom.getX() + 1][playerRoom.getY()]);
 				return true;
 			} else {
 				return false;

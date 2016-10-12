@@ -22,7 +22,7 @@ public class AdventureTime {
 		hero = new Hero("John", 5);
 
 		// first dungeon
-		Dungeon firstDungeon = dungeonBuilder.generateDungeon(5, 8);
+		Dungeon firstDungeon = dungeonBuilder.generateDungeon(5, 4);
 		goThroughtDungeon(firstDungeon);
 
 		if (nextDungeon() == 0) {
@@ -61,7 +61,7 @@ public class AdventureTime {
 			}
 
 			if (dungeon.getPlayerRoom().checkForExit()) {
-				System.out.println("######\nEnd of Dungeon");
+				System.out.println("________\nEnd of Dungeon");
 				break;
 			}
 
@@ -70,7 +70,7 @@ public class AdventureTime {
 
 	private static Direction choooseNextMove(Room playerRoom) {
 		// Display options
-		System.out.println("######");
+		System.out.println("________");
 		ArrayList<Direction> possibleDirections = playerRoom.getDirections();
 		System.out.println("Choose the next room you want to explore.");
 		int counter = 0;

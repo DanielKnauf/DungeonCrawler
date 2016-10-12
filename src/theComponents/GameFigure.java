@@ -6,6 +6,7 @@ public class GameFigure {
 
 	private Move move;
 	private int hitPoints;
+	@SuppressWarnings("unused")
 	private String name;
 
 	public GameFigure(String name, int hitpoints) {

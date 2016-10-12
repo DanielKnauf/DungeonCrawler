@@ -25,6 +25,9 @@ public class Room {
 		return y;
 	}
 
+	/**
+	 * Mark this room as an exit.
+	 */
 	public void isExit() {
 		this.isExit = true;
 	}
