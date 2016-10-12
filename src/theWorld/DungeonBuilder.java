@@ -31,8 +31,8 @@ public class DungeonBuilder {
 		if (rooms < 2) {
 			rooms = 2;
 		}
-		if (rooms > size) {
-			rooms = size;
+		if (rooms > size * size) {
+			rooms = size * size;
 		}
 
 		this.size = size;

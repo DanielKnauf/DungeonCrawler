@@ -22,7 +22,7 @@ public class AdventureTime {
 		hero = new Hero("John", 5);
 
 		// first dungeon
-		Dungeon firstDungeon = dungeonBuilder.generateDungeon(5, 4);
+		Dungeon firstDungeon = dungeonBuilder.generateDungeon(5, 8);
 		goThroughtDungeon(firstDungeon);
 
 		if (nextDungeon() == 0) {
