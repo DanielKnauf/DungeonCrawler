@@ -14,6 +14,16 @@ public class DungeonBuilder {
 
 	}
 
+	/**
+	 * Create a new dungeon map and fills it with rooms.
+	 * 
+	 * @param size
+	 *            the size of the new dungeon
+	 * @param rooms
+	 *            the number of rooms inside the dungeon
+	 * 
+	 * @return finished dungeon
+	 */
 	public Dungeon generateDungeon(int size, int rooms) {
 		if (size < 2) {
 			size = 2;
@@ -27,22 +37,14 @@ public class DungeonBuilder {
 
 		this.size = size;
 		this.rooms = rooms;
-
-		generateDungeonMap();
-		return new Dungeon(this.size, this.rooms, dungeonMap, startRoom);
-
-	}
-
-	private void generateDungeonMap() {
 		initDungeonMap();
 		addRoomsToMap();
+		return new Dungeon(this.size, this.rooms, dungeonMap, startRoom);
 
 	}
 
 	/**
 	 * Initializing the dungeon map with blanks.
-	 * 
-	 * @return
 	 */
 	private void initDungeonMap() {
 		this.dungeonMap = new Room[size][size];
@@ -53,6 +55,10 @@ public class DungeonBuilder {
 		}
 	}
 
+	/**
+	 * Fills dungeon with rooms. Number of added rooms is determined by
+	 * parameter <code>rooms</code>
+	 */
 	private void addRoomsToMap() {
 		this.numberOfAddedRooms = 0;
 		addStartRoom();
@@ -60,9 +66,11 @@ public class DungeonBuilder {
 	}
 
 	/**
-	 * Determine if room has a monster in it.
+	 * Randomly determine if room has a monster in it.
+	 * <p>
+	 * Chance that room has a monster is one of three.
 	 * 
-	 * @return
+	 * @return boolean
 	 */
 	private boolean hasMonster() {
 		boolean hasMonster = false;
@@ -83,6 +91,15 @@ public class DungeonBuilder {
 		numberOfAddedRooms++;
 	}
 
+	/**
+	 * Adds new rooms to the dungeon map.
+	 * <p>
+	 * Randomly determines a direction in which the next room for the dungeon
+	 * lies. Switch case chooses which is the next square of the map to look at.
+	 * 
+	 * @param previousRoom
+	 *            the room from where the new room is determined
+	 */
 	private void determineNextRoom(Room previousRoom) {
 		while (numberOfAddedRooms < rooms) {
 			Direction direction = Direction.randomDirection();
@@ -113,6 +130,20 @@ public class DungeonBuilder {
 		}
 	}
 
+	/**
+	 * Checks if the determined square is empty and within the size of the
+	 * dungeon.
+	 * 
+	 * @param previousRoom
+	 *            the room from where the new room is determined
+	 * @param directionToNewRoom
+	 *            the direction with which the new room is reached from the
+	 *            previous room
+	 * @param newRow
+	 *            the row of the square for the new room
+	 * @param newColm
+	 *            the column of the square for the new room
+	 */
 	private void addNewRoomToDungeonMap(Room previousRoom, Direction directionToNewRoom, int newRow, int newColm) {
 		Room newRoom;
 		if (hasNoRoom(newRow, newColm)) {
@@ -132,6 +163,14 @@ public class DungeonBuilder {
 		}
 	}
 
+	/**
+	 * Adds the direction to go to the previous room to possible directions of
+	 * new room.
+	 * 
+	 * @param newRoom
+	 * @param directionToRoom
+	 * @return room with updated possible directions
+	 */
 	private Room updateDirections(Room newRoom, Direction directionToRoom) {
 		newRoom.addPossibleDirection(directionToRoom.getOpposite());
 		return newRoom;
@@ -141,14 +180,15 @@ public class DungeonBuilder {
 	 * Is true, when space contains no room.
 	 * 
 	 * @param row
+	 *            the row of the square that is checked
 	 * @param colm
-	 * @return
+	 *            the column of the square that is checked
+	 * @return boolean
 	 */
 	private boolean hasNoRoom(int row, int colm) {
 		if (row >= size || row < 0 || colm < 0 || colm >= size) {
 			return false;
 		}
-
 		return dungeonMap[row][colm] == null;
 	}
 }
