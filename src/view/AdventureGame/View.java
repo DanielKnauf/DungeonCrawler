@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import model_AdventureGame.theWorld.Direction;
+import model_AdventureGame.theWorld.Dungeon;
 import model_AdventureGame.theWorld.Room;
 
 public class View {
@@ -49,7 +50,52 @@ public class View {
 		return -1;
 	}
 
-	public void displayPlayerPositon(Room playerRoom) {
+	public void displayDungeon(Dungeon dungeon) {
+		Room[][] dungeonMap = dungeon.getDungeonMapp();
+		System.out.println("\nMap of the Dungeon");
+		for (int j = 0; j < dungeon.getSize(); j++) {
+			System.out.print(j);
+			for (int i = 0; i < dungeon.getSize(); i++) {
+
+				if (dungeonMap[j][i] == null) {
+					System.out.print(" ####### ");
+				} else {
+					System.out.print(displayRoom(dungeonMap[j][i]));
+				}
+			}
+			System.out.print("\n");
+		}
+		displayPlayerPositon(dungeon.getPlayerRoom());
+	}
+
+	private void displayPlayerPositon(Room playerRoom) {
 		System.out.println("--> Player is at room " + playerRoom.getRow() + " | " + playerRoom.getColumn());
+	}
+
+	private String displayRoom(Room room) {
+		String roomDisplay = " [ _._ ] ";
+		// ⇡⇠⇢⇣
+		if (room.getHasPlayer() && room.getHasMonster()) {
+			roomDisplay = roomDisplay.replace("_._", "PvM");
+		}
+		if (room.getHasPlayer()) {
+			roomDisplay = roomDisplay.replace('.', 'P');
+		}
+
+		if (room.getHasMonster()) {
+			roomDisplay = roomDisplay.replace('.', 'M');
+		}
+
+		if (room.checkForExit()) {
+			roomDisplay = roomDisplay.replace('.', 'E');
+		}
+
+		return roomDisplay;
+	}
+
+	public void playerEntersDungeon(Dungeon dungeon) {
+		System.out.println("Player enters the deep dark dungeon.");
+		displayDungeon(dungeon);
+
 	}
 }

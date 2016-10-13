@@ -1,9 +1,24 @@
 package model_AdventureGame.theComponents;
 
-public class Monster extends GameFigure {
+import java.util.Random;
 
-	public Monster(String name, int hitpoints) {
-		super(name, hitpoints);
+public class Monster extends GameFigure {
+	private int hitpoints;
+
+	public Monster(String name) {
+		super(name);
+		determineMonsterHealth();
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	private void determineMonsterHealth() {
+		int health = 1;
+		Random randomizer = new Random();
+		int healthBonus = randomizer.nextInt(3);
+		health += healthBonus;
+		this.setHitPoints(hitpoints + healthBonus);
+	}
 }

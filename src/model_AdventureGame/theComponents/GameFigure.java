@@ -9,9 +9,8 @@ public class GameFigure {
 	@SuppressWarnings("unused")
 	private String name;
 
-	public GameFigure(String name, int hitpoints) {
+	public GameFigure(String name) {
 		this.name = name;
-		this.hitPoints = hitpoints;
 	}
 
 	public void setMove(Move move) {

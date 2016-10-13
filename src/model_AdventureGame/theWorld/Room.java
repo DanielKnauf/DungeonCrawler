@@ -52,29 +52,12 @@ public class Room {
 		return possibleDirections;
 	}
 
-	public String displayRoom() {
-		String roomDisplay = " [ _._ ] ";
-		// ⇡⇠⇢⇣
-		if (hasPlayer && hasMonster) {
-			roomDisplay = roomDisplay.replace("_._", "PvM");
-		}
-		if (hasPlayer) {
-			roomDisplay = roomDisplay.replace('.', 'P');
-		}
-
-		if (hasMonster) {
-			roomDisplay = roomDisplay.replace('.', 'M');
-		}
-
-		if (isExit) {
-			roomDisplay = roomDisplay.replace('.', 'E');
-		}
-
-		return roomDisplay;
-	}
-
 	public void setHasPlayer(boolean hasPlayer) {
 		this.hasPlayer = hasPlayer;
+	}
+
+	public boolean getHasPlayer() {
+		return hasPlayer;
 	}
 
 }

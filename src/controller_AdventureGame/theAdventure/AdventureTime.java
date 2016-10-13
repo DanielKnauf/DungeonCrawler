@@ -1,7 +1,5 @@
 package controller_AdventureGame.theAdventure;
 
-import java.util.Random;
-
 import model_AdventureGame.rpslsFighting.Fight;
 import model_AdventureGame.theComponents.Hero;
 import model_AdventureGame.theComponents.Monster;
@@ -23,7 +21,6 @@ public class AdventureTime {
 		goThroughtDungeon(firstDungeon);
 
 		if (view.nextDungeon() == 0) {
-			System.out.println("NextDungeon");
 			Dungeon secondDungeon = dungeonBuilder.generateDungeon(4, 5);
 			goThroughtDungeon(secondDungeon);
 		}
@@ -33,19 +30,18 @@ public class AdventureTime {
 	}
 
 	private static void goThroughtDungeon(Dungeon dungeon) {
-		dungeon.displayDungeon();
 		dungeon.playerEntersDungeon();
-		view.displayPlayerPositon(dungeon.getPlayerRoom());
+		view.playerEntersDungeon(dungeon);
 
 		while (dungeon.playerChangeRoom(View.choooseNextMove(dungeon.getPlayerRoom()))) {
-			dungeon.displayDungeon();
+			view.displayDungeon(dungeon);
 
 			if (dungeon.getPlayerRoom().getHasMonster()) {
 				System.out.println("\nYou encountered a monster!!!");
-				new Fight(hero, new Monster("Monster", determineMonsterHealth(dungeon)));
+				new Fight(hero, new Monster("Monster"));
 				dungeon.getPlayerRoom().setHasMonster(false);
 				System.out.println("Health of the Hero: " + hero.displayHitpoints());
-				dungeon.displayDungeon();
+				view.displayDungeon(dungeon);
 			}
 
 			if (dungeon.getPlayerRoom().checkForExit()) {
@@ -54,19 +50,6 @@ public class AdventureTime {
 			}
 
 		}
-	}
-
-	/**
-	 * 
-	 * @param dungeon
-	 * @return
-	 */
-	private static int determineMonsterHealth(Dungeon dungeon) {
-		int health = 1;
-		Random randomizer = new Random();
-		int healthBonus = randomizer.nextInt(dungeon.getSize());
-		health += healthBonus / 3;
-		return health;
 	}
 
 }

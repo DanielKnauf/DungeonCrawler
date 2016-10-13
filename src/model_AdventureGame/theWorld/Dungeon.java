@@ -20,26 +20,13 @@ public class Dungeon {
 		return playerRoom;
 	}
 
-	public void displayDungeon() {
-		System.out.println("\nMap of the Dungeon");
-		for (int j = 0; j < size; j++) {
-			System.out.print(j);
-			for (int i = 0; i < size; i++) {
-
-				if (map[j][i] == null) {
-					System.out.print(" ####### ");
-				} else {
-					System.out.print(map[j][i].displayRoom());
-				}
-			}
-			System.out.print("\n");
-		}
+	public Room[][] getDungeonMapp() {
+		return this.map;
 	}
 
 	public void playerEntersDungeon() {
 		startRoom.setHasPlayer(true);
 		this.playerRoom = startRoom;
-		displayDungeon();
 	}
 
 	public boolean playerChangeRoom(Direction direction) {
