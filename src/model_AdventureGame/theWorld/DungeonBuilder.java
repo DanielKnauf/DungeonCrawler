@@ -125,7 +125,7 @@ public class DungeonBuilder {
 				newColm = previousRoom.getColumn() + 1;
 				break;
 			}
-			addNewRoomToDungeonMap(previousRoom, direction, newRow, newColm);
+			addNewRoomToDungeonMap(previousRoom, newRow, newColm);
 
 		}
 	}
@@ -158,15 +158,12 @@ public class DungeonBuilder {
 	 * 
 	 * @param previousRoom
 	 *            the room from where the new room is determined
-	 * @param directionToNewRoom
-	 *            the direction with which the new room is reached from the
-	 *            previous room
 	 * @param newRow
 	 *            the row of the square for the new room
 	 * @param newColm
 	 *            the column of the square for the new room
 	 */
-	private void addNewRoomToDungeonMap(Room previousRoom, Direction directionToNewRoom, int newRow, int newColm) {
+	private void addNewRoomToDungeonMap(Room previousRoom, int newRow, int newColm) {
 		Room newRoom;
 		if (hasNoRoom(newRow, newColm)) {
 			newRoom = new Room(hasMonster(), newRow, newColm);
@@ -174,11 +171,10 @@ public class DungeonBuilder {
 			if (numberOfAddedRooms == rooms) {
 				newRoom.isExit();
 			}
-			newRoom = updateDirections(newRoom, directionToNewRoom);
+			newRoom = updateDirections(newRoom);
 
 			dungeonMap[newRow][newColm] = newRoom;
 
-			previousRoom.addPossibleDirection(directionToNewRoom);
 			if (numberOfAddedRooms < rooms) {
 				determineNextRoom(newRoom);
 			}
@@ -186,14 +182,14 @@ public class DungeonBuilder {
 	}
 
 	/**
-	 * Adds the direction to go to the previous room to possible directions of
-	 * new room.
+	 * Adds possible direction to new room and updates direction of adjacent
+	 * rooms.
 	 * 
 	 * @param newRoom
-	 * @param directionToRoom
+	 *            the newly added room
 	 * @return room with updated possible directions
 	 */
-	private Room updateDirections(Room newRoom, Direction directionToRoom) {
+	private Room updateDirections(Room newRoom) {
 
 		if (hasRoom(newRoom.getRow() - 1, newRoom.getColumn())) {
 			newRoom.addPossibleDirection(Direction.UP);
