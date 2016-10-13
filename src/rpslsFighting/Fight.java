@@ -23,7 +23,7 @@ public class Fight {
 			heroChooses();
 			monsterChooses();
 			fight();
-			System.out.println("********\n");
+			System.out.println("********");
 		}
 	}
 

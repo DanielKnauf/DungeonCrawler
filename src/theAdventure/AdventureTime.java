@@ -21,24 +21,17 @@ public class AdventureTime {
 
 		hero = new Hero("John", 5);
 
-		String top = "---------\n";
-		String middle = "|       |\n";
-		String bottom = "---------";
-		System.out.println(top + middle + bottom);
-		System.out.println(top + middle);
-
 		// first dungeon
-		// TODO: fix deadlocks
-		Dungeon firstDungeon = dungeonBuilder.generateDungeon(5, 15);
+		Dungeon firstDungeon = dungeonBuilder.generateDungeon(6, 15);
 		goThroughtDungeon(firstDungeon);
 
 		if (nextDungeon() == 0) {
 			System.out.println("NextDungeon");
-			Dungeon secondDungeon = dungeonBuilder.generateDungeon(2, 1);
+			Dungeon secondDungeon = dungeonBuilder.generateDungeon(4, 5);
 			goThroughtDungeon(secondDungeon);
 		}
 
-		System.out.println("After the fight our hero goes home.");
+		System.out.println("After the adventure our hero goes home.");
 
 	}
 
@@ -57,8 +50,12 @@ public class AdventureTime {
 	private static void goThroughtDungeon(Dungeon dungeon) {
 		dungeon.displayDungeon();
 		dungeon.playerEntersDungeon();
+		System.out.println("--> Player enters dungeon at room " + dungeon.getPlayerRoom().getRow() + " | "
+				+ dungeon.getPlayerRoom().getColumn());
+
 		while (dungeon.playerChangeRoom(choooseNextMove(dungeon.getPlayerRoom()))) {
 			dungeon.displayDungeon();
+
 			if (dungeon.getPlayerRoom().getHasMonster()) {
 				System.out.println("\nYou encountered a monster!!!");
 				new Fight(hero, new Monster("Monster", determineMonsterHealth(dungeon)));
@@ -98,11 +95,16 @@ public class AdventureTime {
 		return possibleDirections.get(answer);
 	}
 
+	/**
+	 * 
+	 * @param dungeon
+	 * @return
+	 */
 	private static int determineMonsterHealth(Dungeon dungeon) {
 		int health = 1;
 		Random randomizer = new Random();
 		int healthBonus = randomizer.nextInt(dungeon.getSize());
-		health += healthBonus / 2;
+		health += healthBonus / 3;
 		return health;
 	}
 

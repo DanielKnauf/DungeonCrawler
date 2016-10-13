@@ -140,9 +140,6 @@ public class DungeonBuilder {
 
 		if (!hasNoRoom(row + 1, colm) && !hasNoRoom(row - 1, colm) && !hasNoRoom(row, colm + 1)
 				&& !hasNoRoom(row, colm - 1)) {
-			System.out.println(row);
-			System.out.println(colm);
-			System.out.println("###DEADLOCK###");
 			return true;
 		}
 
@@ -167,7 +164,6 @@ public class DungeonBuilder {
 	private void addNewRoomToDungeonMap(Room previousRoom, Direction directionToNewRoom, int newRow, int newColm) {
 		Room newRoom;
 		if (hasNoRoom(newRow, newColm)) {
-			System.out.println("New Room: row " + newRow + " column " + newColm);
 			newRoom = new Room(hasMonster(), newRow, newColm);
 			numberOfAddedRooms++;
 			if (numberOfAddedRooms == rooms) {
