@@ -1,31 +1,28 @@
 package controller_AdventureGame.theAdventure;
 
-import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
 import model_AdventureGame.rpslsFighting.Fight;
 import model_AdventureGame.theComponents.Hero;
 import model_AdventureGame.theComponents.Monster;
-import model_AdventureGame.theWorld.Direction;
-import model_AdventureGame.theWorld.Dungeon;
-import model_AdventureGame.theWorld.DungeonBuilder;
-import model_AdventureGame.theWorld.Room;
+import theWorld.Dungeon;
+import theWorld.DungeonBuilder;
+import view.AdventureGame.View;
 
 public class AdventureTime {
-	private static Scanner inputScanner = new Scanner(System.in);
 	private static DungeonBuilder dungeonBuilder = new DungeonBuilder();
 	private static Hero hero;
+	private static View view;
 
 	public static void main(String[] args) {
-
+		view = new View();
 		hero = new Hero("John", 5);
 
 		// first dungeon
 		Dungeon firstDungeon = dungeonBuilder.generateDungeon(6, 15);
 		goThroughtDungeon(firstDungeon);
 
-		if (nextDungeon() == 0) {
+		if (view.nextDungeon() == 0) {
 			System.out.println("NextDungeon");
 			Dungeon secondDungeon = dungeonBuilder.generateDungeon(4, 5);
 			goThroughtDungeon(secondDungeon);
@@ -35,25 +32,12 @@ public class AdventureTime {
 
 	}
 
-	private static int nextDungeon() {
-		System.out.println("Enter the next dungeon: Yes[0]; No[1]");
-		int answer = inputScanner.nextInt();
-
-		if (answer == 1 || answer == 0) {
-			return answer;
-		} else {
-			nextDungeon();
-		}
-		return -1;
-	}
-
 	private static void goThroughtDungeon(Dungeon dungeon) {
 		dungeon.displayDungeon();
 		dungeon.playerEntersDungeon();
-		System.out.println("--> Player enters dungeon at room " + dungeon.getPlayerRoom().getRow() + " | "
-				+ dungeon.getPlayerRoom().getColumn());
+		view.displayPlayerPositon(dungeon.getPlayerRoom());
 
-		while (dungeon.playerChangeRoom(choooseNextMove(dungeon.getPlayerRoom()))) {
+		while (dungeon.playerChangeRoom(View.choooseNextMove(dungeon.getPlayerRoom()))) {
 			dungeon.displayDungeon();
 
 			if (dungeon.getPlayerRoom().getHasMonster()) {
@@ -70,29 +54,6 @@ public class AdventureTime {
 			}
 
 		}
-	}
-
-	private static Direction choooseNextMove(Room playerRoom) {
-		// Display options
-		System.out.println("________");
-		ArrayList<Direction> possibleDirections = playerRoom.getDirections();
-		System.out.println("Choose the next room you want to explore.");
-		int counter = 0;
-		for (Direction d : possibleDirections) {
-			System.out.println("[" + counter + "]: " + d.getName());
-			counter++;
-		}
-
-		// Get answer from player
-		int answer = -1;
-		while (answer < 0 || answer >= possibleDirections.size()) {
-			System.out.println("Your move: ");
-			answer = inputScanner.nextInt();
-			if (answer < 0 || answer >= possibleDirections.size()) {
-				System.out.println("FAIL. Choose again.");
-			}
-		}
-		return possibleDirections.get(answer);
 	}
 
 	/**

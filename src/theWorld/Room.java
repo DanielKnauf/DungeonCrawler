@@ -1,4 +1,4 @@
-package model_AdventureGame.theWorld;
+package theWorld;
 
 import java.util.ArrayList;
 
