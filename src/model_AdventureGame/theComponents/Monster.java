@@ -19,6 +19,6 @@ public class Monster extends GameFigure {
 		Random randomizer = new Random();
 		int healthBonus = randomizer.nextInt(3);
 		health += healthBonus;
-		this.setHitPoints(hitpoints + healthBonus);
+		this.setHitPoints(health + healthBonus);
 	}
 }

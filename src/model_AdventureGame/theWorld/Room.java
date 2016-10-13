@@ -45,7 +45,9 @@ public class Room {
 	}
 
 	public void addPossibleDirection(Direction direction) {
-		possibleDirections.add(direction);
+		if (!possibleDirections.contains(direction)) {
+			possibleDirections.add(direction);
+		}
 	}
 
 	public ArrayList<Direction> getDirections() {

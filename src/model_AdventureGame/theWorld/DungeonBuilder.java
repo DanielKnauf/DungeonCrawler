@@ -194,7 +194,28 @@ public class DungeonBuilder {
 	 * @return room with updated possible directions
 	 */
 	private Room updateDirections(Room newRoom, Direction directionToRoom) {
-		newRoom.addPossibleDirection(directionToRoom.getOpposite());
+
+		if (hasRoom(newRoom.getRow() - 1, newRoom.getColumn())) {
+			newRoom.addPossibleDirection(Direction.UP);
+			dungeonMap[newRoom.getRow() - 1][newRoom.getColumn()].addPossibleDirection(Direction.UP.getOpposite());
+		}
+
+		if (hasRoom(newRoom.getRow() + 1, newRoom.getColumn())) {
+			newRoom.addPossibleDirection(Direction.DOWN);
+			dungeonMap[newRoom.getRow() + 1][newRoom.getColumn()].addPossibleDirection(Direction.DOWN.getOpposite());
+
+		}
+		if (hasRoom(newRoom.getRow(), newRoom.getColumn() - 1)) {
+			newRoom.addPossibleDirection(Direction.LEFT);
+			dungeonMap[newRoom.getRow()][newRoom.getColumn() - 1].addPossibleDirection(Direction.LEFT.getOpposite());
+
+		}
+		if (hasRoom(newRoom.getRow(), newRoom.getColumn() + 1)) {
+			newRoom.addPossibleDirection(Direction.RIGHT);
+			dungeonMap[newRoom.getRow()][newRoom.getColumn() + 1].addPossibleDirection(Direction.RIGHT.getOpposite());
+
+		}
+
 		return newRoom;
 	}
 
@@ -212,5 +233,21 @@ public class DungeonBuilder {
 			return false;
 		}
 		return dungeonMap[row][colm] == null;
+	}
+
+	/**
+	 * Is true, when space contains a room.
+	 * 
+	 * @param row
+	 *            the row of the square that is checked
+	 * @param colm
+	 *            the column of the square that is checked
+	 * @return
+	 */
+	private boolean hasRoom(int row, int colm) {
+		if (row >= size || row < 0 || colm < 0 || colm >= size) {
+			return false;
+		}
+		return dungeonMap[row][colm] != null;
 	}
 }
