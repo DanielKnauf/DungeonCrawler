@@ -102,38 +102,43 @@ public class DungeonBuilder {
 	 */
 	private void determineNextRoom(Room previousRoom) {
 
-		// TODO: deadlock when all spares are taken
-
 		while (numberOfAddedRooms < rooms && !checkForDeadLock(previousRoom)) {
 
 			Direction direction = Direction.randomDirection();
-			int newRow;
-			int newColm;
+			int newRow = -1;
+			int newColm = -1;
 			switch (direction) {
 			case UP:
 				newRow = previousRoom.getRow() - 1;
 				newColm = previousRoom.getColumn();
-				addNewRoomToDungeonMap(previousRoom, direction, newRow, newColm);
 				break;
 			case LEFT:
 				newRow = previousRoom.getRow();
 				newColm = previousRoom.getColumn() - 1;
-				addNewRoomToDungeonMap(previousRoom, direction, newRow, newColm);
 				break;
 			case DOWN:
 				newRow = previousRoom.getRow() + 1;
 				newColm = previousRoom.getColumn();
-				addNewRoomToDungeonMap(previousRoom, direction, newRow, newColm);
 				break;
 			case RIGHT:
 				newRow = previousRoom.getRow();
 				newColm = previousRoom.getColumn() + 1;
-				addNewRoomToDungeonMap(previousRoom, direction, newRow, newColm);
 				break;
 			}
+			addNewRoomToDungeonMap(previousRoom, direction, newRow, newColm);
+
 		}
 	}
 
+	/**
+	 * CHecks if the room has a free square for the next room around it.
+	 * <p>
+	 * <code>True</code>, when room has no free square around it.
+	 * 
+	 * @param previousRoom
+	 *            the room from which the next room is searched
+	 * @return boolean
+	 */
 	private boolean checkForDeadLock(Room previousRoom) {
 		int row = previousRoom.getRow();
 		int colm = previousRoom.getColumn();
