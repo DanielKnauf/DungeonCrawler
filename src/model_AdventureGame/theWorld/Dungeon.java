@@ -24,11 +24,24 @@ public class Dungeon {
 		return this.map;
 	}
 
+	/**
+	 * Initial set up for the playerPosition and playerRoom
+	 */
 	public void playerEntersDungeon() {
 		startRoom.setHasPlayer(true);
 		this.playerRoom = startRoom;
 	}
 
+	/**
+	 * Finds the room the player is entering and changes all parameter to this
+	 * room.
+	 * <p>
+	 * Returns true when change was successful.
+	 * 
+	 * @param direction
+	 *            the direction the player wants to go
+	 * @return boolean
+	 */
 	public boolean playerChangeRoom(Direction direction) {
 
 		switch (direction) {
@@ -37,36 +50,30 @@ public class Dungeon {
 			if (hasRoom(playerRoom.getRow(), playerRoom.getColumn() - 1)) {
 				changeRoom(map[playerRoom.getRow()][playerRoom.getColumn() - 1]);
 				return true;
-			} else {
-				return false;
 			}
+			break;
 		case RIGHT:
 			if (hasRoom(playerRoom.getRow(), playerRoom.getColumn() + 1)) {
 				changeRoom(map[playerRoom.getRow()][playerRoom.getColumn() + 1]);
 				return true;
-			} else {
-				return false;
 			}
+			break;
 
 		case UP:
 			if (hasRoom(playerRoom.getRow() - 1, playerRoom.getColumn())) {
 				changeRoom(map[playerRoom.getRow() - 1][playerRoom.getColumn()]);
 				return true;
-			} else {
-				return false;
 			}
+			break;
 
 		case DOWN:
 			if (hasRoom(playerRoom.getRow() + 1, playerRoom.getColumn())) {
 				changeRoom(map[playerRoom.getRow() + 1][playerRoom.getColumn()]);
 				return true;
-			} else {
-				return false;
 			}
-		default:
-			return false;
-
+			break;
 		}
+		return false;
 	}
 
 	/**
