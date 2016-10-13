@@ -3,8 +3,8 @@ package view.AdventureGame;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import theWorld.Direction;
-import theWorld.Room;
+import model_AdventureGame.theWorld.Direction;
+import model_AdventureGame.theWorld.Room;
 
 public class View {
 

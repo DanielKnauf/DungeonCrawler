@@ -5,8 +5,8 @@ import java.util.Random;
 import model_AdventureGame.rpslsFighting.Fight;
 import model_AdventureGame.theComponents.Hero;
 import model_AdventureGame.theComponents.Monster;
-import theWorld.Dungeon;
-import theWorld.DungeonBuilder;
+import model_AdventureGame.theWorld.Dungeon;
+import model_AdventureGame.theWorld.DungeonBuilder;
 import view.AdventureGame.View;
 
 public class AdventureTime {
