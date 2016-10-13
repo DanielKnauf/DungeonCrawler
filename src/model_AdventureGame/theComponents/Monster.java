@@ -1,4 +1,4 @@
-package theComponents;
+package model_AdventureGame.theComponents;
 
 public class Monster extends GameFigure {
 

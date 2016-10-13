@@ -1,4 +1,4 @@
-package rpslsFighting;
+package model_AdventureGame.rpslsFighting;
 
 public enum Move {
 

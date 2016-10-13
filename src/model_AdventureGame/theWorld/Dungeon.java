@@ -1,4 +1,4 @@
-package theWorld;
+package model_AdventureGame.theWorld;
 
 public class Dungeon {
 	private int size;

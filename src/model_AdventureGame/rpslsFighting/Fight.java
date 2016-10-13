@@ -1,9 +1,9 @@
-package rpslsFighting;
+package model_AdventureGame.rpslsFighting;
 
 import java.util.Random;
 import java.util.Scanner;
 
-import theComponents.GameFigure;
+import model_AdventureGame.theComponents.GameFigure;
 
 public class Fight {
 

@@ -1,16 +1,16 @@
-package theAdventure;
+package controller_AdventureGame.theAdventure;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-import rpslsFighting.Fight;
-import theComponents.Hero;
-import theComponents.Monster;
-import theWorld.Direction;
-import theWorld.Dungeon;
-import theWorld.DungeonBuilder;
-import theWorld.Room;
+import model_AdventureGame.rpslsFighting.Fight;
+import model_AdventureGame.theComponents.Hero;
+import model_AdventureGame.theComponents.Monster;
+import model_AdventureGame.theWorld.Direction;
+import model_AdventureGame.theWorld.Dungeon;
+import model_AdventureGame.theWorld.DungeonBuilder;
+import model_AdventureGame.theWorld.Room;
 
 public class AdventureTime {
 	private static Scanner inputScanner = new Scanner(System.in);
