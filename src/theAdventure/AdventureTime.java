@@ -21,9 +21,15 @@ public class AdventureTime {
 
 		hero = new Hero("John", 5);
 
+		String top = "---------\n";
+		String middle = "|       |\n";
+		String bottom = "---------";
+		System.out.println(top + middle + bottom);
+		System.out.println(top + middle);
+
 		// first dungeon
 		// TODO: fix deadlocks
-		Dungeon firstDungeon = dungeonBuilder.generateDungeon(5, 25);
+		Dungeon firstDungeon = dungeonBuilder.generateDungeon(5, 15);
 		goThroughtDungeon(firstDungeon);
 
 		if (nextDungeon() == 0) {

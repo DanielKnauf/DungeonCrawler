@@ -53,18 +53,24 @@ public class Room {
 	}
 
 	public String displayRoom() {
+		String roomDisplay = " [ _._ ] ";
+		// ⇡⇠⇢⇣
+		if (hasPlayer && hasMonster) {
+			roomDisplay = roomDisplay.replace("_._", "PvM");
+		}
 		if (hasPlayer) {
-			return " [  X  ] ";
+			roomDisplay = roomDisplay.replace('.', 'P');
 		}
 
 		if (hasMonster) {
-			return " [ \\o/ ] ";
+			roomDisplay = roomDisplay.replace('.', 'M');
 		}
 
 		if (isExit) {
-			return " [  E  ] ";
+			roomDisplay = roomDisplay.replace('.', 'E');
 		}
-		return " [     ] ";
+
+		return roomDisplay;
 	}
 
 	public void setHasPlayer(boolean hasPlayer) {
