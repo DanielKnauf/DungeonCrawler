@@ -87,7 +87,7 @@ public class DungeonBuilder {
 	 */
 	private void addStartRoom() {
 		this.startRoom = new Room(false, randomizer.nextInt(size), randomizer.nextInt(size));
-		dungeonMap[startRoom.getX()][startRoom.getY()] = startRoom;
+		dungeonMap[startRoom.getRow()][startRoom.getColumn()] = startRoom;
 		numberOfAddedRooms++;
 	}
 
@@ -101,33 +101,53 @@ public class DungeonBuilder {
 	 *            the room from where the new room is determined
 	 */
 	private void determineNextRoom(Room previousRoom) {
-		while (numberOfAddedRooms < rooms) {
+
+		// TODO: deadlock when all spares are taken
+
+		while (numberOfAddedRooms < rooms && !checkForDeadLock(previousRoom)) {
+
 			Direction direction = Direction.randomDirection();
 			int newRow;
 			int newColm;
 			switch (direction) {
 			case UP:
-				newRow = previousRoom.getX() - 1;
-				newColm = previousRoom.getY();
+				newRow = previousRoom.getRow() - 1;
+				newColm = previousRoom.getColumn();
 				addNewRoomToDungeonMap(previousRoom, direction, newRow, newColm);
 				break;
 			case LEFT:
-				newRow = previousRoom.getX();
-				newColm = previousRoom.getY() - 1;
+				newRow = previousRoom.getRow();
+				newColm = previousRoom.getColumn() - 1;
 				addNewRoomToDungeonMap(previousRoom, direction, newRow, newColm);
 				break;
 			case DOWN:
-				newRow = previousRoom.getX() + 1;
-				newColm = previousRoom.getY();
+				newRow = previousRoom.getRow() + 1;
+				newColm = previousRoom.getColumn();
 				addNewRoomToDungeonMap(previousRoom, direction, newRow, newColm);
 				break;
 			case RIGHT:
-				newRow = previousRoom.getX();
-				newColm = previousRoom.getY() + 1;
+				newRow = previousRoom.getRow();
+				newColm = previousRoom.getColumn() + 1;
 				addNewRoomToDungeonMap(previousRoom, direction, newRow, newColm);
 				break;
 			}
 		}
+	}
+
+	private boolean checkForDeadLock(Room previousRoom) {
+		int row = previousRoom.getRow();
+		int colm = previousRoom.getColumn();
+
+		if (!hasNoRoom(row + 1, colm) && !hasNoRoom(row - 1, colm) && !hasNoRoom(row, colm + 1)
+				&& !hasNoRoom(row, colm - 1)) {
+			System.out.println(row);
+			System.out.println(colm);
+			System.out.println("###DEADLOCK###");
+			return true;
+		}
+
+		return false;
+
 	}
 
 	/**
@@ -147,6 +167,7 @@ public class DungeonBuilder {
 	private void addNewRoomToDungeonMap(Room previousRoom, Direction directionToNewRoom, int newRow, int newColm) {
 		Room newRoom;
 		if (hasNoRoom(newRow, newColm)) {
+			System.out.println("New Room: row " + newRow + " column " + newColm);
 			newRoom = new Room(hasMonster(), newRow, newColm);
 			numberOfAddedRooms++;
 			if (numberOfAddedRooms == rooms) {

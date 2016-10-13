@@ -47,31 +47,31 @@ public class Dungeon {
 		switch (direction) {
 
 		case LEFT:
-			if (hasRoom(playerRoom.getX(), playerRoom.getY() - 1)) {
-				changeRoom(map[playerRoom.getX()][playerRoom.getY() - 1]);
+			if (hasRoom(playerRoom.getRow(), playerRoom.getColumn() - 1)) {
+				changeRoom(map[playerRoom.getRow()][playerRoom.getColumn() - 1]);
 				return true;
 			} else {
 				return false;
 			}
 		case RIGHT:
-			if (hasRoom(playerRoom.getX(), playerRoom.getY() + 1)) {
-				changeRoom(map[playerRoom.getX()][playerRoom.getY() + 1]);
+			if (hasRoom(playerRoom.getRow(), playerRoom.getColumn() + 1)) {
+				changeRoom(map[playerRoom.getRow()][playerRoom.getColumn() + 1]);
 				return true;
 			} else {
 				return false;
 			}
 
 		case UP:
-			if (hasRoom(playerRoom.getX() - 1, playerRoom.getY())) {
-				changeRoom(map[playerRoom.getX() - 1][playerRoom.getY()]);
+			if (hasRoom(playerRoom.getRow() - 1, playerRoom.getColumn())) {
+				changeRoom(map[playerRoom.getRow() - 1][playerRoom.getColumn()]);
 				return true;
 			} else {
 				return false;
 			}
 
 		case DOWN:
-			if (hasRoom(playerRoom.getX() + 1, playerRoom.getY())) {
-				changeRoom(map[playerRoom.getX() + 1][playerRoom.getY()]);
+			if (hasRoom(playerRoom.getRow() + 1, playerRoom.getColumn())) {
+				changeRoom(map[playerRoom.getRow() + 1][playerRoom.getColumn()]);
 				return true;
 			} else {
 				return false;
