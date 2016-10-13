@@ -6,23 +6,23 @@ public class Room {
 
 	private boolean hasPlayer = false;
 	private boolean hasMonster;
-	private int x;
-	private int y;
+	private int row;
+	private int colm;
 	private ArrayList<Direction> possibleDirections = new ArrayList<Direction>();
 	private boolean isExit = false;
 
-	public Room(boolean hasMonster, int x, int y) {
+	public Room(boolean hasMonster, int row, int colm) {
 		this.setHasMonster(hasMonster);
-		this.x = x;
-		this.y = y;
+		this.row = row;
+		this.colm = colm;
 	}
 
-	public int getX() {
-		return x;
+	public int getRow() {
+		return row;
 	}
 
-	public int getY() {
-		return y;
+	public int getColumn() {
+		return colm;
 	}
 
 	/**
