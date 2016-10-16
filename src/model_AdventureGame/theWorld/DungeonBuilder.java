@@ -1,6 +1,5 @@
 package model_AdventureGame.theWorld;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class DungeonBuilder {
@@ -10,7 +9,6 @@ public class DungeonBuilder {
 	private int numberOfAddedRooms;
 	private Room[][] dungeonMap;
 	private Room startRoom;
-	private ArrayList<Room> roomsWithMonster = new ArrayList<Room>();
 
 	public DungeonBuilder() {
 
@@ -41,7 +39,7 @@ public class DungeonBuilder {
 		this.rooms = rooms;
 		initDungeonMap();
 		addRoomsToMap();
-		return new Dungeon(this.size, this.rooms, dungeonMap, startRoom, roomsWithMonster);
+		return new Dungeon(this.size, this.rooms, dungeonMap, startRoom);
 
 	}
 
@@ -107,16 +105,33 @@ public class DungeonBuilder {
 		while (numberOfAddedRooms < rooms && !checkForDeadLock(previousRoom)) {
 
 			Direction direction = Direction.randomDirection();
-
-			int[] nextCoordinates = direction.getCoordinates(previousRoom.getRow(), previousRoom.getColumn());
-
-			addNewRoomToDungeonMap(previousRoom, nextCoordinates[0], nextCoordinates[1]);
+			int newRow = -1;
+			int newColm = -1;
+			switch (direction) {
+			case UP:
+				newRow = previousRoom.getRow() - 1;
+				newColm = previousRoom.getColumn();
+				break;
+			case LEFT:
+				newRow = previousRoom.getRow();
+				newColm = previousRoom.getColumn() - 1;
+				break;
+			case DOWN:
+				newRow = previousRoom.getRow() + 1;
+				newColm = previousRoom.getColumn();
+				break;
+			case RIGHT:
+				newRow = previousRoom.getRow();
+				newColm = previousRoom.getColumn() + 1;
+				break;
+			}
+			addNewRoomToDungeonMap(previousRoom, newRow, newColm);
 
 		}
 	}
 
 	/**
-	 * Checks if the room has a free square for the next room around it.
+	 * CHecks if the room has a free square for the next room around it.
 	 * <p>
 	 * <code>True</code>, when room has no free square around it.
 	 * 
@@ -151,12 +166,7 @@ public class DungeonBuilder {
 	private void addNewRoomToDungeonMap(Room previousRoom, int newRow, int newColm) {
 		Room newRoom;
 		if (hasNoRoom(newRow, newColm)) {
-			if (hasMonster()) {
-				newRoom = new Room(true, newRow, newColm);
-				roomsWithMonster.add(newRoom);
-			} else {
-				newRoom = new Room(false, newRow, newColm);
-			}
+			newRoom = new Room(hasMonster(), newRow, newColm);
 			numberOfAddedRooms++;
 			if (numberOfAddedRooms == rooms) {
 				newRoom.isExit();
