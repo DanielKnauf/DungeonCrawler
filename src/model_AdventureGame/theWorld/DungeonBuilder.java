@@ -1,5 +1,6 @@
 package model_AdventureGame.theWorld;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class DungeonBuilder {
@@ -9,6 +10,7 @@ public class DungeonBuilder {
 	private int numberOfAddedRooms;
 	private Room[][] dungeonMap;
 	private Room startRoom;
+	private ArrayList<Room> roomsWithMonster = new ArrayList<Room>();
 
 	public DungeonBuilder() {
 
@@ -39,7 +41,7 @@ public class DungeonBuilder {
 		this.rooms = rooms;
 		initDungeonMap();
 		addRoomsToMap();
-		return new Dungeon(this.size, this.rooms, dungeonMap, startRoom);
+		return new Dungeon(this.size, this.rooms, dungeonMap, startRoom, roomsWithMonster);
 
 	}
 
@@ -104,34 +106,47 @@ public class DungeonBuilder {
 
 		while (numberOfAddedRooms < rooms && !checkForDeadLock(previousRoom)) {
 
-			Direction direction = Direction.randomDirection();
-			int newRow = -1;
-			int newColm = -1;
-			switch (direction) {
-			case UP:
-				newRow = previousRoom.getRow() - 1;
-				newColm = previousRoom.getColumn();
-				break;
-			case LEFT:
-				newRow = previousRoom.getRow();
-				newColm = previousRoom.getColumn() - 1;
-				break;
-			case DOWN:
-				newRow = previousRoom.getRow() + 1;
-				newColm = previousRoom.getColumn();
-				break;
-			case RIGHT:
-				newRow = previousRoom.getRow();
-				newColm = previousRoom.getColumn() + 1;
-				break;
-			}
-			addNewRoomToDungeonMap(previousRoom, newRow, newColm);
+			ArrayList<Direction> possibleDirections = findPossibleDirections(previousRoom);
+
+			Direction direction = possibleDirections.get(randomizer.nextInt(possibleDirections.size()));
+
+			int[] nextCoordinates = direction.getCoordinates(previousRoom.getRow(), previousRoom.getColumn());
+
+			addNewRoomToDungeonMap(previousRoom, nextCoordinates[0], nextCoordinates[1]);
 
 		}
 	}
 
 	/**
-	 * CHecks if the room has a free square for the next room around it.
+	 * Check for possible squares in which the new room can be placed.
+	 * 
+	 * @param previousRoom
+	 *            the room from where the next square is searched.
+	 * @return ArrayList of possible squares
+	 */
+	private ArrayList<Direction> findPossibleDirections(Room previousRoom) {
+		ArrayList<Direction> possibleDirection = new ArrayList<>();
+		int previousRow = previousRoom.getRow();
+		int previousColumn = previousRoom.getColumn();
+
+		if (hasNoRoom(previousRow - 1, previousColumn)) {
+			possibleDirection.add(Direction.UP);
+		}
+		if (hasNoRoom(previousRow + 1, previousColumn)) {
+			possibleDirection.add(Direction.DOWN);
+		}
+		if (hasNoRoom(previousRow, previousColumn - 1)) {
+			possibleDirection.add(Direction.LEFT);
+		}
+		if (hasNoRoom(previousRow, previousColumn + 1)) {
+			possibleDirection.add(Direction.RIGHT);
+		}
+
+		return possibleDirection;
+	}
+
+	/**
+	 * Checks if the room has a free square for the next room around it.
 	 * <p>
 	 * <code>True</code>, when room has no free square around it.
 	 * 
@@ -166,7 +181,12 @@ public class DungeonBuilder {
 	private void addNewRoomToDungeonMap(Room previousRoom, int newRow, int newColm) {
 		Room newRoom;
 		if (hasNoRoom(newRow, newColm)) {
-			newRoom = new Room(hasMonster(), newRow, newColm);
+			if (hasMonster()) {
+				newRoom = new Room(true, newRow, newColm);
+				roomsWithMonster.add(newRoom);
+			} else {
+				newRoom = new Room(false, newRow, newColm);
+			}
 			numberOfAddedRooms++;
 			if (numberOfAddedRooms == rooms) {
 				newRoom.isExit();
