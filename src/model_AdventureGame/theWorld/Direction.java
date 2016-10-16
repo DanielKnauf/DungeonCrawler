@@ -13,6 +13,12 @@ public enum Direction {
 		public Direction getOpposite() {
 			return DOWN;
 		}
+
+		@Override
+		public int[] getCoordinates(int row, int column) {
+			int[] coordinates = { row - 1, column };
+			return coordinates;
+		}
 	},
 	DOWN {
 		@Override
@@ -24,6 +30,12 @@ public enum Direction {
 		public Direction getOpposite() {
 			return UP;
 		}
+
+		@Override
+		public int[] getCoordinates(int row, int column) {
+			int[] coordinates = { row + 1, column };
+			return coordinates;
+		}
 	},
 	RIGHT {
 		@Override
@@ -34,6 +46,12 @@ public enum Direction {
 		@Override
 		public Direction getOpposite() {
 			return LEFT;
+		}
+
+		@Override
+		public int[] getCoordinates(int row, int column) {
+			int[] coordinates = { row, column + 1 };
+			return coordinates;
 		}
 	},
 	LEFT {
@@ -47,11 +65,19 @@ public enum Direction {
 			return RIGHT;
 		}
 
+		@Override
+		public int[] getCoordinates(int row, int column) {
+			int[] coordinates = { row, column - 1 };
+			return coordinates;
+		}
+
 	};
 
 	public abstract String getName();
 
 	public abstract Direction getOpposite();
+
+	public abstract int[] getCoordinates(int row, int column);
 
 	public static Direction randomDirection() {
 		Random randomizer = new Random();
