@@ -44,6 +44,10 @@ public class Dungeon {
 		this.playerRoom = startRoom;
 	}
 
+	public void removeRoomFromRoomsWithMonster(Room roomWithDeadMonster) {
+		roomsWithMonster.remove(roomWithDeadMonster);
+	}
+
 	/**
 	 * Finds the room the player is entering and changes all parameter to this
 	 * room.
@@ -72,24 +76,27 @@ public class Dungeon {
 	 * @param enter
 	 */
 	private void changeRoom(Room enter) {
-		monsterMoves();
-		playerRoom.setHasPlayer(false);
-		enter.setHasPlayer(true);
-		this.playerRoom = enter;
-	}
+		if (playerRoom.equals(monsterMoves())) {
 
-	private void monsterMoves() {
-		// Choose a monster at random
-
-		if (checkIfAllMonstersLocked()) {
-			moveMonster();
 		} else {
-			System.out.println("All monsters are locked. No monster is moved.");
-			return;
+			playerRoom.setHasPlayer(false);
+			enter.setHasPlayer(true);
+			this.playerRoom = enter;
 		}
 	}
 
-	private void moveMonster() {
+	private Room monsterMoves() {
+		// Choose a monster at random
+
+		if (checkIfAllMonstersLocked()) {
+			return moveMonster();
+		} else {
+			System.out.println("All monsters are locked. No monster is moved.");
+			return null;
+		}
+	}
+
+	private Room moveMonster() {
 		Room monsterRoom = roomsWithMonster.get(randomizer.nextInt(roomsWithMonster.size()));
 		System.out.println(monsterRoom.toString());
 
@@ -109,12 +116,14 @@ public class Dungeon {
 			roomsWithMonster.add(nextRoom);
 
 			System.out.println("Monster moves to " + nextRoom.toString());
-			// monster is moved
+			return nextRoom;
 		} else
 
 		{
 			moveMonster();
 		}
+
+		return null;
 
 	}
 

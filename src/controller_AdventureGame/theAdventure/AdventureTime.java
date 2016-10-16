@@ -17,7 +17,7 @@ public class AdventureTime {
 		hero = new Hero("John", 5);
 
 		// first dungeon
-		Dungeon firstDungeon = dungeonBuilder.generateDungeon(6, 15);
+		Dungeon firstDungeon = dungeonBuilder.generateDungeon(4, 5);
 		goThroughtDungeon(firstDungeon);
 
 		if (view.nextDungeon() == 0) {
@@ -40,6 +40,7 @@ public class AdventureTime {
 				System.out.println("\nYou encountered a monster!!!");
 				new Fight(hero, new Monster("Monster"));
 				dungeon.getPlayerRoom().setHasMonster(false);
+				dungeon.removeRoomFromRoomsWithMonster(dungeon.getPlayerRoom());
 				System.out.println("Health of the Hero: " + hero.displayHitpoints());
 				view.displayDungeon(dungeon);
 			}
