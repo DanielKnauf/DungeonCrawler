@@ -1,15 +1,27 @@
 package model_AdventureGame.theWorld;
 
+import java.util.ArrayList;
+import java.util.Random;
+
+/**
+ * 
+ * @author d-knauf
+ *
+ */
 public class Dungeon {
+	private Random randomizer = new Random();
 	private int size;
 	private Room playerRoom;
 	private Room startRoom;
 	private Room[][] map;
+	private ArrayList<Room> roomsWithMonster;
 
-	public Dungeon(int size, int rooms, Room[][] dungeonMap, Room startRoom) {
+	public Dungeon(int size, int rooms, Room[][] dungeonMap, Room startRoom, ArrayList<Room> roomsWithMonster) {
 		this.size = size;
 		this.map = dungeonMap;
 		this.startRoom = startRoom;
+		this.roomsWithMonster = roomsWithMonster;
+
 	}
 
 	public int getSize() {
@@ -44,35 +56,13 @@ public class Dungeon {
 	 */
 	public boolean playerChangeRoom(Direction direction) {
 
-		switch (direction) {
+		int[] coordinates = direction.getCoordinates(playerRoom.getRow(), playerRoom.getColumn());
 
-		case LEFT:
-			if (hasRoom(playerRoom.getRow(), playerRoom.getColumn() - 1)) {
-				changeRoom(map[playerRoom.getRow()][playerRoom.getColumn() - 1]);
-				return true;
-			}
-			break;
-		case RIGHT:
-			if (hasRoom(playerRoom.getRow(), playerRoom.getColumn() + 1)) {
-				changeRoom(map[playerRoom.getRow()][playerRoom.getColumn() + 1]);
-				return true;
-			}
-			break;
-
-		case UP:
-			if (hasRoom(playerRoom.getRow() - 1, playerRoom.getColumn())) {
-				changeRoom(map[playerRoom.getRow() - 1][playerRoom.getColumn()]);
-				return true;
-			}
-			break;
-
-		case DOWN:
-			if (hasRoom(playerRoom.getRow() + 1, playerRoom.getColumn())) {
-				changeRoom(map[playerRoom.getRow() + 1][playerRoom.getColumn()]);
-				return true;
-			}
-			break;
+		if (hasRoom(coordinates[0], coordinates[1])) {
+			changeRoom(map[coordinates[0]][coordinates[1]]);
+			return true;
 		}
+
 		return false;
 	}
 
@@ -82,20 +72,144 @@ public class Dungeon {
 	 * @param enter
 	 */
 	private void changeRoom(Room enter) {
+		monsterMoves();
 		playerRoom.setHasPlayer(false);
 		enter.setHasPlayer(true);
 		this.playerRoom = enter;
 	}
 
+	private void monsterMoves() {
+		// Choose a monster at random
+
+		if (checkIfAllMonstersLocked()) {
+			moveMonster();
+		} else {
+			System.out.println("All monsters are locked. No monster is moved.");
+			return;
+		}
+	}
+
+	private void moveMonster() {
+		Room monsterRoom = roomsWithMonster.get(randomizer.nextInt(roomsWithMonster.size()));
+		System.out.println(monsterRoom.toString());
+
+		if (hasFreeRoomToMove(monsterRoom)) {
+			// Find the free rooms
+			ArrayList<Room> freeRooms = findFreeRoomsToMoveIn(monsterRoom);
+
+			// Choose one at random
+			Room nextRoom = freeRooms.get(randomizer.nextInt(freeRooms.size()));
+
+			// remove room form list
+			monsterRoom.setHasMonster(false);
+			roomsWithMonster.remove(monsterRoom);
+
+			// add new monsterRoom to list
+			nextRoom.setHasMonster(true);
+			roomsWithMonster.add(nextRoom);
+
+			System.out.println("Monster moves to " + nextRoom.toString());
+			// monster is moved
+		} else
+
+		{
+			moveMonster();
+		}
+
+	}
+
 	/**
 	 * Is true, when space contains a room.
 	 * 
-	 * @param j
-	 * @param i
+	 * @param row
+	 * @param colm
 	 * @return
 	 */
-	private boolean hasRoom(int j, int i) {
-		return map[j][i] != null;
+	private boolean hasRoom(int row, int colm) {
+		if (row >= size || row < 0 || colm < 0 || colm >= size) {
+			return false;
+		}
+
+		return map[row][colm] != null;
 	}
 
+	/**
+	 * Checks if there is a possible movement for one of the monsters.
+	 * <p>
+	 * <code>True</code>, when there is at least one possible movement for one
+	 * of the monsters.
+	 * 
+	 * @return boolean
+	 */
+	private boolean checkIfAllMonstersLocked() {
+		for (Room r : roomsWithMonster) {
+
+			if (hasFreeRoomToMove(r)) {
+				return true;
+			}
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * 
+	 * @param previousRoom
+	 * @return
+	 */
+	private boolean hasFreeRoomToMove(Room previousRoom) {
+		int row = previousRoom.getRow();
+		int colm = previousRoom.getColumn();
+
+		if (roomIsFree(row + 1, colm) || roomIsFree(row - 1, colm) || roomIsFree(row, colm + 1)
+				|| roomIsFree(row, colm - 1)) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * 
+	 * @param row
+	 * @param colm
+	 * @return
+	 */
+	private boolean roomIsFree(int row, int colm) {
+
+		if (hasRoom(row, colm)) {
+			if (map[row][colm].checkForExit() || map[row][colm].getHasMonster()) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * 
+	 * @param previousRoom
+	 * @return
+	 */
+	private ArrayList<Room> findFreeRoomsToMoveIn(Room previousRoom) {
+		ArrayList<Room> freeRooms = new ArrayList<>();
+		int row = previousRoom.getRow();
+		int colm = previousRoom.getColumn();
+		if (roomIsFree(row + 1, colm)) {
+			freeRooms.add(map[row + 1][colm]);
+		}
+		if (roomIsFree(row - 1, colm)) {
+			freeRooms.add(map[row - 1][colm]);
+		}
+		if (roomIsFree(row, colm + 1)) {
+			freeRooms.add(map[row][colm + 1]);
+		}
+		if (roomIsFree(row, colm - 1)) {
+			freeRooms.add(map[row][colm - 1]);
+		}
+
+		return freeRooms;
+	}
 }
