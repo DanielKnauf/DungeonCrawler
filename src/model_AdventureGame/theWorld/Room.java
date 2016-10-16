@@ -25,6 +25,11 @@ public class Room {
 		return colm;
 	}
 
+	@Override
+	public String toString() {
+		return "Room:: " + row + " | " + colm + "; Monster: " + hasMonster;
+	}
+
 	/**
 	 * Mark this room as an exit.
 	 */
@@ -32,6 +37,11 @@ public class Room {
 		this.isExit = true;
 	}
 
+	/**
+	 * Returns true, when room is the exit of the dungeon.
+	 * 
+	 * @return boolean
+	 */
 	public boolean checkForExit() {
 		return isExit;
 	}
