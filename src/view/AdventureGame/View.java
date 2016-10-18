@@ -15,7 +15,7 @@ public class View {
 		// TODO Auto-generated constructor stub
 	}
 
-	public static Direction choooseNextMove(Room playerRoom) {
+	public Direction choooseNextMove(Room playerRoom) {
 		// Display options
 		System.out.println("________");
 		ArrayList<Direction> possibleDirections = playerRoom.getDirections();
@@ -38,7 +38,7 @@ public class View {
 		return possibleDirections.get(answer);
 	}
 
-	public static int nextDungeon() {
+	public int nextDungeon() {
 		System.out.println("Enter the next dungeon: Yes[0]; No[1]");
 		int answer = inputScanner.nextInt();
 
@@ -53,14 +53,14 @@ public class View {
 	public void displayDungeon(Dungeon dungeon) {
 		Room[][] dungeonMap = dungeon.getDungeonMapp();
 		System.out.println("\nMap of the Dungeon");
-		for (int j = 0; j < dungeon.getSize(); j++) {
-			System.out.print(j);
-			for (int i = 0; i < dungeon.getSize(); i++) {
+		for (int row = 0; row < dungeon.getRowSize(); row++) {
+			System.out.print(row);
+			for (int colm = 0; colm < dungeon.getColmSize(); colm++) {
 
-				if (dungeonMap[j][i] == null) {
+				if (dungeonMap[row][colm] == null) {
 					System.out.print(" ####### ");
 				} else {
-					System.out.print(displayRoom(dungeonMap[j][i]));
+					System.out.print(displayRoom(dungeonMap[row][colm]));
 				}
 			}
 			System.out.print("\n");

@@ -17,11 +17,11 @@ public class AdventureTime {
 		hero = new Hero("John", 5);
 
 		// first dungeon
-		Dungeon firstDungeon = dungeonBuilder.generateDungeon(4, 5);
+		Dungeon firstDungeon = dungeonBuilder.generateDungeon(7, 4, 11);
 		goThroughtDungeon(firstDungeon);
 
 		if (view.nextDungeon() == 0) {
-			Dungeon secondDungeon = dungeonBuilder.generateDungeon(4, 5);
+			Dungeon secondDungeon = dungeonBuilder.generateDungeon(4, 5, 5);
 			goThroughtDungeon(secondDungeon);
 		}
 
@@ -33,7 +33,7 @@ public class AdventureTime {
 		dungeon.playerEntersDungeon();
 		view.playerEntersDungeon(dungeon);
 
-		while (dungeon.playerChangeRoom(View.choooseNextMove(dungeon.getPlayerRoom()))) {
+		while (dungeon.playerChangeRoom(view.choooseNextMove(dungeon.getPlayerRoom()))) {
 			view.displayDungeon(dungeon);
 
 			if (dungeon.getPlayerRoom().getHasMonster()) {

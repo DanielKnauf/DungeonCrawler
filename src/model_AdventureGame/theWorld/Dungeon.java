@@ -10,22 +10,28 @@ import java.util.Random;
  */
 public class Dungeon {
 	private Random randomizer = new Random();
-	private int size;
+	private int rowSize;
+	private int colmSize;
 	private Room playerRoom;
 	private Room startRoom;
 	private Room[][] map;
 	private ArrayList<Room> roomsWithMonster;
 
-	public Dungeon(int size, int rooms, Room[][] dungeonMap, Room startRoom, ArrayList<Room> roomsWithMonster) {
-		this.size = size;
+	public Dungeon(int rowSize, int colmSize, int rooms, Room[][] dungeonMap, Room startRoom,
+			ArrayList<Room> roomsWithMonster) {
+		this.rowSize = rowSize;
+		this.colmSize = colmSize;
 		this.map = dungeonMap;
 		this.startRoom = startRoom;
 		this.roomsWithMonster = roomsWithMonster;
-
 	}
 
-	public int getSize() {
-		return this.size;
+	public int getRowSize() {
+		return this.rowSize;
+	}
+
+	public int getColmSize() {
+		return this.colmSize;
 	}
 
 	public Room getPlayerRoom() {
@@ -135,7 +141,7 @@ public class Dungeon {
 	 * @return
 	 */
 	private boolean hasRoom(int row, int colm) {
-		if (row >= size || row < 0 || colm < 0 || colm >= size) {
+		if (row >= rowSize || row < 0 || colm < 0 || colm >= colmSize) {
 			return false;
 		}
 

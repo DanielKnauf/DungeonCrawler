@@ -5,7 +5,8 @@ import java.util.Random;
 
 public class DungeonBuilder {
 	private Random randomizer = new Random();
-	private int size;
+	private int rowSize;
+	private int colmSize;
 	private int rooms;
 	private int numberOfAddedRooms;
 	private Room[][] dungeonMap;
@@ -26,22 +27,32 @@ public class DungeonBuilder {
 	 * 
 	 * @return finished dungeon
 	 */
-	public Dungeon generateDungeon(int size, int rooms) {
-		if (size < 2) {
-			size = 2;
+	public Dungeon generateDungeon(int rowSize, int colmSize, int rooms) {
+		// Dungeon must at least be 2x2 large
+		if (rowSize < 2) {
+			rowSize = 2;
 		}
+		if (colmSize < 2) {
+			colmSize = 2;
+		}
+
+		// Dungeon must have at least two rooms (Start and Exit)
 		if (rooms < 2) {
 			rooms = 2;
 		}
-		if (rooms > size * size) {
-			rooms = size * size;
+
+		// Fit the number of rooms do not fit inside the dungeonMap the rooms
+		// are reduced
+		if (rooms > rowSize * colmSize) {
+			rooms = rowSize * colmSize;
 		}
 
-		this.size = size;
+		this.rowSize = rowSize;
+		this.colmSize = colmSize;
 		this.rooms = rooms;
 		initDungeonMap();
 		addRoomsToMap();
-		return new Dungeon(this.size, this.rooms, dungeonMap, startRoom, roomsWithMonster);
+		return new Dungeon(this.rowSize, this.colmSize, this.rooms, dungeonMap, startRoom, roomsWithMonster);
 
 	}
 
@@ -49,9 +60,9 @@ public class DungeonBuilder {
 	 * Initializing the dungeon map with blanks.
 	 */
 	private void initDungeonMap() {
-		this.dungeonMap = new Room[size][size];
-		for (int row = 0; row < size; row++) {
-			for (int colm = 0; colm < size; colm++) {
+		this.dungeonMap = new Room[rowSize][colmSize];
+		for (int row = 0; row < rowSize; row++) {
+			for (int colm = 0; colm < colmSize; colm++) {
 				dungeonMap[row][colm] = null;
 			}
 		}
@@ -88,7 +99,7 @@ public class DungeonBuilder {
 	 * Adds entrance point to new dungeon.
 	 */
 	private void addStartRoom() {
-		this.startRoom = new Room(false, randomizer.nextInt(size), randomizer.nextInt(size));
+		this.startRoom = new Room(false, randomizer.nextInt(rowSize), randomizer.nextInt(colmSize));
 		dungeonMap[startRoom.getRow()][startRoom.getColumn()] = startRoom;
 		numberOfAddedRooms++;
 	}
@@ -97,7 +108,7 @@ public class DungeonBuilder {
 	 * Adds new rooms to the dungeon map.
 	 * <p>
 	 * Randomly determines a direction in which the next room for the dungeon
-	 * lies. Switch case chooses which is the next square of the map to look at.
+	 * lies.
 	 * 
 	 * @param previousRoom
 	 *            the room from where the new room is determined
@@ -105,13 +116,13 @@ public class DungeonBuilder {
 	private void determineNextRoom(Room previousRoom) {
 
 		while (numberOfAddedRooms < rooms && !checkForDeadLock(previousRoom)) {
-
+			// Determine possible directions
 			ArrayList<Direction> possibleDirections = findPossibleDirections(previousRoom);
-
+			// Choose one direction at random
 			Direction direction = possibleDirections.get(randomizer.nextInt(possibleDirections.size()));
-
+			// Get coordinates for next square
 			int[] nextCoordinates = direction.getCoordinates(previousRoom.getRow(), previousRoom.getColumn());
-
+			// Add room to the square
 			addNewRoomToDungeonMap(previousRoom, nextCoordinates[0], nextCoordinates[1]);
 
 		}
@@ -129,6 +140,8 @@ public class DungeonBuilder {
 		int previousRow = previousRoom.getRow();
 		int previousColumn = previousRoom.getColumn();
 
+		// Check each direction and at it to the arrayList if it is a free
+		// square
 		if (hasNoRoom(previousRow - 1, previousColumn)) {
 			possibleDirection.add(Direction.UP);
 		}
@@ -245,7 +258,7 @@ public class DungeonBuilder {
 	 * @return boolean
 	 */
 	private boolean hasNoRoom(int row, int colm) {
-		if (row >= size || row < 0 || colm < 0 || colm >= size) {
+		if (row >= rowSize || row < 0 || colm < 0 || colm >= colmSize) {
 			return false;
 		}
 		return dungeonMap[row][colm] == null;
@@ -261,7 +274,7 @@ public class DungeonBuilder {
 	 * @return
 	 */
 	private boolean hasRoom(int row, int colm) {
-		if (row >= size || row < 0 || colm < 0 || colm >= size) {
+		if (row >= rowSize || row < 0 || colm < 0 || colm >= colmSize) {
 			return false;
 		}
 		return dungeonMap[row][colm] != null;
