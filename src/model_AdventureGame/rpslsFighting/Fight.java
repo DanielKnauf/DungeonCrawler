@@ -5,6 +5,12 @@ import java.util.Scanner;
 
 import model_AdventureGame.theComponents.GameFigure;
 
+/**
+ * TODO: move System.out to view
+ * 
+ * @author d-knauf
+ *
+ */
 public class Fight {
 
 	private boolean heroWins = false;
@@ -19,6 +25,7 @@ public class Fight {
 	}
 
 	private void fighting() {
+		System.out.println("\nYou encountered a monster!!!");
 		while (!heroWins) {
 			heroChooses();
 			monsterChooses();

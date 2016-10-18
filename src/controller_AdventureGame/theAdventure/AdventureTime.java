@@ -8,6 +8,10 @@ import model_AdventureGame.theWorld.DungeonBuilder;
 import view.AdventureGame.View;
 
 public class AdventureTime {
+	private static int rowSize = 2;
+	private static int colmSize = 3;
+	private static int rooms = 3;
+
 	private static DungeonBuilder dungeonBuilder = new DungeonBuilder();
 	private static Hero hero;
 	private static View view;
@@ -16,12 +20,19 @@ public class AdventureTime {
 		view = new View();
 		hero = new Hero("John", 5);
 
-		// first dungeon
-		Dungeon firstDungeon = dungeonBuilder.generateDungeon(7, 4, 11);
+		/*
+		 * Hero must go through one dungeon so his journey can be called an
+		 * adventure
+		 */
+		Dungeon firstDungeon = dungeonBuilder.generateDungeon(rowSize, colmSize, rooms);
 		goThroughtDungeon(firstDungeon);
 
-		if (view.nextDungeon() == 0) {
-			Dungeon secondDungeon = dungeonBuilder.generateDungeon(4, 5, 5);
+		// Can decide to go into the next dungeon
+		while (view.nextDungeon() == 0) {
+			rowSize++;
+			colmSize++;
+			rooms = rooms * 2;
+			Dungeon secondDungeon = dungeonBuilder.generateDungeon(rowSize, colmSize, rooms);
 			goThroughtDungeon(secondDungeon);
 		}
 
@@ -37,16 +48,15 @@ public class AdventureTime {
 			view.displayDungeon(dungeon);
 
 			if (dungeon.getPlayerRoom().getHasMonster()) {
-				System.out.println("\nYou encountered a monster!!!");
 				new Fight(hero, new Monster("Monster"));
 				dungeon.getPlayerRoom().setHasMonster(false);
 				dungeon.removeRoomFromRoomsWithMonster(dungeon.getPlayerRoom());
-				System.out.println("Health of the Hero: " + hero.displayHitpoints());
+				view.displayHealth(hero);
 				view.displayDungeon(dungeon);
 			}
 
 			if (dungeon.getPlayerRoom().checkForExit()) {
-				System.out.println("________\nEnd of Dungeon");
+				view.heroLeavesDungeon(hero);
 				break;
 			}
 

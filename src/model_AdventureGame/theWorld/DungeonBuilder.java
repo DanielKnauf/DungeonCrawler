@@ -11,7 +11,7 @@ public class DungeonBuilder {
 	private int numberOfAddedRooms;
 	private Room[][] dungeonMap;
 	private Room startRoom;
-	private ArrayList<Room> roomsWithMonster = new ArrayList<Room>();
+	private ArrayList<Room> roomsWithMonster;
 
 	public DungeonBuilder() {
 
@@ -50,6 +50,7 @@ public class DungeonBuilder {
 		this.rowSize = rowSize;
 		this.colmSize = colmSize;
 		this.rooms = rooms;
+		this.roomsWithMonster = new ArrayList<Room>();
 		initDungeonMap();
 		addRoomsToMap();
 		return new Dungeon(this.rowSize, this.colmSize, this.rooms, dungeonMap, startRoom, roomsWithMonster);

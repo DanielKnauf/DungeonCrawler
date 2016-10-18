@@ -3,6 +3,8 @@ package view.AdventureGame;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import model_AdventureGame.theComponents.GameFigure;
+import model_AdventureGame.theComponents.Hero;
 import model_AdventureGame.theWorld.Direction;
 import model_AdventureGame.theWorld.Dungeon;
 import model_AdventureGame.theWorld.Room;
@@ -97,5 +99,14 @@ public class View {
 		System.out.println("Player enters the deep dark dungeon.");
 		displayDungeon(dungeon);
 
+	}
+
+	public void displayHealth(GameFigure gameFigure) {
+		System.out.println("Health of " + gameFigure.getName() + ":: " + gameFigure.displayHitpoints() + "\n");
+	}
+
+	public void heroLeavesDungeon(Hero hero) {
+		System.out.println("________\nEnd of Dungeon" + "\nHero gets out of the dungeon alive.");
+		displayHealth(hero);
 	}
 }

@@ -6,11 +6,14 @@ public class GameFigure {
 
 	private Move move;
 	private int hitPoints;
-	@SuppressWarnings("unused")
 	private String name;
 
 	public GameFigure(String name) {
 		this.name = name;
+	}
+
+	public String getName() {
+		return this.name;
 	}
 
 	public void setMove(Move move) {
