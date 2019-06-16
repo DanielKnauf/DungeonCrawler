@@ -1,4 +1,4 @@
-package model_AdventureGame.theWorld;
+package model.theWorld;
 
 import java.util.Random;
 
@@ -16,8 +16,7 @@ public enum Direction {
 
 		@Override
 		public int[] getCoordinates(int row, int column) {
-			int[] coordinates = { row - 1, column };
-			return coordinates;
+			return new int[]{ row - 1, column };
 		}
 	},
 	DOWN {
@@ -33,8 +32,7 @@ public enum Direction {
 
 		@Override
 		public int[] getCoordinates(int row, int column) {
-			int[] coordinates = { row + 1, column };
-			return coordinates;
+			return new int[]{ row + 1, column };
 		}
 	},
 	RIGHT {
@@ -50,8 +48,7 @@ public enum Direction {
 
 		@Override
 		public int[] getCoordinates(int row, int column) {
-			int[] coordinates = { row, column + 1 };
-			return coordinates;
+			return new int[]{ row, column + 1 };
 		}
 	},
 	LEFT {
@@ -67,8 +64,7 @@ public enum Direction {
 
 		@Override
 		public int[] getCoordinates(int row, int column) {
-			int[] coordinates = { row, column - 1 };
-			return coordinates;
+			return new int[]{ row, column - 1 };
 		}
 
 	};
