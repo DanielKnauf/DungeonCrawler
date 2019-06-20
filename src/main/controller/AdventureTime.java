@@ -11,7 +11,7 @@ public class AdventureTime {
     private static int rowSize = 2;
     private static int columnSize = 3;
     private static int rooms = 3;
-
+  
     private static Hero hero;
     private static View view;
 

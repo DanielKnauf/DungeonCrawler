@@ -89,5 +89,4 @@ public class Fight {
         int moveNumber = randomizer.nextInt(5);
         monster.setMove(Move.values()[moveNumber]);
     }
-
 }
