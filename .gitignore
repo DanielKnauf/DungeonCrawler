@@ -3,3 +3,11 @@
 *.classpath
 *.project
 *.settings
+
+##IntelliJ##
+*.iml
+.idea/
+*.ipr
+*.iws
+out/
+.idea_modules/

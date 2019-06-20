@@ -1,13 +1,13 @@
-package view.AdventureGame;
+package view;
+
+import model.theComponents.GameFigure;
+import model.theComponents.Hero;
+import model.theWorld.Direction;
+import model.theWorld.Dungeon;
+import model.theWorld.Room;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import model_AdventureGame.theComponents.GameFigure;
-import model_AdventureGame.theComponents.Hero;
-import model_AdventureGame.theWorld.Direction;
-import model_AdventureGame.theWorld.Dungeon;
-import model_AdventureGame.theWorld.Room;
 
 public class View {
 
