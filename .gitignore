@@ -3,6 +3,8 @@
 *.classpath
 *.project
 *.settings
+
+##IntelliJ##
 *.iml
 .idea/
 *.ipr

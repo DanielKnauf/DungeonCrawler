@@ -44,7 +44,7 @@ public class Dungeon {
      * Initial set up for the playerPosition and playerRoom
      */
     public void playerEntersDungeon() {
-        startRoom.setHasPlayer(true);
+        startRoom.putInPlayer(true);
         this.playerRoom = startRoom;
     }
 
@@ -82,8 +82,8 @@ public class Dungeon {
         if (playerRoom.equals(monsterMoves())) {
 
         } else {
-            playerRoom.setHasPlayer(false);
-            enter.setHasPlayer(true);
+            playerRoom.putInPlayer(false);
+            enter.putInPlayer(true);
             this.playerRoom = enter;
         }
     }
@@ -111,11 +111,11 @@ public class Dungeon {
             Room nextRoom = freeRooms.get(randomizer.nextInt(freeRooms.size()));
 
             // remove room form list
-            monsterRoom.setHasMonster(false);
+            monsterRoom.putInMonster(false);
             roomsWithMonster.remove(monsterRoom);
 
             // add new monsterRoom to list
-            nextRoom.setHasMonster(true);
+            nextRoom.putInMonster(true);
             roomsWithMonster.add(nextRoom);
 
             System.out.println("Monster moves to " + nextRoom.toString());
@@ -171,11 +171,8 @@ public class Dungeon {
         int row = previousRoom.getRow();
         int colm = previousRoom.getColumn();
 
-        if (roomIsFree(row + 1, colm) || roomIsFree(row - 1, colm) || roomIsFree(row, colm + 1)
-                || roomIsFree(row, colm - 1)) {
-            return true;
-        }
-        return false;
+        return roomIsFree(row + 1, colm) || roomIsFree(row - 1, colm) || roomIsFree(row, colm + 1)
+                || roomIsFree(row, colm - 1);
     }
 
     /**
@@ -184,7 +181,7 @@ public class Dungeon {
      * @return
      */
     private boolean roomIsFree(int row, int colm) {
-        return hasRoom(row, colm) && (!map[row][colm].checkForExit() && !map[row][colm].getHasMonster());
+        return hasRoom(row, colm) && (!map[row][colm].isExit() && !map[row][colm].hasMonster());
     }
 
     /**

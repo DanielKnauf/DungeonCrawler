@@ -5,21 +5,18 @@ import model.theComponents.Hero;
 import model.theWorld.Direction;
 import model.theWorld.Dungeon;
 import model.theWorld.Room;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class View {
 
-    private static Scanner inputScanner = new Scanner(System.in);
+    private final Scanner inputScanner = new Scanner(System.in);
 
-    public View() {
-        // TODO Auto-generated constructor stub
-    }
-
-    public Direction choooseNextMove(Room playerRoom) {
+    public Direction chooseNextMove(Room playerRoom) {
         // Display options
         System.out.println("________");
-        ArrayList<Direction> possibleDirections = playerRoom.getDirections();
+        ArrayList<Direction> possibleDirections = playerRoom.getPossibleDirections();
         System.out.println("Choose the next room you want to explore.");
         int counter = 0;
         for (Direction d : possibleDirections) {
@@ -31,7 +28,7 @@ public class View {
         int answer = -1;
         while (answer < 0 || answer >= possibleDirections.size()) {
             System.out.println("Your move: ");
-            answer = inputScanner.nextInt();
+            answer = getAnswer();
             if (answer < 0 || answer >= possibleDirections.size()) {
                 System.out.println("FAIL. Choose again.");
             }
@@ -41,7 +38,7 @@ public class View {
 
     public int nextDungeon() {
         System.out.println("Enter the next dungeon: Yes[0]; No[1]");
-        int answer = inputScanner.nextInt();
+        int answer = getAnswer();
 
         if (answer == 1 || answer == 0) {
             return answer;
@@ -51,13 +48,17 @@ public class View {
         return -1;
     }
 
+    private int getAnswer() {
+        //TODO make save
+        return inputScanner.nextInt();
+    }
+
     public void displayDungeon(Dungeon dungeon) {
         Room[][] dungeonMap = dungeon.getDungeonMapp();
         System.out.println("\nMap of the Dungeon");
         for (int row = 0; row < dungeon.getRowSize(); row++) {
             System.out.print(row);
             for (int colm = 0; colm < dungeon.getColumnSize(); colm++) {
-
                 if (dungeonMap[row][colm] == null) {
                     System.out.print(" ####### ");
                 } else {
@@ -76,18 +77,16 @@ public class View {
     private String displayRoom(Room room) {
         String roomDisplay = " [ _._ ] ";
         // ⇡⇠⇢⇣
-        if (room.getHasPlayer() && room.getHasMonster()) {
+        if (room.hasPlayer() && room.hasMonster()) {
             roomDisplay = roomDisplay.replace("_._", "PvM");
         }
-        if (room.getHasPlayer()) {
+        if (room.hasPlayer()) {
             roomDisplay = roomDisplay.replace('.', 'P');
         }
-
-        if (room.getHasMonster()) {
+        if (room.hasMonster()) {
             roomDisplay = roomDisplay.replace('.', 'M');
         }
-
-        if (room.checkForExit()) {
+        if (room.isExit()) {
             roomDisplay = roomDisplay.replace('.', 'E');
         }
 

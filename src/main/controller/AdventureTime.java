@@ -44,18 +44,18 @@ public class AdventureTime {
         dungeon.playerEntersDungeon();
         view.playerEntersDungeon(dungeon);
 
-        while (dungeon.playerChangeRoom(view.choooseNextMove(dungeon.getPlayerRoom()))) {
+        while (dungeon.playerChangeRoom(view.chooseNextMove(dungeon.getPlayerRoom()))) {
             view.displayDungeon(dungeon);
 
-            if (dungeon.getPlayerRoom().getHasMonster()) {
+            if (dungeon.getPlayerRoom().hasMonster()) {
                 new Fight(hero, new Monster("Monster"));
-                dungeon.getPlayerRoom().setHasMonster(false);
+                dungeon.getPlayerRoom().putInMonster(false);
                 dungeon.removeRoomFromRoomsWithMonster(dungeon.getPlayerRoom());
                 view.displayHealth(hero);
                 view.displayDungeon(dungeon);
             }
 
-            if (dungeon.getPlayerRoom().checkForExit()) {
+            if (dungeon.getPlayerRoom().isExit()) {
                 view.heroLeavesDungeon(hero);
                 break;
             }

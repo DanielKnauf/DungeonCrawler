@@ -18,7 +18,7 @@ public class DungeonBuilder {
      *
      * @param rowSize  the size of the new dungeon
      * @param colmSize
-     * @param rooms the number of rooms inside the dungeon
+     * @param rooms    the number of rooms inside the dungeon
      * @return finished dungeon
      */
     public Dungeon generateDungeon(int rowSize, int colmSize, int rooms) {
@@ -81,13 +81,8 @@ public class DungeonBuilder {
      * @return boolean
      */
     private boolean hasMonster() {
-        boolean hasMonster = false;
         // TODO: improve calculation.
-        int random = randomizer.nextInt(3);
-        if (random == 0) {
-            hasMonster = true;
-        }
-        return hasMonster;
+        return randomizer.nextInt(3) == 0;
     }
 
     /**
@@ -188,9 +183,10 @@ public class DungeonBuilder {
             }
             numberOfAddedRooms++;
             if (numberOfAddedRooms == rooms) {
-                newRoom.isExit();
+                newRoom.markAsExit();
             }
-            newRoom = updateDirections(newRoom);
+
+            updateDirections(newRoom);
 
             dungeonMap[newRow][newColm] = newRoom;
 

@@ -4,72 +4,71 @@ import java.util.ArrayList;
 
 public class Room {
 
-	private boolean hasPlayer = false;
-	private boolean hasMonster;
-	private int row;
-	private int colm;
-	private ArrayList<Direction> possibleDirections = new ArrayList<Direction>();
-	private boolean isExit = false;
+    private int row;
+    private int column;
+    private boolean hasPlayer;
+    private boolean hasMonster;
+    private boolean isExit;
+    private final ArrayList<Direction> possibleDirections = new ArrayList<>();
 
-	public Room(boolean hasMonster, int row, int colm) {
-		this.setHasMonster(hasMonster);
-		this.row = row;
-		this.colm = colm;
-	}
+    public Room(boolean hasMonster, int row, int column) {
+        this.hasMonster = hasMonster;
+        this.row = row;
+        this.column = column;
+    }
 
-	public int getRow() {
-		return row;
-	}
+    public int getRow() {
+        return row;
+    }
 
-	public int getColumn() {
-		return colm;
-	}
+    public int getColumn() {
+        return column;
+    }
 
-	@Override
-	public String toString() {
-		return "Room:: " + row + " | " + colm + "; Monster: " + hasMonster;
-	}
+    /**
+     * Mark this room as an exit.
+     */
+    public void markAsExit() {
+        this.isExit = true;
+    }
 
-	/**
-	 * Mark this room as an exit.
-	 */
-	public void isExit() {
-		this.isExit = true;
-	}
+    /**
+     * Returns true, when room is the exit of the dungeon.
+     *
+     * @return boolean
+     */
+    public boolean isExit() {
+        return isExit;
+    }
 
-	/**
-	 * Returns true, when room is the exit of the dungeon.
-	 * 
-	 * @return boolean
-	 */
-	public boolean checkForExit() {
-		return isExit;
-	}
+    public void putInMonster(boolean hasMonster) {
+        this.hasMonster = hasMonster;
+    }
 
-	public boolean getHasMonster() {
-		return hasMonster;
-	}
+    public boolean hasMonster() {
+        return hasMonster;
+    }
 
-	public void setHasMonster(boolean hasMonster) {
-		this.hasMonster = hasMonster;
-	}
+    public void putInPlayer(boolean hasPlayer) {
+        this.hasPlayer = hasPlayer;
+    }
 
-	public void addPossibleDirection(Direction direction) {
-		if (!possibleDirections.contains(direction)) {
-			possibleDirections.add(direction);
-		}
-	}
+    public boolean hasPlayer() {
+        return hasPlayer;
+    }
 
-	public ArrayList<Direction> getDirections() {
-		return possibleDirections;
-	}
+    public void addPossibleDirection(Direction direction) {
+        if (!possibleDirections.contains(direction)) {
+            possibleDirections.add(direction);
+        }
+    }
 
-	public void setHasPlayer(boolean hasPlayer) {
-		this.hasPlayer = hasPlayer;
-	}
+    public ArrayList<Direction> getPossibleDirections() {
+        return possibleDirections;
+    }
 
-	public boolean getHasPlayer() {
-		return hasPlayer;
-	}
-
+    @Override
+    public String toString() {
+        return "Room:: " + row + " | " + column + "; Monster: " + hasMonster;
+    }
 }
