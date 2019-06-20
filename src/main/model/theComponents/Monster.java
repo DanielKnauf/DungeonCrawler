@@ -1,4 +1,4 @@
-package model_AdventureGame.theComponents;
+package model.theComponents;
 
 import java.util.Random;
 

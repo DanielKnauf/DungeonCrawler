@@ -1,4 +1,4 @@
-package model_AdventureGame.theWorld;
+package model.theWorld;
 
 import java.util.Random;
 

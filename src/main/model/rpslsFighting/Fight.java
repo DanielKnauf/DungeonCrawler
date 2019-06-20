@@ -1,9 +1,10 @@
-package model_AdventureGame.rpslsFighting;
+package model.rpslsFighting;
+
+import model.theComponents.GameFigure;
 
 import java.util.Random;
 import java.util.Scanner;
 
-import model_AdventureGame.theComponents.GameFigure;
 
 /**
  * TODO: move System.out to view

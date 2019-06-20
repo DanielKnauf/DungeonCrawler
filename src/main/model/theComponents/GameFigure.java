@@ -1,6 +1,6 @@
-package model_AdventureGame.theComponents;
+package model.theComponents;
 
-import model_AdventureGame.rpslsFighting.Move;
+import model.rpslsFighting.Move;
 
 public class GameFigure {
 
