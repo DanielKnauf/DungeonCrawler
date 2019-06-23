@@ -4,19 +4,19 @@ import model.theComponents.GameFigure;
 import model.theComponents.Hero;
 import model.theWorld.Direction;
 import model.theWorld.Dungeon;
-import model.theWorld.Room;
+import model.theWorld.DungeonRoom;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class View {
 
     private final Scanner inputScanner = new Scanner(System.in);
 
-    public Direction chooseNextMove(Room playerRoom) {
+    public Direction chooseNextMove(DungeonRoom playerRoom) {
         // Display options
         System.out.println("________");
-        ArrayList<Direction> possibleDirections = playerRoom.getPossibleDirections();
+        List<Direction> possibleDirections = playerRoom.getPossibleDirections();
         System.out.println("Choose the next room you want to explore.");
         int counter = 0;
         for (Direction d : possibleDirections) {
@@ -54,7 +54,7 @@ public class View {
     }
 
     public void displayDungeon(Dungeon dungeon) {
-        Room[][] dungeonMap = dungeon.getDungeonMapp();
+        DungeonRoom[][] dungeonMap = dungeon.getDungeonMapp();
         System.out.println("\nMap of the Dungeon");
         for (int row = 0; row < dungeon.getRowSize(); row++) {
             System.out.print(row);
@@ -70,11 +70,11 @@ public class View {
         displayPlayerPositon(dungeon.getPlayerRoom());
     }
 
-    private void displayPlayerPositon(Room playerRoom) {
+    private void displayPlayerPositon(DungeonRoom playerRoom) {
         System.out.println("--> Player is at room " + playerRoom.getRow() + " | " + playerRoom.getColumn());
     }
 
-    private String displayRoom(Room room) {
+    private String displayRoom(DungeonRoom room) {
         String roomDisplay = " [ _._ ] ";
         // ⇡⇠⇢⇣
         if (room.hasPlayer() && room.hasMonster()) {

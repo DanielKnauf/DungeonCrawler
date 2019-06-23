@@ -9,9 +9,9 @@ public class DungeonBuilder {
     private int colmSize;
     private int rooms;
     private int numberOfAddedRooms;
-    private Room[][] dungeonMap;
-    private Room startRoom;
-    private ArrayList<Room> roomsWithMonster;
+    private DungeonRoom[][] dungeonMap;
+    private DungeonRoom startRoom;
+    private ArrayList<DungeonRoom> roomsWithMonster;
 
     /**
      * Create a new dungeon map and fills it with rooms.
@@ -55,7 +55,7 @@ public class DungeonBuilder {
      * Initializing the dungeon map with blanks.
      */
     private void initDungeonMap() {
-        this.dungeonMap = new Room[rowSize][colmSize];
+        this.dungeonMap = new DungeonRoom[rowSize][colmSize];
         for (int row = 0; row < rowSize; row++) {
             for (int colm = 0; colm < colmSize; colm++) {
                 dungeonMap[row][colm] = null;
@@ -89,7 +89,7 @@ public class DungeonBuilder {
      * Adds entrance point to new dungeon.
      */
     private void addStartRoom() {
-        this.startRoom = new Room(false, randomizer.nextInt(rowSize), randomizer.nextInt(colmSize));
+        this.startRoom = new DungeonRoom(false, randomizer.nextInt(rowSize), randomizer.nextInt(colmSize));
         dungeonMap[startRoom.getRow()][startRoom.getColumn()] = startRoom;
         numberOfAddedRooms++;
     }
@@ -102,7 +102,7 @@ public class DungeonBuilder {
      *
      * @param previousRoom the room from where the new room is determined
      */
-    private void determineNextRoom(Room previousRoom) {
+    private void determineNextRoom(DungeonRoom previousRoom) {
         while (numberOfAddedRooms < rooms && !checkForDeadLock(previousRoom)) {
             // Determine possible directions
             ArrayList<Direction> possibleDirections = findPossibleDirections(previousRoom);
@@ -122,7 +122,7 @@ public class DungeonBuilder {
      * @param previousRoom the room from where the next square is searched.
      * @return ArrayList of possible squares
      */
-    private ArrayList<Direction> findPossibleDirections(Room previousRoom) {
+    private ArrayList<Direction> findPossibleDirections(DungeonRoom previousRoom) {
         ArrayList<Direction> possibleDirection = new ArrayList<>();
         int previousRow = previousRoom.getRow();
         int previousColumn = previousRoom.getColumn();
@@ -153,7 +153,7 @@ public class DungeonBuilder {
      * @param previousRoom the room from which the next room is searched
      * @return boolean
      */
-    private boolean checkForDeadLock(Room previousRoom) {
+    private boolean checkForDeadLock(DungeonRoom previousRoom) {
         int row = previousRoom.getRow();
         int colm = previousRoom.getColumn();
 
@@ -173,13 +173,13 @@ public class DungeonBuilder {
      */
     private void addNewRoomToDungeonMap(int newRow, int newColm) {
         if (hasNoRoom(newRow, newColm)) {
-            Room newRoom;
+            DungeonRoom newRoom;
 
             if (hasMonster()) {
-                newRoom = new Room(true, newRow, newColm);
+                newRoom = new DungeonRoom(true, newRow, newColm);
                 roomsWithMonster.add(newRoom);
             } else {
-                newRoom = new Room(false, newRow, newColm);
+                newRoom = new DungeonRoom(false, newRow, newColm);
             }
             numberOfAddedRooms++;
             if (numberOfAddedRooms == rooms) {
@@ -203,7 +203,7 @@ public class DungeonBuilder {
      * @param newRoom the newly added room
      * @return room with updated possible directions
      */
-    private Room updateDirections(Room newRoom) {
+    private DungeonRoom updateDirections(DungeonRoom newRoom) {
 
         if (hasRoom(newRoom.getRow() - 1, newRoom.getColumn())) {
             newRoom.addPossibleDirection(Direction.UP);

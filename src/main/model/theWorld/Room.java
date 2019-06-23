@@ -1,18 +1,15 @@
 package model.theWorld;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class Room {
+public abstract class Room {
 
     private int row;
     private int column;
-    private boolean hasPlayer;
-    private boolean hasMonster;
-    private boolean isExit;
-    private final ArrayList<Direction> possibleDirections = new ArrayList<>();
+    private final List<Direction> possibleDirections = new ArrayList<>();
 
-    public Room(boolean hasMonster, int row, int column) {
-        this.hasMonster = hasMonster;
+    public Room(int row, int column) {
         this.row = row;
         this.column = column;
     }
@@ -25,50 +22,13 @@ public class Room {
         return column;
     }
 
-    /**
-     * Mark this room as an exit.
-     */
-    public void markAsExit() {
-        this.isExit = true;
-    }
-
-    /**
-     * Returns true, when room is the exit of the dungeon.
-     *
-     * @return boolean
-     */
-    public boolean isExit() {
-        return isExit;
-    }
-
-    public void putInMonster(boolean hasMonster) {
-        this.hasMonster = hasMonster;
-    }
-
-    public boolean hasMonster() {
-        return hasMonster;
-    }
-
-    public void putInPlayer(boolean hasPlayer) {
-        this.hasPlayer = hasPlayer;
-    }
-
-    public boolean hasPlayer() {
-        return hasPlayer;
-    }
-
     public void addPossibleDirection(Direction direction) {
         if (!possibleDirections.contains(direction)) {
             possibleDirections.add(direction);
         }
     }
 
-    public ArrayList<Direction> getPossibleDirections() {
+    public List<Direction> getPossibleDirections() {
         return possibleDirections;
-    }
-
-    @Override
-    public String toString() {
-        return "Room:: " + row + " | " + column + "; Monster: " + hasMonster;
     }
 }

@@ -7,16 +7,16 @@ public class Dungeon {
     private Random randomizer = new Random();
     private int rowSize;
     private int columnSize;
-    private Room playerRoom;
-    private Room startRoom;
-    private Room[][] map;
-    private ArrayList<Room> roomsWithMonster;
+    private DungeonRoom playerRoom;
+    private DungeonRoom startRoom;
+    private DungeonRoom[][] map;
+    private ArrayList<DungeonRoom> roomsWithMonster;
 
     Dungeon(int rowSize,
             int columnSize,
-            Room[][] dungeonMap,
-            Room startRoom,
-            ArrayList<Room> roomsWithMonster) {
+            DungeonRoom[][] dungeonMap,
+            DungeonRoom startRoom,
+            ArrayList<DungeonRoom> roomsWithMonster) {
         this.rowSize = rowSize;
         this.columnSize = columnSize;
         this.map = dungeonMap;
@@ -32,11 +32,11 @@ public class Dungeon {
         return this.columnSize;
     }
 
-    public Room getPlayerRoom() {
+    public DungeonRoom getPlayerRoom() {
         return playerRoom;
     }
 
-    public Room[][] getDungeonMapp() {
+    public DungeonRoom[][] getDungeonMapp() {
         return this.map;
     }
 
@@ -44,11 +44,11 @@ public class Dungeon {
      * Initial set up for the playerPosition and playerRoom
      */
     public void playerEntersDungeon() {
-        startRoom.putInPlayer(true);
+        startRoom.setHasPlayer(true);
         this.playerRoom = startRoom;
     }
 
-    public void removeRoomFromRoomsWithMonster(Room roomWithDeadMonster) {
+    public void removeRoomFromRoomsWithMonster(DungeonRoom roomWithDeadMonster) {
         roomsWithMonster.remove(roomWithDeadMonster);
     }
 
@@ -78,17 +78,17 @@ public class Dungeon {
      *
      * @param enter
      */
-    private void changeRoom(Room enter) {
+    private void changeRoom(DungeonRoom enter) {
         if (playerRoom.equals(monsterMoves())) {
 
         } else {
-            playerRoom.putInPlayer(false);
-            enter.putInPlayer(true);
+            playerRoom.setHasPlayer(false);
+            enter.setHasPlayer(true);
             this.playerRoom = enter;
         }
     }
 
-    private Room monsterMoves() {
+    private DungeonRoom monsterMoves() {
         // Choose a monster at random
 
         if (checkIfAllMonstersLocked()) {
@@ -99,23 +99,23 @@ public class Dungeon {
         }
     }
 
-    private Room moveMonster() {
-        Room monsterRoom = roomsWithMonster.get(randomizer.nextInt(roomsWithMonster.size()));
+    private DungeonRoom moveMonster() {
+        DungeonRoom monsterRoom = roomsWithMonster.get(randomizer.nextInt(roomsWithMonster.size()));
         System.out.println(monsterRoom.toString());
 
         if (hasFreeRoomToMove(monsterRoom)) {
             // Find the free rooms
-            ArrayList<Room> freeRooms = findFreeRoomsToMoveIn(monsterRoom);
+            ArrayList<DungeonRoom> freeRooms = findFreeRoomsToMoveIn(monsterRoom);
 
             // Choose one at random
-            Room nextRoom = freeRooms.get(randomizer.nextInt(freeRooms.size()));
+            DungeonRoom nextRoom = freeRooms.get(randomizer.nextInt(freeRooms.size()));
 
             // remove room form list
-            monsterRoom.putInMonster(false);
+            monsterRoom.setHasMonster(false);
             roomsWithMonster.remove(monsterRoom);
 
             // add new monsterRoom to list
-            nextRoom.putInMonster(true);
+            nextRoom.setHasMonster(true);
             roomsWithMonster.add(nextRoom);
 
             System.out.println("Monster moves to " + nextRoom.toString());
@@ -152,7 +152,7 @@ public class Dungeon {
      * @return boolean
      */
     private boolean checkIfAllMonstersLocked() {
-        for (Room r : roomsWithMonster) {
+        for (DungeonRoom r : roomsWithMonster) {
 
             if (hasFreeRoomToMove(r)) {
                 return true;
@@ -167,7 +167,7 @@ public class Dungeon {
      * @param previousRoom
      * @return
      */
-    private boolean hasFreeRoomToMove(Room previousRoom) {
+    private boolean hasFreeRoomToMove(DungeonRoom previousRoom) {
         int row = previousRoom.getRow();
         int colm = previousRoom.getColumn();
 
@@ -188,8 +188,8 @@ public class Dungeon {
      * @param previousRoom
      * @return
      */
-    private ArrayList<Room> findFreeRoomsToMoveIn(Room previousRoom) {
-        ArrayList<Room> freeRooms = new ArrayList<>();
+    private ArrayList<DungeonRoom> findFreeRoomsToMoveIn(DungeonRoom previousRoom) {
+        ArrayList<DungeonRoom> freeRooms = new ArrayList<>();
         int row = previousRoom.getRow();
         int colm = previousRoom.getColumn();
         if (roomIsFree(row + 1, colm)) {

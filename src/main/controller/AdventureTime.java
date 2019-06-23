@@ -49,7 +49,7 @@ public class AdventureTime {
 
             if (dungeon.getPlayerRoom().hasMonster()) {
                 new Fight(hero, new Monster("Monster"));
-                dungeon.getPlayerRoom().putInMonster(false);
+                dungeon.getPlayerRoom().setHasMonster(false);
                 dungeon.removeRoomFromRoomsWithMonster(dungeon.getPlayerRoom());
                 view.displayHealth(hero);
                 view.displayDungeon(dungeon);
