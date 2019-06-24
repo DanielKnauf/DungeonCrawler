@@ -5,7 +5,7 @@ public enum Move {
     ROCK {
         @Override
         public boolean beats(Move move) {
-            return (move == SCISSOR || move == LIZARD);
+            return move == SCISSOR || move == LIZARD;
         }
 
         @Override
@@ -16,7 +16,7 @@ public enum Move {
     PAPER {
         @Override
         public boolean beats(Move move) {
-            return (move == ROCK || move == SPOCK);
+            return move == ROCK || move == SPOCK;
         }
 
         @Override
@@ -27,7 +27,7 @@ public enum Move {
     SCISSOR {
         @Override
         public boolean beats(Move move) {
-            return (move == PAPER || move == LIZARD);
+            return move == PAPER || move == LIZARD;
         }
 
         @Override
@@ -35,26 +35,26 @@ public enum Move {
             return "Scissor";
         }
     },
-    SPOCK {
-        @Override
-        public boolean beats(Move move) {
-            return (move == SCISSOR || move == ROCK);
-        }
-
-        @Override
-        public String getName() {
-            return "Spock";
-        }
-    },
     LIZARD {
         @Override
         public boolean beats(Move move) {
-            return (move == SPOCK || move == PAPER);
+            return move == SPOCK || move == PAPER;
         }
 
         @Override
         public String getName() {
             return "Lizard";
+        }
+    },
+    SPOCK {
+        @Override
+        public boolean beats(Move move) {
+            return move == SCISSOR || move == ROCK;
+        }
+
+        @Override
+        public String getName() {
+            return "Spock";
         }
     };
 
