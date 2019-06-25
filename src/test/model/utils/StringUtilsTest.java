@@ -27,8 +27,8 @@ public class StringUtilsTest {
      * isEmpty
      */
     @Test
-    public void checkNullString_isEmpty_returnFalse() {
-        assertFalse(StringUtils.isEmpty(nullString));
+    public void checkNullString_isEmpty_returnTrue() {
+        assertTrue(StringUtils.isEmpty(nullString));
     }
 
     @Test

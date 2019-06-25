@@ -7,10 +7,10 @@ public final class StringUtils {
 
     /**
      * @return <code>true</code> if the given {@link String} is
-     * <code>non-null</code> and <code>empty</code>.
+     * <code>null</code> or <code>empty</code>.
      */
     public static boolean isEmpty(String s) {
-        return s != null && s.isEmpty();
+        return s == null || s.isEmpty();
     }
 
     /**
