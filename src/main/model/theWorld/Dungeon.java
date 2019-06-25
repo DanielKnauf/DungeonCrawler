@@ -1,6 +1,7 @@
 package model.theWorld;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Dungeon {
@@ -89,8 +90,6 @@ public class Dungeon {
     }
 
     private DungeonRoom monsterMoves() {
-        // Choose a monster at random
-
         if (checkIfAllMonstersLocked()) {
             return moveMonster();
         } else {
@@ -105,7 +104,7 @@ public class Dungeon {
 
         if (hasFreeRoomToMove(monsterRoom)) {
             // Find the free rooms
-            ArrayList<DungeonRoom> freeRooms = findFreeRoomsToMoveIn(monsterRoom);
+            List<DungeonRoom> freeRooms = findFreeRoomsToMoveIn(monsterRoom);
 
             // Choose one at random
             DungeonRoom nextRoom = freeRooms.get(randomizer.nextInt(freeRooms.size()));
@@ -171,7 +170,9 @@ public class Dungeon {
         int row = previousRoom.getRow();
         int colm = previousRoom.getColumn();
 
-        return roomIsFree(row + 1, colm) || roomIsFree(row - 1, colm) || roomIsFree(row, colm + 1)
+        return roomIsFree(row + 1, colm)
+                || roomIsFree(row - 1, colm)
+                || roomIsFree(row, colm + 1)
                 || roomIsFree(row, colm - 1);
     }
 
@@ -188,8 +189,8 @@ public class Dungeon {
      * @param previousRoom
      * @return
      */
-    private ArrayList<DungeonRoom> findFreeRoomsToMoveIn(DungeonRoom previousRoom) {
-        ArrayList<DungeonRoom> freeRooms = new ArrayList<>();
+    private List<DungeonRoom> findFreeRoomsToMoveIn(DungeonRoom previousRoom) {
+        List<DungeonRoom> freeRooms = new ArrayList<>();
         int row = previousRoom.getRow();
         int colm = previousRoom.getColumn();
         if (roomIsFree(row + 1, colm)) {
