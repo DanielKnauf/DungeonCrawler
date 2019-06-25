@@ -1,23 +1,20 @@
 package model.rpslsFighting;
 
 import model.theComponents.GameFigure;
+import view.View;
 
 import java.util.Random;
 import java.util.Scanner;
 
-/**
- * TODO: move System.out to main.view
- *
- * @author d-knauf
- */
 public class Fight {
 
-    private boolean heroWins = false;
-    private GameFigure monster;
-    private GameFigure hero;
-    private Scanner inputScanner;
+    private final View view;
+    private final GameFigure monster;
+    private final GameFigure hero;
+    private boolean heroWins;
 
-    public Fight(GameFigure hero, GameFigure monster) {
+    public Fight(View view, GameFigure hero, GameFigure monster) {
+        this.view = view;
         this.hero = hero;
         this.monster = monster;
         fighting();
@@ -50,7 +47,6 @@ public class Fight {
                     System.out.println("\nMonster is dead!");
                     heroWins = true;
                 }
-                ;
             } else if (monster.getMove().beats(hero.getMove())) {
                 System.out.println("Monster wins.");
                 if (hero.gotHit()) {
@@ -59,9 +55,10 @@ public class Fight {
                     System.exit(0);
                 }
             }
+
             System.out.println("--After fight--");
-            System.out.println("Hitpoints Monster: " + monster.displayHitpoints());
-            System.out.println("Hitpoints Hero: " + hero.displayHitpoints());
+            System.out.println("Hitpoints Monster: " + view.displayHitPoints(monster));
+            System.out.println("Hitpoints Hero: " + view.displayHitPoints(hero));
         }
     }
 
@@ -77,7 +74,7 @@ public class Fight {
         }
 
         System.out.print("Your weapon: ");
-        inputScanner = new Scanner(System.in);
+        Scanner inputScanner = new Scanner(System.in);
         hero.setMove(Move.values()[inputScanner.nextInt()]);
     }
 

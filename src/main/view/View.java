@@ -49,7 +49,6 @@ public class View {
     }
 
     private int getAnswer() {
-        //TODO make save
         return inputScanner.nextInt();
     }
 
@@ -99,7 +98,18 @@ public class View {
     }
 
     public void displayHealth(GameFigure gameFigure) {
-        System.out.println("Health of " + gameFigure.getName() + ":: " + gameFigure.displayHitpoints() + "\n");
+        System.out.println("Health of " + gameFigure.getName() + ":: " + displayHitPoints(gameFigure) + "\n");
+    }
+
+    /**
+     * Display hitPoints.
+     */
+    public String displayHitPoints(GameFigure gameFigure) {
+        final StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < gameFigure.getHitPoints(); i++) {
+            builder.append(" ❤️ ");
+        }
+        return builder.toString();
     }
 
     public void heroLeavesDungeon(Hero hero) {
