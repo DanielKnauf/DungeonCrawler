@@ -53,11 +53,11 @@ public class HeroTest {
     public void gotHit_notDead() {
         assertEquals(10, hero.getHitPoints());
 
-        assertFalse(hero.gotHit());
+        hero.gotHit();
 
         assertEquals(9, hero.getHitPoints());
+        assertFalse(hero.isDead());
     }
-
 
     @Test
     public void gotHit_isDead() {
@@ -65,8 +65,9 @@ public class HeroTest {
 
         assertEquals(1, hero.getHitPoints());
 
-        assertTrue(hero.gotHit());
+        hero.gotHit();
 
         assertEquals(0, hero.getHitPoints());
+        assertTrue(hero.isDead());
     }
 }

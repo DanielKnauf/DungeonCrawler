@@ -46,10 +46,11 @@ public abstract class GameFigure {
         return hitPoints;
     }
 
-    public boolean gotHit() {
+    public void gotHit() {
         hitPoints--;
-
-        return hitPoints == 0;
     }
 
+    public boolean isDead() {
+        return hitPoints <= 0;
+    }
 }

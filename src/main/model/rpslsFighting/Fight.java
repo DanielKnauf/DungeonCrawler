@@ -43,13 +43,15 @@ public class Fight {
                 System.out.println("Draw");
             } else if (hero.getMove().beats(monster.getMove())) {
                 System.out.println("Hero wins.");
-                if (monster.gotHit()) {
+                monster.gotHit();
+                if (monster.isDead()) {
                     System.out.println("\nMonster is dead!");
                     heroWins = true;
                 }
             } else if (monster.getMove().beats(hero.getMove())) {
                 System.out.println("Monster wins.");
-                if (hero.gotHit()) {
+                hero.gotHit();
+                if (hero.isDead()) {
                     System.out.println("\nHero is dead!");
                     System.out.println("\nYour adventure is over.");
                     System.exit(0);
