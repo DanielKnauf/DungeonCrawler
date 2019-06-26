@@ -1,95 +1,91 @@
 package model.rpslsFighting;
 
 import model.theComponents.GameFigure;
+import view.View;
 
 import java.util.Random;
 import java.util.Scanner;
 
-
-/**
- * TODO: move System.out to view
- * 
- * @author d-knauf
- *
- */
 public class Fight {
 
-	private boolean heroWins = false;
-	private GameFigure monster;
-	private GameFigure hero;
-	private Scanner inputScanner;
+    private final View view;
+    private final GameFigure monster;
+    private final GameFigure hero;
+    private boolean heroWins;
 
-	public Fight(GameFigure hero, GameFigure monster) {
-		this.hero = hero;
-		this.monster = monster;
-		fighting();
-	}
+    public Fight(View view, GameFigure hero, GameFigure monster) {
+        this.view = view;
+        this.hero = hero;
+        this.monster = monster;
+        fighting();
+    }
 
-	private void fighting() {
-		System.out.println("\nYou encountered a monster!!!");
-		while (!heroWins) {
-			heroChooses();
-			monsterChooses();
-			fight();
-			System.out.println("********");
-		}
-	}
+    private void fighting() {
+        System.out.println("\nYou encountered a monster!!!");
+        while (!heroWins) {
+            heroChooses();
+            monsterChooses();
+            fight();
+            System.out.println("********");
+        }
+    }
 
-	/**
-	 * Fighting the monster
-	 */
-	private void fight() {
-		if (monster.getMove() != null && hero.getMove() != null) {
-			System.out.println("--Before fight--");
-			System.out.println("Monster chooses: " + monster.getMove());
-			System.out.println("Hero chooses: " + hero.getMove());
+    /**
+     * Fighting the monster
+     */
+    private void fight() {
+        if (monster.getMove() != null && hero.getMove() != null) {
+            System.out.println("--Before fight--");
+            System.out.println("Monster chooses: " + monster.getMove());
+            System.out.println("Hero chooses: " + hero.getMove());
 
-			if (monster.getMove().equals(hero.getMove())) {
-				System.out.println("Draw");
-			} else if (hero.getMove().beats(monster.getMove())) {
-				System.out.println("Hero wins.");
-				if (monster.gotHit()) {
-					System.out.println("\nMonster is dead!");
-					heroWins = true;
-				}
-				;
-			} else if (monster.getMove().beats(hero.getMove())) {
-				System.out.println("Monster wins.");
-				if (hero.gotHit()) {
-					System.out.println("\nHero is dead!");
-					System.out.println("\nYour adventure is over.");
-					System.exit(0);
-				}
-			}
-			System.out.println("--After fight--");
-			System.out.println("Hitpoints Monster: " + monster.displayHitpoints());
-			System.out.println("Hitpoints Hero: " + hero.displayHitpoints());
-		}
-	}
+            if (monster.getMove().equals(hero.getMove())) {
+                System.out.println("Draw");
+            } else if (hero.getMove().beats(monster.getMove())) {
+                System.out.println("Hero wins.");
+                monster.gotHit();
+                if (monster.isDead()) {
+                    System.out.println("\nMonster is dead!");
+                    heroWins = true;
+                }
+            } else if (monster.getMove().beats(hero.getMove())) {
+                System.out.println("Monster wins.");
+                hero.gotHit();
+                if (hero.isDead()) {
+                    System.out.println("\nHero is dead!");
+                    System.out.println("\nYour adventure is over.");
+                    System.exit(0);
+                }
+            }
 
-	/**
-	 * Hero chooses weapon.
-	 */
-	private void heroChooses() {
-		System.out.println("Choose your weapon:");
-		int counter = 0;
-		for (Move entry : Move.values()) {
-			System.out.println("[" + counter + "]: " + entry.getName());
-			counter++;
-		}
+            System.out.println("--After fight--");
+            System.out.println("Hitpoints Monster: " + view.displayHitPoints(monster));
+            System.out.println("Hitpoints Hero: " + view.displayHitPoints(hero));
+        }
+    }
 
-		System.out.print("Your weapon: ");
-		inputScanner = new Scanner(System.in);
-		hero.setMove(Move.values()[inputScanner.nextInt()]);
-	}
+    /**
+     * Hero chooses weapon.
+     */
+    private void heroChooses() {
+        System.out.println("Choose your weapon:");
+        int counter = 0;
+        for (Move entry : Move.values()) {
+            System.out.println("[" + counter + "]: " + entry.getName());
+            counter++;
+        }
 
-	/**
-	 * Monster chooses move at random.
-	 */
-	private void monsterChooses() {
-		Random randomizer = new Random();
-		int moveNumber = randomizer.nextInt(5);
-		monster.setMove(Move.values()[moveNumber]);
-	}
+        System.out.print("Your weapon: ");
+        Scanner inputScanner = new Scanner(System.in);
+        hero.setMove(Move.values()[inputScanner.nextInt()]);
+    }
 
+    /**
+     * Monster chooses move at random.
+     */
+    private void monsterChooses() {
+        Random randomizer = new Random();
+        int moveNumber = randomizer.nextInt(5);
+        monster.setMove(Move.values()[moveNumber]);
+    }
 }

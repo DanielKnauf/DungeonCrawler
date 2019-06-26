@@ -9,15 +9,9 @@ public class Monster extends GameFigure {
 		determineMonsterHealth();
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	private void determineMonsterHealth() {
-		int health = 1;
 		Random randomizer = new Random();
 		int healthBonus = randomizer.nextInt(3);
-		health += healthBonus;
-		this.setHitPoints(health + healthBonus);
+		this.setHitPoints(1 + healthBonus);
 	}
 }

@@ -1,75 +1,34 @@
 package model.theWorld;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class Room {
+public abstract class Room {
 
-	private boolean hasPlayer = false;
-	private boolean hasMonster;
-	private int row;
-	private int colm;
-	private ArrayList<Direction> possibleDirections = new ArrayList<Direction>();
-	private boolean isExit = false;
+    private int row;
+    private int column;
+    private final List<Direction> possibleDirections = new ArrayList<>();
 
-	public Room(boolean hasMonster, int row, int colm) {
-		this.setHasMonster(hasMonster);
-		this.row = row;
-		this.colm = colm;
-	}
+    public Room(int row, int column) {
+        this.row = row;
+        this.column = column;
+    }
 
-	public int getRow() {
-		return row;
-	}
+    public int getRow() {
+        return row;
+    }
 
-	public int getColumn() {
-		return colm;
-	}
+    public int getColumn() {
+        return column;
+    }
 
-	@Override
-	public String toString() {
-		return "Room:: " + row + " | " + colm + "; Monster: " + hasMonster;
-	}
+    public void addPossibleDirection(Direction direction) {
+        if (!possibleDirections.contains(direction)) {
+            possibleDirections.add(direction);
+        }
+    }
 
-	/**
-	 * Mark this room as an exit.
-	 */
-	public void isExit() {
-		this.isExit = true;
-	}
-
-	/**
-	 * Returns true, when room is the exit of the dungeon.
-	 * 
-	 * @return boolean
-	 */
-	public boolean checkForExit() {
-		return isExit;
-	}
-
-	public boolean getHasMonster() {
-		return hasMonster;
-	}
-
-	public void setHasMonster(boolean hasMonster) {
-		this.hasMonster = hasMonster;
-	}
-
-	public void addPossibleDirection(Direction direction) {
-		if (!possibleDirections.contains(direction)) {
-			possibleDirections.add(direction);
-		}
-	}
-
-	public ArrayList<Direction> getDirections() {
-		return possibleDirections;
-	}
-
-	public void setHasPlayer(boolean hasPlayer) {
-		this.hasPlayer = hasPlayer;
-	}
-
-	public boolean getHasPlayer() {
-		return hasPlayer;
-	}
-
+    public List<Direction> getPossibleDirections() {
+        return possibleDirections;
+    }
 }

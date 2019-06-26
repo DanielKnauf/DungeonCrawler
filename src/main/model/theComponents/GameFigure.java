@@ -1,56 +1,56 @@
 package model.theComponents;
 
 import model.rpslsFighting.Move;
+import model.utils.StringUtils;
 
-public class GameFigure {
+public abstract class GameFigure {
 
-	private Move move;
-	private int hitPoints;
-	private String name;
+    private String name;
+    private int hitPoints;
+    private Move move;
 
-	public GameFigure(String name) {
-		this.name = name;
-	}
+    GameFigure(String name) {
+        this.name = validateName(name);
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    GameFigure(String name, int hitPoints) {
+        this.name = validateName(name);
+        this.hitPoints = validateHitPoints(hitPoints);
+    }
 
-	public void setMove(Move move) {
-		this.move = move;
-	}
+    private String validateName(String name) {
+        return StringUtils.isEmpty(name) ? "Alice" : name;
+    }
 
-	public Move getMove() {
-		return this.move;
-	}
+    private int validateHitPoints(int hitPoints) {
+        return hitPoints <= 0 ? 1 : hitPoints;
+    }
 
-	public void setHitPoints(int hitpoints) {
-		this.hitPoints = hitpoints;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public int getHitPoints() {
-		return this.hitPoints;
-	}
+    public void setMove(Move move) {
+        this.move = move;
+    }
 
-	public boolean gotHit() {
-		hitPoints--;
+    public Move getMove() {
+        return this.move;
+    }
 
-		if (hitPoints == 0) {
-			return true;
-		}
+    void setHitPoints(int hitPoints) {
+        this.hitPoints = hitPoints;
+    }
 
-		return false;
-	}
+    public int getHitPoints() {
+        return hitPoints;
+    }
 
-	/**
-	 * Display hitpoints.
-	 */
-	public String displayHitpoints() {
-		String displayedHitpoint = "";
-		for (int i = 0; i < hitPoints; i++) {
-			displayedHitpoint += " ❤️ ";
-		}
-		return displayedHitpoint;
-	}
+    public void gotHit() {
+        hitPoints--;
+    }
 
+    public boolean isDead() {
+        return hitPoints <= 0;
+    }
 }
