@@ -15,8 +15,8 @@ public class FightingView extends View {
 
     public void finalizeRound(GameFigure monster, GameFigure hero) {
         System.out.println("-- After round --");
-        System.out.println("Hitpoints Monster: " + displayHitPoints(monster));
-        System.out.println("Hitpoints Hero: " + displayHitPoints(hero));
+        displayHealth(monster);
+        displayHealth(hero);
     }
 
     /**

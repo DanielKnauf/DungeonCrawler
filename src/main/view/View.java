@@ -104,7 +104,7 @@ public class View {
     /**
      * Display hitPoints.
      */
-    String displayHitPoints(GameFigure gameFigure) {
+    private String displayHitPoints(GameFigure gameFigure) {
         final StringBuilder builder = new StringBuilder();
         for (int i = 0; i < gameFigure.getHitPoints(); i++) {
             builder.append(" ❤️ ");
@@ -114,7 +114,7 @@ public class View {
 
     public void heroLeavesDungeon(Hero hero) {
         displaySeparator();
-        System.out.println("End of Dungeon" + "\nHero gets out of the dungeon alive.");
+        System.out.println("End of Dungeon\nHero gets out of the dungeon alive.");
         displayHealth(hero);
     }
 
