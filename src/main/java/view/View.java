@@ -1,7 +1,6 @@
 package view;
 
 import model.theComponents.GameFigure;
-import model.theComponents.Hero;
 import model.theWorld.Direction;
 import model.theWorld.Dungeon;
 import model.theWorld.DungeonRoom;
@@ -27,7 +26,7 @@ public class View {
         // Get answer from player
         int answer = -1;
         while (answer < 0 || answer >= possibleDirections.size()) {
-            System.out.println("Your move: ");
+            System.out.print("Your move: ");
             answer = getAnswer();
             if (answer < 0 || answer >= possibleDirections.size()) {
                 System.out.println("FAIL. Choose again.");
@@ -112,7 +111,7 @@ public class View {
         return builder.toString();
     }
 
-    public void heroLeavesDungeon(Hero hero) {
+    public void heroLeavesDungeon(GameFigure hero) {
         displaySeparator();
         System.out.println("End of Dungeon\nHero gets out of the dungeon alive.");
         displayHealth(hero);
