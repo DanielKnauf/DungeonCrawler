@@ -4,15 +4,15 @@ import model.rpslsFighting.Move;
 import model.theComponents.GameFigure;
 import view.FightingView;
 
-class FightController {
+public class FightController {
 
     private final FightingView fightingView;
 
-    FightController(FightingView fightingView) {
+    public FightController(FightingView fightingView) {
         this.fightingView = fightingView;
     }
 
-    void startFighting(GameFigure hero, GameFigure monster) {
+    public void startFighting(GameFigure hero, GameFigure monster) {
 
         while (!hero.isDead() && !monster.isDead()) {
             chooseMoves(hero, monster);

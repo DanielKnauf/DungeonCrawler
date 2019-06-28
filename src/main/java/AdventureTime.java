@@ -1,5 +1,4 @@
-package controller;
-
+import controller.FightController;
 import model.theComponents.Hero;
 import model.theComponents.Monster;
 import model.theWorld.Dungeon;
