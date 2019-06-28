@@ -1,5 +1,3 @@
-package controller;
-
 import model.rpslsFighting.Fight;
 import model.theComponents.Hero;
 import model.theComponents.Monster;
