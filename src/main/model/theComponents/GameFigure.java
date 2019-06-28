@@ -3,6 +3,8 @@ package model.theComponents;
 import model.rpslsFighting.Move;
 import model.utils.StringUtils;
 
+import java.util.Random;
+
 public abstract class GameFigure {
 
     private String name;
@@ -52,5 +54,14 @@ public abstract class GameFigure {
 
     public boolean isDead() {
         return hitPoints <= 0;
+    }
+
+    /**
+     * GameFigure chooses move at random.
+     */
+    public Move makeMoveAtRandom() {
+        Random randomizer = new Random();
+        int moveNumber = randomizer.nextInt(5);
+        return Move.values()[moveNumber];
     }
 }

@@ -15,7 +15,7 @@ public class View {
 
     public Direction chooseNextMove(DungeonRoom playerRoom) {
         // Display options
-        System.out.println("________");
+        displaySeparator();
         List<Direction> possibleDirections = playerRoom.getPossibleDirections();
         System.out.println("Choose the next room you want to explore.");
         int counter = 0;
@@ -104,7 +104,7 @@ public class View {
     /**
      * Display hitPoints.
      */
-    public String displayHitPoints(GameFigure gameFigure) {
+    private String displayHitPoints(GameFigure gameFigure) {
         final StringBuilder builder = new StringBuilder();
         for (int i = 0; i < gameFigure.getHitPoints(); i++) {
             builder.append(" ❤️ ");
@@ -113,7 +113,12 @@ public class View {
     }
 
     public void heroLeavesDungeon(Hero hero) {
-        System.out.println("________\nEnd of Dungeon" + "\nHero gets out of the dungeon alive.");
+        displaySeparator();
+        System.out.println("End of Dungeon\nHero gets out of the dungeon alive.");
         displayHealth(hero);
+    }
+
+    public void displaySeparator() {
+        System.out.println("________\n");
     }
 }

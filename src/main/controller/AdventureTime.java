@@ -5,13 +5,14 @@ import model.theComponents.Hero;
 import model.theComponents.Monster;
 import model.theWorld.Dungeon;
 import model.theWorld.DungeonBuilder;
+import view.FightingView;
 import view.View;
 
 public class AdventureTime {
     private static int rowSize = 2;
     private static int columnSize = 3;
     private static int rooms = 3;
-  
+
     private static Hero hero;
     private static View view;
 
@@ -48,7 +49,7 @@ public class AdventureTime {
             view.displayDungeon(dungeon);
 
             if (dungeon.getPlayerRoom().hasMonster()) {
-                new Fight(view, hero, new Monster("Monster"));
+                new Fight(new FightingView(), hero, new Monster("Monster"));
                 dungeon.getPlayerRoom().setHasMonster(false);
                 dungeon.removeRoomFromRoomsWithMonster(dungeon.getPlayerRoom());
                 view.displayHealth(hero);
@@ -59,7 +60,6 @@ public class AdventureTime {
                 view.heroLeavesDungeon(hero);
                 break;
             }
-
         }
     }
 
