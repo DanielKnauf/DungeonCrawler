@@ -1,10 +1,17 @@
 package model.theWorld;
 
+import view.DungeonView;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static model.theWorld.Direction.*;
+
 public class Dungeon {
+
+    private final DungeonView dungeonView;
+
     private Random randomizer = new Random();
     private int rowSize;
     private int columnSize;
@@ -13,11 +20,13 @@ public class Dungeon {
     private DungeonRoom[][] map;
     private ArrayList<DungeonRoom> roomsWithMonster;
 
-    Dungeon(int rowSize,
+    Dungeon(DungeonView dungeonView,
+            int rowSize,
             int columnSize,
             DungeonRoom[][] dungeonMap,
             DungeonRoom startRoom,
             ArrayList<DungeonRoom> roomsWithMonster) {
+        this.dungeonView = dungeonView;
         this.rowSize = rowSize;
         this.columnSize = columnSize;
         this.map = dungeonMap;
@@ -37,7 +46,7 @@ public class Dungeon {
         return playerRoom;
     }
 
-    public DungeonRoom[][] getDungeonMapp() {
+    public DungeonRoom[][] getDungeonMap() {
         return this.map;
     }
 
@@ -56,14 +65,11 @@ public class Dungeon {
     /**
      * Finds the room the player is entering and changes all parameter to this
      * room.
-     * <p>
-     * Returns true when change was successful.
      *
      * @param direction the direction the player wants to go
-     * @return boolean
+     * @return <code>true</code>if change was successful.
      */
     public boolean playerChangeRoom(Direction direction) {
-
         int[] coordinates = direction.getCoordinates(playerRoom.getRow(), playerRoom.getColumn());
 
         if (hasRoom(coordinates[0], coordinates[1])) {
@@ -81,26 +87,24 @@ public class Dungeon {
      */
     private void changeRoom(DungeonRoom enter) {
         if (playerRoom.equals(monsterMoves())) {
-
-        } else {
-            playerRoom.setHasPlayer(false);
-            enter.setHasPlayer(true);
-            this.playerRoom = enter;
+            return;
         }
+
+        playerRoom.setHasPlayer(false);
+        enter.setHasPlayer(true);
+        this.playerRoom = enter;
+
     }
 
     private DungeonRoom monsterMoves() {
-        if (checkIfAllMonstersLocked()) {
-            return moveMonster();
-        } else {
-            System.out.println("All monsters are locked. No monster is moved.");
-            return null;
-        }
+        return checkIfAllMonstersLocked()
+                ? moveMonster()
+                : null;
     }
 
     private DungeonRoom moveMonster() {
         DungeonRoom monsterRoom = roomsWithMonster.get(randomizer.nextInt(roomsWithMonster.size()));
-        System.out.println(monsterRoom.toString());
+        dungeonView.displayDungeonRoom(monsterRoom);
 
         if (hasFreeRoomToMove(monsterRoom)) {
             // Find the free rooms
@@ -117,29 +121,26 @@ public class Dungeon {
             nextRoom.setHasMonster(true);
             roomsWithMonster.add(nextRoom);
 
-            System.out.println("Monster moves to " + nextRoom.toString());
+            dungeonView.displayMonsterMovement(nextRoom);
             return nextRoom;
         } else {
             moveMonster();
         }
 
         return null;
-
     }
 
     /**
-     * Is true, when space contains a room.
-     *
      * @param row
-     * @param colm
-     * @return
+     * @param column
+     * @return <code>true</code> if space contains a room.n
      */
-    private boolean hasRoom(int row, int colm) {
-        if (row >= rowSize || row < 0 || colm < 0 || colm >= columnSize) {
-            return false;
-        }
-
-        return map[row][colm] != null;
+    private boolean hasRoom(int row, int column) {
+        return row < rowSize
+                && row >= 0
+                && column >= 0
+                && column < columnSize
+                && map[row][column] != null;
     }
 
     /**
@@ -148,18 +149,16 @@ public class Dungeon {
      * <code>True</code>, when there is at least one possible movement for one
      * of the monsters.
      *
-     * @return boolean
+     * @return
      */
     private boolean checkIfAllMonstersLocked() {
         for (DungeonRoom r : roomsWithMonster) {
-
             if (hasFreeRoomToMove(r)) {
                 return true;
             }
         }
 
         return false;
-
     }
 
     /**
@@ -170,19 +169,18 @@ public class Dungeon {
         int row = previousRoom.getRow();
         int colm = previousRoom.getColumn();
 
-        return roomIsFree(row + 1, colm)
-                || roomIsFree(row - 1, colm)
-                || roomIsFree(row, colm + 1)
-                || roomIsFree(row, colm - 1);
+        return roomIsFree(UP.getCoordinates(row, colm))
+                || roomIsFree(DOWN.getCoordinates(row, colm))
+                || roomIsFree(LEFT.getCoordinates(row, colm))
+                || roomIsFree(RIGHT.getCoordinates(row, colm));
     }
 
     /**
-     * @param row
-     * @param colm
+     * @param coordinates
      * @return
      */
-    private boolean roomIsFree(int row, int colm) {
-        return hasRoom(row, colm) && (!map[row][colm].isExit() && !map[row][colm].hasMonster());
+    private boolean roomIsFree(int[] coordinates) {
+        return hasRoom(coordinates[0], coordinates[1]) && (!map[coordinates[0]][coordinates[1]].isExit() && !map[coordinates[0]][coordinates[1]].hasMonster());
     }
 
     /**
@@ -193,17 +191,17 @@ public class Dungeon {
         List<DungeonRoom> freeRooms = new ArrayList<>();
         int row = previousRoom.getRow();
         int colm = previousRoom.getColumn();
-        if (roomIsFree(row + 1, colm)) {
-            freeRooms.add(map[row + 1][colm]);
-        }
-        if (roomIsFree(row - 1, colm)) {
+        if (roomIsFree(UP.getCoordinates(row, colm))) {
             freeRooms.add(map[row - 1][colm]);
         }
-        if (roomIsFree(row, colm + 1)) {
-            freeRooms.add(map[row][colm + 1]);
+        if (roomIsFree(DOWN.getCoordinates(row, colm))) {
+            freeRooms.add(map[row + 1][colm]);
         }
-        if (roomIsFree(row, colm - 1)) {
+        if (roomIsFree(LEFT.getCoordinates(row, colm))) {
             freeRooms.add(map[row][colm - 1]);
+        }
+        if (roomIsFree(RIGHT.getCoordinates(row, colm))) {
+            freeRooms.add(map[row][colm + 1]);
         }
 
         return freeRooms;

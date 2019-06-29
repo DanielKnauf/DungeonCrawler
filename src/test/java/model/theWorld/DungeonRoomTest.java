@@ -74,9 +74,4 @@ public class DungeonRoomTest {
 
         assertTrue(room.isExit());
     }
-
-    @Test
-    public void hasCorrectDisplayTest(){
-        assertEquals("Room:: 0 | -1; Monster: false", room.toString());
-    }
 }
