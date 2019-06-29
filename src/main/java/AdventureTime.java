@@ -51,9 +51,14 @@ public class AdventureTime {
 
             if (dungeon.getPlayerRoom().hasMonster()) {
                 view.displayMonsterEncounter();
-                fightController.startFighting(hero, new Monster("Monster"));
 
-                if(hero.isDead()){
+                Monster monster = new Monster("Monster");
+
+                while (!hero.isDead() && !monster.isDead()) {
+                    fightController.startFightingRound(hero, monster);
+                }
+
+                if (hero.isDead()) {
                     view.displayEndOfAdventure();
                     System.exit(0);
                 }

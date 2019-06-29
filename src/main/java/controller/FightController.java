@@ -12,13 +12,11 @@ public class FightController {
         this.fightingView = fightingView;
     }
 
-    public void startFighting(GameFigure hero, GameFigure monster) {
-
-        while (!hero.isDead() && !monster.isDead()) {
+    public void startFightingRound(GameFigure hero, GameFigure monster) {
             chooseMoves(hero, monster);
             fightingView.displaySeparator();
             fight(hero, monster);
-        }
+
     }
 
     private void chooseMoves(GameFigure hero, GameFigure monster) {
