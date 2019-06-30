@@ -1,34 +1,36 @@
-package model.rpslsFighting;
+package controller;
 
+import model.rpslsFighting.Move;
 import model.theComponents.GameFigure;
 import view.FightingView;
 
-public class Fight {
+public class FightController {
 
     private final FightingView fightingView;
-    private final GameFigure monster;
-    private final GameFigure hero;
-    private boolean heroWins;
 
-    public Fight(FightingView fightingView, GameFigure hero, GameFigure monster) {
+    public FightController(FightingView fightingView) {
         this.fightingView = fightingView;
-        this.hero = hero;
-        this.monster = monster;
-        fighting();
     }
 
-    private void fighting() {
-        fightingView.displayMonsterEncounter();
-        while (!heroWins) {
-            fight(monster.makeMoveAtRandom(), fightingView.heroChooses());
+    public void startFightingRound(GameFigure hero, GameFigure monster) {
+            chooseMoves(hero, monster);
             fightingView.displaySeparator();
-        }
+            fight(hero, monster);
+
+    }
+
+    private void chooseMoves(GameFigure hero, GameFigure monster) {
+        monster.setMove(monster.makeMoveAtRandom());
+        hero.setMove(fightingView.heroChooses());
     }
 
     /**
      * Fighting the monster
      */
-    private void fight(Move monsterMove, Move heroMove) {
+    private void fight(GameFigure hero, GameFigure monster) {
+        Move heroMove = hero.getMove();
+        Move monsterMove = monster.getMove();
+
         if (monsterMove != null && heroMove != null) {
             fightingView.introduceRound(monsterMove, heroMove);
 
@@ -37,16 +39,9 @@ public class Fight {
             } else if (heroMove.beats(monsterMove)) {
                 fightingView.displayResult(hero, monster);
                 monster.gotHit();
-                if (monster.isDead()) {
-                    heroWins = true;
-                }
             } else if (monsterMove.beats(heroMove)) {
                 fightingView.displayResult(monster, hero);
                 hero.gotHit();
-                if (hero.isDead()) {
-                    fightingView.displayEndOfAdventure();
-                    System.exit(0);
-                }
             }
 
             fightingView.finalizeRound(monster, hero);

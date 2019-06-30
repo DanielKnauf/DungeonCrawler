@@ -35,11 +35,6 @@ public class FightingView extends View {
         return Move.values()[inputScanner.nextInt()];
     }
 
-    public void displayMonsterEncounter() {
-        displaySeparator();
-        System.out.println("You encountered a monster!!!");
-    }
-
     public void displayResult(GameFigure winner, GameFigure loser) {
         if (winner == null || loser == null) {
             System.out.println("Draw");
@@ -51,9 +46,5 @@ public class FightingView extends View {
             }
         }
 
-    }
-
-    public void displayEndOfAdventure() {
-        System.out.println("\nYour adventure is over.");
     }
 }
