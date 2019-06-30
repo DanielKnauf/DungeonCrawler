@@ -96,6 +96,11 @@ public class View {
         displayDungeon(dungeon);
     }
 
+    public void displayMonsterEncounter() {
+        displaySeparator();
+        System.out.println("You encountered a monster!!!");
+    }
+
     public void displayHealth(GameFigure gameFigure) {
         System.out.println("Health of " + gameFigure.getName() + ":: " + displayHitPoints(gameFigure) + "\n");
     }
@@ -115,6 +120,11 @@ public class View {
         displaySeparator();
         System.out.println("End of Dungeon\nHero gets out of the dungeon alive.");
         displayHealth(hero);
+    }
+
+    public void displayEndOfAdventure() {
+        displaySeparator();
+        System.out.println("Your adventure is over.");
     }
 
     public void displaySeparator() {
