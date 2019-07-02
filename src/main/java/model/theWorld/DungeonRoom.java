@@ -6,7 +6,7 @@ public class DungeonRoom extends Room {
     private boolean hasMonster;
     private boolean isExit;
 
-    DungeonRoom(boolean hasMonster, int row, int column) {
+    public DungeonRoom(boolean hasMonster, int row, int column) {
         super(row, column);
         this.hasMonster = hasMonster;
     }

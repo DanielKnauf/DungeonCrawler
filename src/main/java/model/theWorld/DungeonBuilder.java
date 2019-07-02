@@ -1,27 +1,35 @@
 package model.theWorld;
 
+import model.theWorld.map.DungeonMap;
 import view.DungeonView;
 
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.List;
 
 public class DungeonBuilder {
-    private Random randomizer = new Random();
+
+    private final DungeonView dungeonView;
+    private final DungeonBuilderHelper helper;
+
     private int rowSize;
     private int columnSize;
     private int rooms;
     private int numberOfAddedRooms;
-    private DungeonRoom[][] dungeonMap;
     private DungeonRoom startRoom;
     private ArrayList<DungeonRoom> roomsWithMonster;
-    private final DungeonView dungeonView = new DungeonView();
+    private DungeonMap dungeonMap;
+
+    public DungeonBuilder(DungeonView dungeonView, DungeonBuilderHelper helper) {
+        this.dungeonView = dungeonView;
+        this.helper = helper;
+    }
 
     /**
      * Create a new dungeon map and fills it with rooms.
      *
-     * @param rowSize  the size of the new dungeon
+     * @param rowSize    the size of the new dungeon
      * @param columnSize
-     * @param rooms    the number of rooms inside the dungeon
+     * @param rooms      the number of rooms inside the dungeon
      * @return finished dungeon
      */
     public Dungeon generateDungeon(int rowSize, int columnSize, int rooms) {
@@ -49,21 +57,9 @@ public class DungeonBuilder {
         this.rooms = rooms;
         this.roomsWithMonster = new ArrayList<>();
 
-        initDungeonMap();
+        dungeonMap = helper.generateDungeonMap(rowSize, columnSize);
         addRoomsToMap();
-        return new Dungeon(dungeonView, this.rowSize, this.columnSize, dungeonMap, startRoom, roomsWithMonster);
-    }
-
-    /**
-     * Initializing the dungeon map with blanks.
-     */
-    private void initDungeonMap() {
-        this.dungeonMap = new DungeonRoom[rowSize][columnSize];
-        for (int row = 0; row < rowSize; row++) {
-            for (int colm = 0; colm < columnSize; colm++) {
-                dungeonMap[row][colm] = null;
-            }
-        }
+        return new Dungeon(dungeonView, this.rowSize, this.columnSize, dungeonMap.getMap(), startRoom, roomsWithMonster);
     }
 
     /**
@@ -85,15 +81,15 @@ public class DungeonBuilder {
      */
     private boolean hasMonster() {
         // TODO: improve calculation.
-        return randomizer.nextInt(3) == 0;
+        return helper.hasRoomMonster();
     }
 
     /**
      * Adds entrance point to new dungeon.
      */
     private void addStartRoom() {
-        this.startRoom = new DungeonRoom(false, randomizer.nextInt(rowSize), randomizer.nextInt(columnSize));
-        dungeonMap[startRoom.getRow()][startRoom.getColumn()] = startRoom;
+        this.startRoom = helper.determineStartRoom(rowSize, columnSize);
+        dungeonMap.addRoomToMap(startRoom);
         numberOfAddedRooms++;
     }
 
@@ -108,14 +104,15 @@ public class DungeonBuilder {
     private void determineNextRoom(DungeonRoom previousRoom) {
         while (numberOfAddedRooms < rooms && !checkForDeadLock(previousRoom)) {
             // Determine possible directions
-            ArrayList<Direction> possibleDirections = findPossibleDirections(previousRoom);
+            List<Direction> possibleDirections = findPossibleDirections(previousRoom);
+
             // Choose one direction at random
-            Direction direction = possibleDirections.get(randomizer.nextInt(possibleDirections.size()));
+            Direction direction = helper.determineNextDirection(possibleDirections);
+
             // Get coordinates for next square
             int[] nextCoordinates = direction.getCoordinates(previousRoom.getRow(), previousRoom.getColumn());
             // Add room to the square
             addNewRoomToDungeonMap(nextCoordinates[0], nextCoordinates[1]);
-
         }
     }
 
@@ -160,10 +157,10 @@ public class DungeonBuilder {
         int row = previousRoom.getRow();
         int column = previousRoom.getColumn();
 
-        return !hasNoRoom(row + 1, column)
-                && !hasNoRoom(row - 1, column)
-                && !hasNoRoom(row, column + 1)
-                && !hasNoRoom(row, column - 1);
+        return hasRoom(row + 1, column)
+                && hasRoom(row - 1, column)
+                && hasRoom(row, column + 1)
+                && hasRoom(row, column - 1);
 
     }
 
@@ -191,7 +188,7 @@ public class DungeonBuilder {
 
             updateDirections(newRoom);
 
-            dungeonMap[newRow][newColm] = newRoom;
+            dungeonMap.addRoomToMap(newRoom);
 
             if (numberOfAddedRooms < rooms) {
                 determineNextRoom(newRoom);
@@ -209,22 +206,22 @@ public class DungeonBuilder {
 
         if (hasRoom(newRoom.getRow() - 1, newRoom.getColumn())) {
             newRoom.addPossibleDirection(Direction.UP);
-            dungeonMap[newRoom.getRow() - 1][newRoom.getColumn()].addPossibleDirection(Direction.UP.getOpposite());
+            dungeonMap.getRoom(newRoom.getRow() - 1, newRoom.getColumn()).addPossibleDirection(Direction.UP.getOpposite());
         }
 
         if (hasRoom(newRoom.getRow() + 1, newRoom.getColumn())) {
             newRoom.addPossibleDirection(Direction.DOWN);
-            dungeonMap[newRoom.getRow() + 1][newRoom.getColumn()].addPossibleDirection(Direction.DOWN.getOpposite());
+            dungeonMap.getRoom(newRoom.getRow() + 1, newRoom.getColumn()).addPossibleDirection(Direction.DOWN.getOpposite());
 
         }
         if (hasRoom(newRoom.getRow(), newRoom.getColumn() - 1)) {
             newRoom.addPossibleDirection(Direction.LEFT);
-            dungeonMap[newRoom.getRow()][newRoom.getColumn() - 1].addPossibleDirection(Direction.LEFT.getOpposite());
+            dungeonMap.getRoom(newRoom.getRow(), newRoom.getColumn() - 1).addPossibleDirection(Direction.LEFT.getOpposite());
 
         }
         if (hasRoom(newRoom.getRow(), newRoom.getColumn() + 1)) {
             newRoom.addPossibleDirection(Direction.RIGHT);
-            dungeonMap[newRoom.getRow()][newRoom.getColumn() + 1].addPossibleDirection(Direction.RIGHT.getOpposite());
+            dungeonMap.getRoom(newRoom.getRow(), newRoom.getColumn() + 1).addPossibleDirection(Direction.RIGHT.getOpposite());
 
         }
     }
@@ -235,10 +232,7 @@ public class DungeonBuilder {
      * @return <code>true</code> when given coordinates contains no room.
      */
     private boolean hasNoRoom(int row, int colm) {
-        if (row >= rowSize || row < 0 || colm < 0 || colm >= columnSize) {
-            return false;
-        }
-        return dungeonMap[row][colm] == null;
+        return dungeonMap.isEmptyAt(row, colm);
     }
 
     /**
@@ -247,10 +241,6 @@ public class DungeonBuilder {
      * @return <code>true</code> when given coordinates contains to a room.
      */
     private boolean hasRoom(int row, int colm) {
-        return row < rowSize
-                && row >= 0
-                && colm >= 0
-                && colm < columnSize
-                && dungeonMap[row][colm] != null;
+        return dungeonMap.hasRoomAt(row, colm);
     }
 }
