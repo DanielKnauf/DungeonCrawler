@@ -18,14 +18,14 @@ public class Dungeon {
     private DungeonRoom playerRoom;
     private DungeonRoom startRoom;
     private DungeonRoom[][] map;
-    private ArrayList<DungeonRoom> roomsWithMonster;
+    private List<DungeonRoom> roomsWithMonster;
 
     Dungeon(DungeonView dungeonView,
             int rowSize,
             int columnSize,
             DungeonRoom[][] dungeonMap,
             DungeonRoom startRoom,
-            ArrayList<DungeonRoom> roomsWithMonster) {
+            List<DungeonRoom> roomsWithMonster) {
         this.dungeonView = dungeonView;
         this.rowSize = rowSize;
         this.columnSize = columnSize;
