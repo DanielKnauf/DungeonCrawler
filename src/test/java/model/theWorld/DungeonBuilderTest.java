@@ -32,7 +32,9 @@ public class DungeonBuilderTest {
 
     private DungeonMap buildDungeonMapAnswer(InvocationOnMock invocation) {
         Object[] args = invocation.getArguments();
-        return new DungeonMap((Integer) args[0], (Integer) args[1]);
+        return args[0] instanceof Integer && args[1] instanceof Integer
+                ? new DungeonMap((Integer) args[0], (Integer) args[1])
+                : new DungeonMap(0, 0);
     }
 
     @Test
@@ -101,28 +103,12 @@ public class DungeonBuilderTest {
      * x x x x
      */
     @Test
-    public void verify_fourRooms_haveCorrectPossibleDirections() {
+    public void verify_sixRooms_haveCorrectPossibleDirections() {
         DungeonRoom startRoom = new DungeonRoom(false, 1, 2);
 
         when(builderUtilsMock.hasRoomMonster()).thenReturn(true);
         when(dungeonBuilderMock.determineStartRoom(4, 4)).thenReturn(startRoom);
-        when(dungeonBuilderMock.determineNextDirection(any(List.class))).thenAnswer(new Answer<Direction>() {
-            @Override
-            public Direction answer(InvocationOnMock invocation) throws Throwable {
-                Object[] args = invocation.getArguments();
-                List list = (List) args[0];
-
-                switch (list.size()) {
-                    case 4:
-                    case 3:
-                        return Direction.LEFT;
-                    case 2:
-                        return Direction.UP;
-                    default:
-                        return Direction.RIGHT;
-                }
-            }
-        });
+        when(dungeonBuilderMock.determineNextDirection(any(List.class))).thenAnswer((Answer<Direction>) this::determineDirection);
 
         Dungeon dungeon = builder.generateDungeon(4, 4, 6);
 
@@ -151,5 +137,24 @@ public class DungeonBuilderTest {
         assertTrue(dungeon.getDungeonMap()[0][1].getPossibleDirections().contains(Direction.RIGHT));
 
         assertTrue(dungeon.getDungeonMap()[0][2].isExit());
+    }
+
+    private Direction determineDirection(InvocationOnMock invocation) {
+        Object[] args = invocation.getArguments();
+
+        if (args[0] instanceof List) {
+            List list = (List) args[0];
+            switch (list.size()) {
+                case 4:
+                case 3:
+                    return Direction.LEFT;
+                case 2:
+                    return Direction.UP;
+                default:
+                    return Direction.RIGHT;
+            }
+        }
+
+        return null;
     }
 }
