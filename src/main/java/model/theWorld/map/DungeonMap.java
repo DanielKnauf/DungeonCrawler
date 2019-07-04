@@ -1,6 +1,6 @@
 package model.theWorld.map;
 
-import model.theWorld.DungeonRoom;
+import model.theWorld.room.DungeonRoom;
 
 public class DungeonMap extends BaseMap<DungeonRoom> {
 
@@ -8,9 +8,6 @@ public class DungeonMap extends BaseMap<DungeonRoom> {
         super(rowSize, columnSize);
     }
 
-    /**
-     * Initializing the dungeon map with blanks.
-     */
     protected DungeonRoom[][] initMap(int rowSize, int columnSize) {
         DungeonRoom[][] dungeonMap = new DungeonRoom[rowSize][columnSize];
 

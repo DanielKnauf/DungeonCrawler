@@ -1,6 +1,8 @@
 package model.theWorld;
 
 import model.theWorld.map.DungeonMap;
+import model.theWorld.map.DungeonMapBuilder;
+import model.theWorld.room.DungeonRoom;
 import view.DungeonView;
 
 import java.util.ArrayList;
@@ -8,20 +10,24 @@ import java.util.List;
 
 public class DungeonBuilder {
 
+    private final DungeonBuilderUtils utils;
     private final DungeonView dungeonView;
-    private final DungeonBuilderHelper helper;
+    private final DungeonMapBuilder builder;
 
     private int rowSize;
     private int columnSize;
     private int rooms;
     private int numberOfAddedRooms;
     private DungeonRoom startRoom;
-    private ArrayList<DungeonRoom> roomsWithMonster;
+    private List<DungeonRoom> roomsWithMonster;
     private DungeonMap dungeonMap;
 
-    public DungeonBuilder(DungeonView dungeonView, DungeonBuilderHelper helper) {
+    public DungeonBuilder(DungeonBuilderUtils utils,
+                          DungeonView dungeonView,
+                          DungeonMapBuilder builder) {
+        this.utils = utils;
         this.dungeonView = dungeonView;
-        this.helper = helper;
+        this.builder = builder;
     }
 
     /**
@@ -33,6 +39,8 @@ public class DungeonBuilder {
      * @return finished dungeon
      */
     public Dungeon generateDungeon(int rowSize, int columnSize, int rooms) {
+        this.numberOfAddedRooms = 0;
+
         // Dungeon must at least be 2x2 large
         if (rowSize < 2) {
             rowSize = 2;
@@ -57,7 +65,7 @@ public class DungeonBuilder {
         this.rooms = rooms;
         this.roomsWithMonster = new ArrayList<>();
 
-        dungeonMap = helper.generateDungeonMap(rowSize, columnSize);
+        dungeonMap = builder.generateDungeonMap(rowSize, columnSize);
         addRoomsToMap();
         return new Dungeon(dungeonView, this.rowSize, this.columnSize, dungeonMap.getMap(), startRoom, roomsWithMonster);
     }
@@ -67,7 +75,6 @@ public class DungeonBuilder {
      * parameter <code>rooms</code>
      */
     private void addRoomsToMap() {
-        this.numberOfAddedRooms = 0;
         addStartRoom();
         determineNextRoom(startRoom);
     }
@@ -81,14 +88,14 @@ public class DungeonBuilder {
      */
     private boolean hasMonster() {
         // TODO: improve calculation.
-        return helper.hasRoomMonster();
+        return utils.hasRoomMonster();
     }
 
     /**
      * Adds entrance point to new dungeon.
      */
     private void addStartRoom() {
-        this.startRoom = helper.determineStartRoom(rowSize, columnSize);
+        this.startRoom = builder.determineStartRoom(rowSize, columnSize);
         dungeonMap.addRoomToMap(startRoom);
         numberOfAddedRooms++;
     }
@@ -107,7 +114,7 @@ public class DungeonBuilder {
             List<Direction> possibleDirections = findPossibleDirections(previousRoom);
 
             // Choose one direction at random
-            Direction direction = helper.determineNextDirection(possibleDirections);
+            Direction direction = builder.determineNextDirection(possibleDirections);
 
             // Get coordinates for next square
             int[] nextCoordinates = direction.getCoordinates(previousRoom.getRow(), previousRoom.getColumn());
@@ -122,8 +129,8 @@ public class DungeonBuilder {
      * @param previousRoom the room from where the next square is searched.
      * @return ArrayList of possible squares
      */
-    private ArrayList<Direction> findPossibleDirections(DungeonRoom previousRoom) {
-        ArrayList<Direction> possibleDirection = new ArrayList<>();
+    private List<Direction> findPossibleDirections(DungeonRoom previousRoom) {
+        List<Direction> possibleDirection = new ArrayList<>();
         int previousRow = previousRoom.getRow();
         int previousColumn = previousRoom.getColumn();
 

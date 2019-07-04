@@ -3,7 +3,8 @@ import model.theComponents.Hero;
 import model.theComponents.Monster;
 import model.theWorld.Dungeon;
 import model.theWorld.DungeonBuilder;
-import model.theWorld.DungeonBuilderHelper;
+import model.theWorld.DungeonBuilderUtils;
+import model.theWorld.map.DungeonMapBuilder;
 import model.utils.RandomNumberGenerator;
 import view.DungeonView;
 import view.FightingView;
@@ -22,10 +23,11 @@ public class AdventureTime {
         hero = new Hero("John", 5);
 
         final RandomNumberGenerator numberGenerator = new RandomNumberGenerator();
+        final DungeonBuilderUtils builderUtils = new DungeonBuilderUtils(numberGenerator);
         final DungeonView dungeonView = new DungeonView();
-        final DungeonBuilderHelper dungeonBuilderHelper = new DungeonBuilderHelper(numberGenerator);
+        final DungeonMapBuilder dungeonMapBuilder = new DungeonMapBuilder(numberGenerator);
 
-        final DungeonBuilder dungeonBuilder = new DungeonBuilder(dungeonView, dungeonBuilderHelper);
+        final DungeonBuilder dungeonBuilder = new DungeonBuilder(builderUtils, dungeonView, dungeonMapBuilder);
         final FightingView fightingView = new FightingView();
         final FightController fightController = new FightController(fightingView);
 

@@ -1,6 +1,6 @@
 package model.theWorld.map;
 
-import model.theWorld.Room;
+import model.theWorld.room.Room;
 
 abstract class BaseMap<R extends Room> implements Map<R> {
 

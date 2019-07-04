@@ -1,6 +1,6 @@
 package model.theWorld.map;
 
-import model.theWorld.DungeonRoom;
+import model.theWorld.room.DungeonRoom;
 import org.junit.Before;
 import org.junit.Test;
 
