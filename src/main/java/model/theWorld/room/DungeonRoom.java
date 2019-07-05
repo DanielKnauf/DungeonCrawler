@@ -1,4 +1,4 @@
-package model.theWorld;
+package model.theWorld.room;
 
 public class DungeonRoom extends Room {
 
@@ -6,7 +6,7 @@ public class DungeonRoom extends Room {
     private boolean hasMonster;
     private boolean isExit;
 
-    DungeonRoom(boolean hasMonster, int row, int column) {
+    public DungeonRoom(boolean hasMonster, int row, int column) {
         super(row, column);
         this.hasMonster = hasMonster;
     }
@@ -14,7 +14,7 @@ public class DungeonRoom extends Room {
     /**
      * Mark this room as an exit.
      */
-    void markAsExit() {
+    public void markAsExit() {
         this.isExit = true;
     }
 
@@ -33,7 +33,7 @@ public class DungeonRoom extends Room {
         return hasMonster;
     }
 
-    void setHasPlayer(boolean hasPlayer) {
+    public void setHasPlayer(boolean hasPlayer) {
         this.hasPlayer = hasPlayer;
     }
 

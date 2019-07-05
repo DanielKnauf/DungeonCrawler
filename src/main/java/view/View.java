@@ -3,7 +3,7 @@ package view;
 import model.theComponents.GameFigure;
 import model.theWorld.Direction;
 import model.theWorld.Dungeon;
-import model.theWorld.DungeonRoom;
+import model.theWorld.room.DungeonRoom;
 
 import java.util.List;
 import java.util.Scanner;

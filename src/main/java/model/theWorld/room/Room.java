@@ -1,4 +1,6 @@
-package model.theWorld;
+package model.theWorld.room;
+
+import model.theWorld.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +11,7 @@ public abstract class Room {
     private int column;
     private final List<Direction> possibleDirections = new ArrayList<>();
 
-    public Room(int row, int column) {
+    Room(int row, int column) {
         this.row = row;
         this.column = column;
     }

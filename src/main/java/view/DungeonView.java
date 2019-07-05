@@ -1,6 +1,6 @@
 package view;
 
-import model.theWorld.DungeonRoom;
+import model.theWorld.room.DungeonRoom;
 
 public class DungeonView {
 
@@ -9,7 +9,7 @@ public class DungeonView {
         displayDungeonRoom(room);
     }
 
-    public void displayDungeonRoom(DungeonRoom room){
+    private void displayDungeonRoom(DungeonRoom room){
         System.out.println("Room:: " + room.getRow() + " | " + room.getColumn() + "; Monster: " + room.hasMonster());
     }
 }

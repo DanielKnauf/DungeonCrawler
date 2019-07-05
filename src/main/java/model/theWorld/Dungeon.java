@@ -1,10 +1,13 @@
 package model.theWorld;
 
+import model.theWorld.room.DungeonRoom;
 import view.DungeonView;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Stream;
 
 import static model.theWorld.Direction.*;
 
@@ -102,9 +105,22 @@ public class Dungeon {
                 : null;
     }
 
+    /**
+     * Checks if there is a possible movement for one of the monsters.
+     * <p>
+     * <code>True</code>, when there is at least one possible movement for one
+     * of the monsters.
+     *
+     * @return
+     */
+    private boolean checkIfAllMonstersLocked() {
+        return Stream.of(roomsWithMonster)
+                .flatMap(Collection::stream)
+                .anyMatch(this::hasFreeRoomToMove);
+    }
+
     private DungeonRoom moveMonster() {
         DungeonRoom monsterRoom = roomsWithMonster.get(randomizer.nextInt(roomsWithMonster.size()));
-        dungeonView.displayDungeonRoom(monsterRoom);
 
         if (hasFreeRoomToMove(monsterRoom)) {
             // Find the free rooms
@@ -131,37 +147,6 @@ public class Dungeon {
     }
 
     /**
-     * @param row
-     * @param column
-     * @return <code>true</code> if space contains a room.n
-     */
-    private boolean hasRoom(int row, int column) {
-        return row < rowSize
-                && row >= 0
-                && column >= 0
-                && column < columnSize
-                && map[row][column] != null;
-    }
-
-    /**
-     * Checks if there is a possible movement for one of the monsters.
-     * <p>
-     * <code>True</code>, when there is at least one possible movement for one
-     * of the monsters.
-     *
-     * @return
-     */
-    private boolean checkIfAllMonstersLocked() {
-        for (DungeonRoom r : roomsWithMonster) {
-            if (hasFreeRoomToMove(r)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * @param previousRoom
      * @return
      */
@@ -181,6 +166,19 @@ public class Dungeon {
      */
     private boolean roomIsFree(int[] coordinates) {
         return hasRoom(coordinates[0], coordinates[1]) && (!map[coordinates[0]][coordinates[1]].isExit() && !map[coordinates[0]][coordinates[1]].hasMonster());
+    }
+
+    /**
+     * @param row
+     * @param column
+     * @return <code>true</code> if space contains a room.n
+     */
+    private boolean hasRoom(int row, int column) {
+        return row < rowSize
+                && row >= 0
+                && column >= 0
+                && column < columnSize
+                && map[row][column] != null;
     }
 
     /**
