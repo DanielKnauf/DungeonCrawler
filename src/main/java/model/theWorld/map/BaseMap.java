@@ -8,7 +8,6 @@ abstract class BaseMap<R extends Room> implements Map<R> {
     private final int columnMax;
     final R[][] map;
 
-
     BaseMap(int row, int column) {
         rowMax = row;
         columnMax = column;
