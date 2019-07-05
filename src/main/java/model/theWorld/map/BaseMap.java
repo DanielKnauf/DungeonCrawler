@@ -15,9 +15,6 @@ abstract class BaseMap<R extends Room> implements Map<R> {
         this.map = initMap(row, column);
     }
 
-    /**
-     * Initializing the dungeon map with blanks.
-     */
     protected abstract R[][] initMap(int rowSize, int columnSize);
 
     @Override
