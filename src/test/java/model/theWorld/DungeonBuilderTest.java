@@ -1,8 +1,5 @@
-package java.model.theWorld;
+package model.theWorld;
 
-
-import model.theWorld.Dungeon;
-import model.theWorld.DungeonBuilder;
 import org.junit.Before;
 import org.junit.Test;
 

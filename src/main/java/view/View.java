@@ -52,7 +52,7 @@ public class View {
     }
 
     public void displayDungeon(Dungeon dungeon) {
-        DungeonRoom[][] dungeonMap = dungeon.getDungeonMapp();
+        DungeonRoom[][] dungeonMap = dungeon.getDungeonMap();
         System.out.println("\nMap of the Dungeon");
         for (int row = 0; row < dungeon.getRowSize(); row++) {
             System.out.print(row);

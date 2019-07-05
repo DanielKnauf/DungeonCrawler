@@ -6,7 +6,7 @@ public class DungeonRoom extends Room {
     private boolean hasMonster;
     private boolean isExit;
 
-    public DungeonRoom(boolean hasMonster, int row, int column) {
+    DungeonRoom(boolean hasMonster, int row, int column) {
         super(row, column);
         this.hasMonster = hasMonster;
     }
@@ -14,7 +14,7 @@ public class DungeonRoom extends Room {
     /**
      * Mark this room as an exit.
      */
-    public void markAsExit() {
+    void markAsExit() {
         this.isExit = true;
     }
 
@@ -33,16 +33,11 @@ public class DungeonRoom extends Room {
         return hasMonster;
     }
 
-    public void setHasPlayer(boolean hasPlayer) {
+    void setHasPlayer(boolean hasPlayer) {
         this.hasPlayer = hasPlayer;
     }
 
     public boolean hasPlayer() {
         return hasPlayer;
-    }
-
-    @Override
-    public String toString() {
-        return "Room:: " + getRow() + " | " + getColumn() + "; Monster: " + hasMonster;
     }
 }
