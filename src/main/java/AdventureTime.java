@@ -25,7 +25,7 @@ public class AdventureTime {
         final RandomNumberGenerator numberGenerator = new RandomNumberGenerator();
         final DungeonBuilderUtils builderUtils = new DungeonBuilderUtils(numberGenerator);
         final DungeonView dungeonView = new DungeonView();
-        final DungeonMapBuilder dungeonMapBuilder = new DungeonMapBuilder(numberGenerator);
+        final DungeonMapBuilder dungeonMapBuilder = new DungeonMapBuilder();
 
         final DungeonBuilder dungeonBuilder = new DungeonBuilder(builderUtils, dungeonView, dungeonMapBuilder);
         final FightingView fightingView = new FightingView();

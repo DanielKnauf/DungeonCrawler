@@ -95,7 +95,7 @@ public class DungeonBuilder {
      * Adds entrance point to new dungeon.
      */
     private void addStartRoom() {
-        this.startRoom = builder.determineStartRoom(rowSize, columnSize);
+        this.startRoom = utils.determineStartRoom(rowSize, columnSize);
         dungeonMap.addRoomToMap(startRoom);
         numberOfAddedRooms++;
     }
@@ -114,7 +114,7 @@ public class DungeonBuilder {
             List<Direction> possibleDirections = findPossibleDirections(previousRoom);
 
             // Choose one direction at random
-            Direction direction = builder.determineNextDirection(possibleDirections);
+            Direction direction = utils.determineNextDirection(possibleDirections);
 
             // Get coordinates for next square
             int[] nextCoordinates = direction.getCoordinates(previousRoom.getRow(), previousRoom.getColumn());

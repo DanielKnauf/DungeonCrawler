@@ -39,8 +39,8 @@ public class DungeonBuilderTest {
 
     @Test
     public void rowSizeIsTooSmall_dungeonIs2x2() {
-        when(dungeonBuilderMock.determineStartRoom(anyInt(), anyInt())).thenReturn(new DungeonRoom(false, 0, 0));
-        when(dungeonBuilderMock.determineNextDirection(any(List.class))).thenReturn(Direction.DOWN);
+        when(builderUtilsMock.determineStartRoom(anyInt(), anyInt())).thenReturn(new DungeonRoom(false, 0, 0));
+        when(builderUtilsMock.determineNextDirection(any(List.class))).thenReturn(Direction.DOWN);
 
         Dungeon dungeon = builder.generateDungeon(1, 2, 2);
 
@@ -50,8 +50,8 @@ public class DungeonBuilderTest {
 
     @Test
     public void columnSizeIsTooSmall_dungeonIs2x2() {
-        when(dungeonBuilderMock.determineStartRoom(anyInt(), anyInt())).thenReturn(new DungeonRoom(false, 0, 0));
-        when(dungeonBuilderMock.determineNextDirection(any(List.class))).thenReturn(Direction.DOWN);
+        when(builderUtilsMock.determineStartRoom(anyInt(), anyInt())).thenReturn(new DungeonRoom(false, 0, 0));
+        when(builderUtilsMock.determineNextDirection(any(List.class))).thenReturn(Direction.DOWN);
 
         Dungeon dungeon = builder.generateDungeon(2, 1, 2);
 
@@ -63,8 +63,8 @@ public class DungeonBuilderTest {
     public void verify_simpleDungeon_roomNumberTooSmall_twoRooms_oneStart_oneExit() {
         DungeonRoom startRoom = new DungeonRoom(false, 1, 1);
 
-        when(dungeonBuilderMock.determineStartRoom(3, 3)).thenReturn(startRoom);
-        when(dungeonBuilderMock.determineNextDirection(any(List.class))).thenReturn(Direction.UP);
+        when(builderUtilsMock.determineStartRoom(3, 3)).thenReturn(startRoom);
+        when(builderUtilsMock.determineNextDirection(any(List.class))).thenReturn(Direction.UP);
 
         Dungeon dungeon = builder.generateDungeon(3, 3, 1);
 
@@ -79,8 +79,8 @@ public class DungeonBuilderTest {
         DungeonRoom startRoom = new DungeonRoom(false, 3, 0);
 
         when(builderUtilsMock.hasRoomMonster()).thenReturn(true);
-        when(dungeonBuilderMock.determineStartRoom(4, 2)).thenReturn(startRoom);
-        when(dungeonBuilderMock.determineNextDirection(any(List.class))).thenReturn(Direction.UP);
+        when(builderUtilsMock.determineStartRoom(4, 2)).thenReturn(startRoom);
+        when(builderUtilsMock.determineNextDirection(any(List.class))).thenReturn(Direction.UP);
 
         Dungeon dungeon = builder.generateDungeon(4, 2, 4);
 
@@ -107,8 +107,8 @@ public class DungeonBuilderTest {
         DungeonRoom startRoom = new DungeonRoom(false, 1, 2);
 
         when(builderUtilsMock.hasRoomMonster()).thenReturn(true);
-        when(dungeonBuilderMock.determineStartRoom(4, 4)).thenReturn(startRoom);
-        when(dungeonBuilderMock.determineNextDirection(any(List.class))).thenAnswer((Answer<Direction>) this::determineDirection);
+        when(builderUtilsMock.determineStartRoom(4, 4)).thenReturn(startRoom);
+        when(builderUtilsMock.determineNextDirection(any(List.class))).thenAnswer((Answer<Direction>) this::determineDirection);
 
         Dungeon dungeon = builder.generateDungeon(4, 4, 6);
 
