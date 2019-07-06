@@ -122,9 +122,13 @@ public class View {
         displayHealth(hero);
     }
 
-    public void displayEndOfAdventure() {
+    public void displayEndOfAdventure(boolean heroIsDead) {
         displaySeparator();
-        System.out.println("Your adventure is over.");
+        if(heroIsDead){
+            System.out.println("Your adventure is over.");
+        } else {
+            System.out.println("After the adventure our hero goes home.");
+        }
     }
 
     public void displaySeparator() {
