@@ -1,11 +1,11 @@
 package view;
 
-import model.rpslsFighting.Move;
-import model.theComponents.GameFigure;
+import model.components.GameFigure;
+import model.fighting.Move;
 
 import java.util.Scanner;
 
-public class FightingView extends View {
+public class FightingView extends View implements FightView {
 
     public void introduceRound(Move monsterMove, Move heroMove) {
         System.out.println("-- Before round --");
@@ -23,6 +23,7 @@ public class FightingView extends View {
      * Hero chooses weapon.
      */
     public Move heroChooses() {
+        displaySeparator();
         System.out.println("Choose your weapon:");
 
         for (Move entry : Move.values()) {

@@ -1,6 +1,6 @@
 package controller;
 
-import model.theComponents.Hero;
+import model.components.Hero;
 import view.View;
 
 public class AdventureController {

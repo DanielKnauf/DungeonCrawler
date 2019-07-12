@@ -1,14 +1,14 @@
 package view;
 
-import model.theComponents.GameFigure;
-import model.theWorld.Direction;
-import model.theWorld.Dungeon;
-import model.theWorld.room.DungeonRoom;
+import model.components.GameFigure;
+import model.world.Direction;
+import model.world.Dungeon;
+import model.world.room.DungeonRoom;
 
 import java.util.List;
 import java.util.Scanner;
 
-public class View {
+public class View implements BaseView {
 
     private final Scanner inputScanner = new Scanner(System.in);
 
@@ -129,9 +129,11 @@ public class View {
         } else {
             System.out.println("After the adventure our hero goes home.");
         }
+
+        System.exit(0);
     }
 
-    public void displaySeparator() {
+    void displaySeparator() {
         System.out.println("________\n");
     }
 }

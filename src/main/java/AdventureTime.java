@@ -1,11 +1,12 @@
 import controller.AdventureController;
 import controller.DungeonController;
 import controller.FightController;
-import model.theWorld.DungeonBuilder;
-import model.theWorld.DungeonBuilderUtils;
-import model.theWorld.map.DungeonMapBuilder;
-import model.utils.RandomNumberGenerator;
+import model.world.DungeonBuilder;
+import model.world.DungeonBuilderUtils;
+import model.world.map.DungeonMapBuilder;
+import utils.RandomNumberGenerator;
 import view.DungeonView;
+import view.DungeoningView;
 import view.FightingView;
 import view.View;
 
@@ -15,10 +16,10 @@ public class AdventureTime {
         final RandomNumberGenerator numberGenerator = new RandomNumberGenerator();
 
         final View view = new View();
-        final FightingView fightingView = new FightingView();
-        final DungeonView dungeonView = new DungeonView();
+        final FightingView fightView = new FightingView();
+        final DungeonView dungeonView = new DungeoningView();
 
-        final FightController fightController = new FightController(fightingView);
+        final FightController fightController = new FightController(fightView);
 
         final DungeonMapBuilder dungeonMapBuilder = new DungeonMapBuilder();
         final DungeonBuilderUtils builderUtils = new DungeonBuilderUtils(numberGenerator);

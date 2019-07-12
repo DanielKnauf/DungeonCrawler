@@ -5,9 +5,10 @@ version = '1.0-SNAPSHOT'
 repositories {
     mavenCentral()
     jcenter()
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
+    implementation 'com.github.danielknauf:gamelogic:master'
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.28.2'
 }

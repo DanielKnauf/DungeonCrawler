@@ -1,8 +1,8 @@
 package view;
 
-import model.theWorld.room.DungeonRoom;
+import model.world.room.DungeonRoom;
 
-public class DungeonView {
+public class DungeoningView implements DungeonView {
 
     public void displayMonsterMovement(DungeonRoom room){
         System.out.print("Monster moves to ");
