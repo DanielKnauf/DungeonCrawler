@@ -2,13 +2,15 @@ apply plugin: 'java'
 
 version = '1.0-SNAPSHOT'
 
-repositories {
-    mavenCentral()
-    jcenter()
-    maven { url "https://jitpack.io" }
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://jitpack.io' }
+    }
 }
 
 dependencies {
-    implementation 'com.github.danielknauf:gamelogic:master'
+    implementation 'com.github.DanielKnauf:GameLogic:master'
     testImplementation 'junit:junit:4.12'
 }
