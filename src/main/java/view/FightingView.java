@@ -1,41 +1,55 @@
 package view;
 
-import model.rpslsFighting.Move;
-import model.theComponents.GameFigure;
+import model.components.GameFigure;
+import model.fighting.Move;
+import viewcontroller.request.api.display.DisplayRequestBase;
+import viewcontroller.request.api.event.EventRequest;
 
 import java.util.Scanner;
 
-public class FightingView extends View {
+public class FightingView extends View implements FightView {
 
-    public void introduceRound(Move monsterMove, Move heroMove) {
-        System.out.println("-- Before round --");
-        System.out.println("Monster chooses: " + monsterMove);
-        System.out.println("Hero chooses: " + heroMove);
+    public void displayMonsterEncounter(EventRequest request) {
+        displaySeparator();
+        System.out.println("You encountered a monster!!!");
+        request.isFinished();
     }
 
-    public void finalizeRound(GameFigure monster, GameFigure hero) {
+    public void introduceRound(DisplayRequestBase<Move> request) {
+        System.out.println("-- Before round --");
+        System.out.println("Monster chooses: " + request.getDisplayItems().get(0));
+        System.out.println("Hero chooses: " + request.getDisplayItems().get(1));
+        request.isFinished();
+    }
+
+    public void finalizeRound(DisplayRequestBase<GameFigure> request) {
         System.out.println("-- After round --");
-        displayHealth(monster);
-        displayHealth(hero);
+        displayHealth(request.getDisplayItems().get(0));
+        displayHealth(request.getDisplayItems().get(1));
+        request.isFinished();
     }
 
     /**
      * Hero chooses weapon.
      */
-    public Move heroChooses() {
+    public void heroChooses(DisplayRequestBase<Move> request) {
+        displaySeparator();
         System.out.println("Choose your weapon:");
 
-        for (Move entry : Move.values()) {
+        for (Move entry : request.getDisplayItems()) {
             System.out.println("[" + entry.ordinal() + "]: " + entry.getName());
         }
 
         System.out.print("Your weapon: ");
         Scanner inputScanner = new Scanner(System.in);
 
-        return Move.values()[inputScanner.nextInt()];
+        request.isFinished(Move.values()[inputScanner.nextInt()]);
     }
 
-    public void displayResult(GameFigure winner, GameFigure loser) {
+    public void displayResult(DisplayRequestBase<GameFigure> request) {
+        GameFigure winner = request.getDisplayItems().get(0);
+        GameFigure loser = request.getDisplayItems().get(1);
+
         if (winner == null || loser == null) {
             System.out.println("Draw");
         } else {
@@ -46,5 +60,6 @@ public class FightingView extends View {
             }
         }
 
+        request.isFinished();
     }
 }

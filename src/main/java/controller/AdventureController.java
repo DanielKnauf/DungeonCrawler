@@ -1,7 +1,7 @@
 package controller;
 
-import model.theComponents.Hero;
-import view.View;
+import model.components.Hero;
+import view.AdventuringView;
 
 public class AdventureController {
 
@@ -9,11 +9,11 @@ public class AdventureController {
     private int columnSize = 3;
     private int rooms = 3;
 
-    private final View view;
+    private final AdventuringView view;
     private final DungeonController dungeonController;
     private Hero hero;
 
-    public AdventureController(View view,
+    public AdventureController(AdventuringView view,
                                DungeonController dungeonController) {
         this.view = view;
         this.dungeonController = dungeonController;
@@ -24,21 +24,22 @@ public class AdventureController {
         hero = new Hero("John", 5);
     }
 
-    public void goOnAnAdventure(){
+    public void goOnAnAdventure() {
         /*
          * Hero must go through one dungeon so his journey can be called an
          * adventure
          */
-        dungeonController.enterADungeon(hero, rooms, rowSize, columnSize);
+        dungeonController.enterDungeon(hero, rooms, rowSize, columnSize);
 
         // Can decide to go into the next dungeon
         while (view.nextDungeon() == 0) {
             rowSize++;
             columnSize++;
             rooms = rooms * 2;
-            dungeonController.enterADungeon(hero, rooms, rowSize, columnSize);
+            dungeonController.enterDungeon(hero, rooms, rowSize, columnSize);
         }
 
-        view.displayEndOfAdventure(false);
+        view.displayEndOfAdventure();
+        System.exit(0);
     }
 }
