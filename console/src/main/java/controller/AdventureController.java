@@ -1,8 +1,7 @@
-package test.controller;
+package controller;
 
-import controller.DungeonController;
 import model.components.Hero;
-import test.view.AdventuringView;
+import view.AdventuringView;
 
 public class AdventureController {
 

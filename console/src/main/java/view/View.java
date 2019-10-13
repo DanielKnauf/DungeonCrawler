@@ -1,4 +1,4 @@
-package test.view;
+package view;
 
 import model.components.GameFigure;
 import view.BaseView;

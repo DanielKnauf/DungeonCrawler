@@ -1,13 +1,11 @@
-package test;
-
+import controller.AdventureController;
 import controller.DungeonController;
 import controller.FightController;
 import model.world.DungeonBuilder;
 import model.world.DungeonBuilderUtils;
 import model.world.map.DungeonMapBuilder;
-import test.controller.AdventureController;
-import test.view.*;
 import utils.RandomNumberGenerator;
+import view.*;
 import view.DungeonView;
 import viewcontroller.request.RequestHandler;
 
