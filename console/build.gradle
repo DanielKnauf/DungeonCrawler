@@ -2,8 +2,6 @@ plugins {
     id 'java'
 }
 
-version '1.0'
-
 sourceCompatibility = 1.8
 
 repositories {
@@ -11,5 +9,5 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.mockito:mockito-core:2.28.2'
+    implementation project(":core")
 }

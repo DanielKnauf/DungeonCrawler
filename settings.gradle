@@ -1,3 +1,4 @@
 rootProject.name = 'DungeonCrawler'
 include 'core'
+include 'console'
 
