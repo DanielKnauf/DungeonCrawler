@@ -1,81 +1,119 @@
 package controller;
 
-import model.rpslsFighting.Move;
-import model.theComponents.GameFigure;
+import model.components.GameFigure;
+import model.fighting.Move;
 import org.junit.Before;
 import org.junit.Test;
-import view.FightingView;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
+import viewcontroller.request.RequestHandler;
+import viewcontroller.request.api.input.InputRequestCallback;
 
-import static org.mockito.Mockito.*;
+import java.util.Arrays;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static viewcontroller.request.Event.*;
 
 public class FightControllerTest {
 
-    private final FightingView fightingViewMock = mock(FightingView.class);
-    private final GameFigure heroMock = mock(GameFigure.class);
-    private final GameFigure monsterMock = mock(GameFigure.class);
+    private final RequestHandler requestHandlerMock = Mockito.mock(RequestHandler.class);
+    private final GameFigure heroMock = Mockito.mock(GameFigure.class);
+    private final GameFigure monsterMock = Mockito.mock(GameFigure.class);
 
     private FightController controller;
 
     @Before
     public void setup() {
-        controller = new FightController(fightingViewMock);
+        controller = new FightController(requestHandlerMock);
     }
 
     @Test
     public void verify_moveSetting() {
         controller.startFightingRound(heroMock, monsterMock);
 
-        verify(monsterMock).makeMoveAtRandom();
-        verify(fightingViewMock).heroChooses();
+        Mockito.verify(monsterMock).makeMoveAtRandom();
+
+        Mockito.verify(requestHandlerMock).startViewRequest(
+                eq(CHOOSE_MOVE),
+                any(InputRequestCallback.class),
+                eq(Move.class),
+                eq(Arrays.asList(Move.values()))
+        );
     }
 
     @Test
     public void noMoves_noFight() {
-        when(monsterMock.getMove()).thenReturn(null);
-        when(heroMock.getMove()).thenReturn(null);
+        Mockito.when(monsterMock.getMove()).thenReturn(null);
+        Mockito.when(heroMock.getMove()).thenReturn(null);
 
         controller.startFightingRound(heroMock, monsterMock);
 
-        verify(fightingViewMock, times(0)).introduceRound(any(Move.class), any(Move.class));
+        Mockito.verify(requestHandlerMock, Mockito.times(0)).startViewRequest(
+                eq(INTRODUCE_FIGHT_ROUND),
+                any(Move.class),
+                any(Move.class)
+        );
     }
 
     @Test
     public void bothSameMove_displayDraw() {
-        when(monsterMock.getMove()).thenReturn(Move.SPOCK);
-        when(heroMock.getMove()).thenReturn(Move.SPOCK);
+        Mockito.when(monsterMock.getMove()).thenReturn(Move.SPOCK);
+        Mockito.when(heroMock.getMove()).thenReturn(Move.SPOCK);
 
         controller.startFightingRound(heroMock, monsterMock);
 
-        verify(fightingViewMock).introduceRound(Move.SPOCK, Move.SPOCK);
-        verify(fightingViewMock).displayResult(null, null);
-        verify(fightingViewMock).finalizeRound(monsterMock, heroMock);
-        verify(heroMock, times(0)).gotHit();
-        verify(monsterMock, times(0)).gotHit();
+        triggerCallback();
+
+        Mockito.verify(requestHandlerMock).startViewRequest(INTRODUCE_FIGHT_ROUND, Move.SPOCK, Move.SPOCK);
+        Mockito.verify(requestHandlerMock).startViewRequest(FIGHT_RESULT, null, null);
+        Mockito.verify(requestHandlerMock).startViewRequest(FINALIZE_FIGHT_ROUND, monsterMock, heroMock);
+        Mockito.verify(heroMock, Mockito.times(0)).gotHit();
+        Mockito.verify(monsterMock, Mockito.times(0)).gotHit();
     }
 
     @Test
     public void heroWins_displayResult_reduceMonsterHealth() {
-        when(monsterMock.getMove()).thenReturn(Move.PAPER);
-        when(heroMock.getMove()).thenReturn(Move.SCISSOR);
+        Mockito.when(monsterMock.getMove()).thenReturn(Move.PAPER);
+        Mockito.when(heroMock.getMove()).thenReturn(Move.SCISSOR);
 
         controller.startFightingRound(heroMock, monsterMock);
 
-        verify(fightingViewMock).introduceRound(Move.PAPER, Move.SCISSOR);
-        verify(fightingViewMock).displayResult(heroMock, monsterMock);
-        verify(fightingViewMock).finalizeRound(monsterMock, heroMock);
-        verify(monsterMock).gotHit();
+        triggerCallback();
+
+        Mockito.verify(requestHandlerMock).startViewRequest(INTRODUCE_FIGHT_ROUND, Move.PAPER, Move.SCISSOR);
+        Mockito.verify(requestHandlerMock).startViewRequest(FIGHT_RESULT, heroMock, monsterMock);
+        Mockito.verify(requestHandlerMock).startViewRequest(FINALIZE_FIGHT_ROUND, monsterMock, heroMock);
+        Mockito.verify(monsterMock).gotHit();
     }
 
     @Test
     public void monsterWins_displayResult_reduceHeroHealth() {
-        when(monsterMock.getMove()).thenReturn(Move.SCISSOR);
-        when(heroMock.getMove()).thenReturn(Move.PAPER);
+        Mockito.when(monsterMock.getMove()).thenReturn(Move.SCISSOR);
+        Mockito.when(heroMock.getMove()).thenReturn(Move.PAPER);
 
         controller.startFightingRound(heroMock, monsterMock);
 
-        verify(fightingViewMock).introduceRound(Move.SCISSOR, Move.PAPER);
-        verify(fightingViewMock).displayResult(monsterMock, heroMock);
-        verify(fightingViewMock).finalizeRound(monsterMock, heroMock);
-        verify(heroMock).gotHit();
+        triggerCallback();
+
+        Mockito.verify(requestHandlerMock).startViewRequest(INTRODUCE_FIGHT_ROUND, Move.SCISSOR, Move.PAPER);
+        Mockito.verify(requestHandlerMock).startViewRequest(FIGHT_RESULT, monsterMock, heroMock);
+        Mockito.verify(requestHandlerMock).startViewRequest(FINALIZE_FIGHT_ROUND, monsterMock, heroMock);
+        Mockito.verify(heroMock).gotHit();
+    }
+
+    private void triggerCallback() {
+        ArgumentCaptor<InputRequestCallback> captor = ArgumentCaptor.forClass(InputRequestCallback.class);
+
+        Mockito.verify(requestHandlerMock).startViewRequest(
+                eq(CHOOSE_MOVE),
+                captor.capture(),
+                eq(Move.class),
+                eq(Arrays.asList(Move.values()))
+        );
+
+        InputRequestCallback<Move> callback = captor.getValue();
+
+        callback.receiveAnswer(Move.SPOCK);
     }
 }

@@ -1,50 +1,56 @@
 package controller;
 
-import model.rpslsFighting.Move;
-import model.theComponents.GameFigure;
-import view.FightingView;
+import model.components.GameFigure;
+import model.fighting.Move;
+import viewcontroller.request.RequestHandler;
+import viewcontroller.request.api.input.InputRequestCallback;
+
+import java.util.Arrays;
+
+import static viewcontroller.request.Event.*;
 
 public class FightController {
 
-    private final FightingView fightingView;
+    private final RequestHandler requestHandler;
 
-    public FightController(FightingView fightingView) {
-        this.fightingView = fightingView;
+    public FightController(RequestHandler requestHandler) {
+        this.requestHandler = requestHandler;
     }
 
     public void startFightingRound(GameFigure hero, GameFigure monster) {
-            chooseMoves(hero, monster);
-            fightingView.displaySeparator();
-            fight(hero, monster);
-
+        chooseMoves(hero, monster);
     }
 
     private void chooseMoves(GameFigure hero, GameFigure monster) {
         monster.setMove(monster.makeMoveAtRandom());
-        hero.setMove(fightingView.heroChooses());
+
+        InputRequestCallback<Move> moveCallback = answer -> {
+            hero.setMove(answer);
+            fight(hero, monster);
+        };
+
+        requestHandler.startViewRequest(CHOOSE_MOVE, moveCallback, Move.class, Arrays.asList(Move.values()));
     }
 
-    /**
-     * Fighting the monster
-     */
     private void fight(GameFigure hero, GameFigure monster) {
         Move heroMove = hero.getMove();
         Move monsterMove = monster.getMove();
 
         if (monsterMove != null && heroMove != null) {
-            fightingView.introduceRound(monsterMove, heroMove);
+            requestHandler.startViewRequest(INTRODUCE_FIGHT_ROUND, monsterMove, heroMove);
 
             if (monsterMove.equals(heroMove)) {
-                fightingView.displayResult(null, null);
+                requestHandler.startViewRequest(FIGHT_RESULT, null, null);
             } else if (heroMove.beats(monsterMove)) {
-                fightingView.displayResult(hero, monster);
                 monster.gotHit();
+                requestHandler.startViewRequest(FIGHT_RESULT, hero, monster);
             } else if (monsterMove.beats(heroMove)) {
-                fightingView.displayResult(monster, hero);
                 hero.gotHit();
+                requestHandler.startViewRequest(FIGHT_RESULT, monster, hero);
             }
 
-            fightingView.finalizeRound(monster, hero);
+            requestHandler.startViewRequest(FINALIZE_FIGHT_ROUND, monster, hero);
         }
     }
 }
+

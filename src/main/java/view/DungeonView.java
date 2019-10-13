@@ -1,15 +1,23 @@
 package view;
 
-import model.theWorld.room.DungeonRoom;
+import model.components.GameFigure;
+import model.world.Direction;
+import model.world.Dungeon;
+import model.world.room.DungeonRoom;
+import viewcontroller.request.api.display.DisplayRequestBase;
+import viewcontroller.request.api.event.EventRequest;
 
-public class DungeonView {
+public interface DungeonView {
 
-    public void displayMonsterMovement(DungeonRoom room){
-        System.out.print("Monster moves to ");
-        displayDungeonRoom(room);
-    }
+    void displayDungeon(DisplayRequestBase<Dungeon> request);
 
-    private void displayDungeonRoom(DungeonRoom room){
-        System.out.println("Room:: " + room.getRow() + " | " + room.getColumn() + "; Monster: " + room.hasMonster());
-    }
+    void displayMonsterMovement(DisplayRequestBase<DungeonRoom> request);
+
+    void playerEntersDungeon(EventRequest request);
+
+    void requestDirection(DisplayRequestBase<Direction> request);
+
+    void heroLeavesDungeon(DisplayRequestBase<GameFigure> request);
+
+    void displayEndOfAdventure(EventRequest request);
 }

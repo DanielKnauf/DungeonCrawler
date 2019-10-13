@@ -1,0 +1,17 @@
+package viewcontroller.request;
+
+public enum Event {
+
+    ENTER_DUNGEON,
+    LEAVE_DUNGEON,
+    DUNGEON_MAP,
+    DIRECTION_INPUT,
+    HEALTH_BAR,
+    MONSTER_ENCOUNTER,
+    MONSTER_MOVEMENT,
+    HERO_IS_DEAD,
+    CHOOSE_MOVE,
+    INTRODUCE_FIGHT_ROUND,
+    FIGHT_RESULT,
+    FINALIZE_FIGHT_ROUND
+}

@@ -1,2 +1,1 @@
-# AdventureGame
-TestingGround for Java
+# GameLogic
