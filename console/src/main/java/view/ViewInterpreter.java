@@ -5,7 +5,6 @@ import model.fighting.Move;
 import model.world.Direction;
 import model.world.Dungeon;
 import model.world.room.DungeonRoom;
-import view.DungeonView;
 import viewcontroller.ViewStateInterpreter;
 import viewcontroller.request.api.display.DisplayRequestBase;
 import viewcontroller.request.api.event.EventRequest;

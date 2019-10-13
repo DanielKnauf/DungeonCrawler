@@ -1,7 +1,6 @@
 package view;
 
 import model.components.GameFigure;
-import view.BaseView;
 import viewcontroller.request.api.display.DisplayRequestBase;
 
 import java.util.Scanner;

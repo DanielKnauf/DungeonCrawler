@@ -2,7 +2,6 @@ package view;
 
 import model.components.GameFigure;
 import model.fighting.Move;
-import view.FightView;
 import viewcontroller.request.api.display.DisplayRequestBase;
 import viewcontroller.request.api.event.EventRequest;
 

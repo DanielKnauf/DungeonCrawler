@@ -6,7 +6,6 @@ import model.world.DungeonBuilderUtils;
 import model.world.map.DungeonMapBuilder;
 import utils.RandomNumberGenerator;
 import view.*;
-import view.DungeonView;
 import viewcontroller.request.RequestHandler;
 
 public class AdventureTime {
