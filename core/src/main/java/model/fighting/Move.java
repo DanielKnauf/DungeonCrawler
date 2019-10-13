@@ -1,7 +1,6 @@
 package model.fighting;
 
 public enum Move {
-
     ROCK {
         @Override
         public boolean beats(Move move) {
@@ -61,5 +60,4 @@ public enum Move {
     public abstract boolean beats(Move move);
 
     public abstract String getName();
-
 }
