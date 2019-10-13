@@ -1,1 +1,3 @@
-rootProject.name = 'AdventureGame'
+rootProject.name = 'DungeonCrawler'
+include 'core'
+
