@@ -6,9 +6,6 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
     }
-}
-
-dependencies {
-    testImplementation 'junit:junit:4.12'
 }
