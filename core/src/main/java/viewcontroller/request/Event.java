@@ -1,7 +1,6 @@
 package viewcontroller.request;
 
 public enum Event {
-
     ENTER_DUNGEON,
     LEAVE_DUNGEON,
     DUNGEON_MAP,
